@@ -4,43 +4,37 @@ import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 
 import Logo from "@/assets/images/TheMovie (1).png";
+import { menu } from "@/utils/constants";
 
 export const Topbar = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const menu = [
-    {
-      path: "/movies",
-      name: "Movies",
-    },
-    {
-      path: "/series",
-      name: "Series",
-    },
-    {
-      path: "/favorites",
-      name: "Favorites",
-    },
-    {
-      path: "/watchlists",
-      name: "Watchlists",
-    },
-  ];
+
+  const LogoImage = () => {
+    return (
+      <Image
+        alt="Filmku"
+        className="w-[200px] px-3 cursor-pointer"
+        src={Logo}
+        onClick={() => router.push("/")}
+      />
+    );
+  };
 
   return (
     <>
-      <div className="w-full bg-black top-0 fixed z-10 hidden lg:inline-block">
+      <div className="py-3 w-full bg-black top-0 fixed z-10 md:hidden inline-block">
+        <div className="flex items-center justify-center">
+          <LogoImage />
+        </div>
+      </div>
+      <div className="w-full bg-black top-0 fixed z-10 hidden md:inline-block">
         <div className="flex items-center">
-          <Image
-            alt="Filmku"
-            className="w-[200px] px-3 cursor-pointer"
-            src={Logo}
-            onClick={() => router.push("/")}
-          />
+          <LogoImage />
           {menu.map((i, index) => (
             <div
               key={index}
-              className={`${i.path.includes(pathname) && pathname !== "/" && "opacity-100"} opacity-50 bg-black p-3`}
+              className={`${i.path === pathname && pathname !== "/" ? "opacity-100" : "opacity-50"} bg-black p-3`}
             >
               <p
                 className="text-white px-3 cursor-pointer"
