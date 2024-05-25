@@ -2,14 +2,21 @@
 
 import { useAtomValue } from "jotai";
 import Image from "next/image";
+import { Spin } from "antd";
 
 import { isSearchAtom } from "./store/app.store";
 
+import { useGetMoviesTrendingByDay } from "@/services/trending/hooks";
+
 export default function Home() {
   const isSearch = useAtomValue(isSearchAtom);
+  const { data, isLoading } = useGetMoviesTrendingByDay();
+
+  console.log(data);
 
   return (
     <>
+      {isLoading && <Spin fullscreen size="large" />}
       {isSearch ? (
         <p>halo</p>
       ) : (
