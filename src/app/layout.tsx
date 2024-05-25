@@ -24,11 +24,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <QueryProviders>
-          <div className="container">
+          <>
             <Topbar />
             {children}
             <Bottombar />
-          </div>
+          </>
         </QueryProviders>
       </body>
     </html>
