@@ -4,7 +4,7 @@ import { useAtomValue } from "jotai";
 import Image from "next/image";
 import { Spin } from "antd";
 
-import { isSearchAtom } from "./store/app.store";
+import { isSearchAtom } from "../store/app.store";
 
 import { useGetMoviesTrendingByDay } from "@/services/trending/hooks";
 
