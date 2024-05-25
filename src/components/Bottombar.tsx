@@ -11,7 +11,7 @@ import {
   WatchlistsIcon,
 } from "@/assets/icons";
 import { menu } from "@/utils/constants";
-import { isSearchAtom } from "@/app/store/app.store";
+import { isSearchAtom } from "@/store/app.store";
 
 export const Bottombar = () => {
   const pathname = usePathname();

@@ -3,7 +3,7 @@
 import { useAtomValue } from "jotai";
 import React from "react";
 
-import { isSearchAtom } from "../store/app.store";
+import { isSearchAtom } from "../../store/app.store";
 
 export default function PageLayout({
   children,

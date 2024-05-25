@@ -8,7 +8,7 @@ import { useAtom } from "jotai";
 
 import { menu } from "@/utils/constants";
 import Logo from "@/assets/images/TheMovie (1).png";
-import { isSearchAtom } from "@/app/store/app.store";
+import { isSearchAtom } from "@/store/app.store";
 
 export const Topbar = () => {
   const pathname = usePathname();
