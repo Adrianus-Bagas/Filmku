@@ -3,6 +3,7 @@
 import { useAtomValue } from "jotai";
 import Image from "next/image";
 import { Spin } from "antd";
+import { useSession } from "next-auth/react";
 
 import { isSearchAtom } from "../store/app.store";
 
@@ -10,13 +11,14 @@ import { useGetMoviesTrendingByDay } from "@/services/trending/hooks";
 
 export default function Home() {
   const isSearch = useAtomValue(isSearchAtom);
-  const { data, isLoading } = useGetMoviesTrendingByDay();
+  const { data, isLoading, isFetching } = useGetMoviesTrendingByDay();
+  const { data: session, status } = useSession();
 
-  console.log(data);
+  console.log(session);
 
   return (
     <>
-      {isLoading && <Spin fullscreen size="large" />}
+      {isFetching || (status === "loading" && <Spin fullscreen size="large" />)}
       {isSearch ? (
         <p>halo</p>
       ) : (

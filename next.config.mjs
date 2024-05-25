@@ -3,7 +3,9 @@ const nextConfig = {
     env: {
         API_BASE_URL : process.env['API_BASE_URL'],
         ACCESS_TOKEN : process.env['ACCESS_TOKEN'],
-        API_KEY : process.env['API_KEY']
+        API_KEY : process.env['API_KEY'],
+        GOOGLE_CLIENT_SECRET : process.env['GOOGLE_CLIENT_SECRET'],
+        GOOGLE_CLIENT_ID : process.env['GOOGLE_CLIENT_ID'],
     }
 };
 
