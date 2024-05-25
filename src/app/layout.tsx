@@ -5,6 +5,7 @@ import "./globals.css";
 import React from "react";
 
 import QueryProviders from "./react-query-provider";
+import SessionProviders from "./(authenticated)/SessionProviders";
 
 import { Topbar, Bottombar } from "@/components";
 
@@ -23,13 +24,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <QueryProviders>
-          <>
-            <Topbar />
-            {children}
-            <Bottombar />
-          </>
-        </QueryProviders>
+        <SessionProviders>
+          <QueryProviders>
+            <>
+              <Topbar />
+              {children}
+              <Bottombar />
+            </>
+          </QueryProviders>
+        </SessionProviders>
       </body>
     </html>
   );
