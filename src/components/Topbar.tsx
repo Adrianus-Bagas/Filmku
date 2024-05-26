@@ -32,6 +32,31 @@ export const Topbar = () => {
     );
   };
 
+  const PopOverProfile = () => {
+    return (
+      <Popover
+        className="cursor-pointer"
+        content={
+          <div
+            className="cursor-pointer px-3 flex justify-center items-center hover:opacity-50"
+            onClick={() =>
+              signOut({ callbackUrl: "/login", redirect: false }).then(() =>
+                router.push("/login"),
+              )
+            }
+          >
+            <LogoutIcon className="w-6 h-6" />
+            <p className="pl-3">Logout</p>
+          </div>
+        }
+        title={userInfo?.user?.name}
+        trigger="click"
+      >
+        <Avatar src={userInfo?.user?.image} />
+      </Popover>
+    );
+  };
+
   return (
     <>
       {isSearch ? (
@@ -53,26 +78,7 @@ export const Topbar = () => {
               className="text-[24px] pr-3"
               onClick={() => setIsSearch(true)}
             />
-            <Popover
-              className="cursor-pointer"
-              content={
-                <div
-                  className="cursor-pointer px-3 flex justify-center items-center hover:opacity-50"
-                  onClick={() =>
-                    signOut({ callbackUrl: "/login", redirect: false }).then(
-                      () => router.push("/login"),
-                    )
-                  }
-                >
-                  <LogoutIcon className="w-6 h-6" />
-                  <p className="pl-3">Logout</p>
-                </div>
-              }
-              title={userInfo?.user?.name}
-              trigger="click"
-            >
-              <Avatar src={userInfo?.user?.image} />
-            </Popover>
+            <PopOverProfile />
           </div>
         </div>
       )}
@@ -99,26 +105,7 @@ export const Topbar = () => {
             placeholder="Search In Filmku"
             onSearch={(value) => console.log(value)}
           />
-          <Popover
-            className="cursor-pointer"
-            content={
-              <div
-                className="cursor-pointer px-3 flex justify-center items-center hover:opacity-50"
-                onClick={() =>
-                  signOut({ callbackUrl: "/login", redirect: false }).then(() =>
-                    router.push("/login"),
-                  )
-                }
-              >
-                <LogoutIcon className="w-6 h-6" />
-                <p className="pl-3">Logout</p>
-              </div>
-            }
-            title={userInfo?.user?.name}
-            trigger="click"
-          >
-            <Avatar src={userInfo?.user?.image} />
-          </Popover>
+          <PopOverProfile />
         </div>
       </div>
     </>
