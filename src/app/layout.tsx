@@ -5,9 +5,7 @@ import "./globals.css";
 import React from "react";
 
 import QueryProviders from "./react-query-provider";
-import SessionProviders from "./(authenticated)/SessionProviders";
-
-import { Topbar, Bottombar } from "@/components";
+import SessionProviders from "./(pages)/SessionProviders";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,13 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <SessionProviders>
-          <QueryProviders>
-            <>
-              <Topbar />
-              {children}
-              <Bottombar />
-            </>
-          </QueryProviders>
+          <QueryProviders>{children}</QueryProviders>
         </SessionProviders>
       </body>
     </html>

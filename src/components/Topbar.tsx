@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Input } from "antd";
 import { ArrowLeftOutlined, SearchOutlined } from "@ant-design/icons";
 import { useAtom } from "jotai";
+import { signOut } from "next-auth/react";
 
 import { menu } from "@/utils/constants";
 import Logo from "@/assets/images/TheMovie (1).png";
@@ -73,6 +74,15 @@ export const Topbar = () => {
             placeholder="Search In Filmku"
             onSearch={(value) => console.log(value)}
           />
+          <p
+            onClick={() =>
+              signOut({ callbackUrl: "/login", redirect: false }).then(() =>
+                router.push("/login"),
+              )
+            }
+          >
+            Logout
+          </p>
         </div>
       </div>
     </>
