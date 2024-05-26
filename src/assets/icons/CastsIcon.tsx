@@ -1,4 +1,4 @@
-export const FavoritesIcon = ({ className }: { className?: string }) => {
+export const CastsIcon = ({ className }: { className?: string }) => {
   return (
     <div className={className}>
       <svg

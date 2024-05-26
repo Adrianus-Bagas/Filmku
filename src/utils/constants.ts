@@ -8,15 +8,11 @@ export const menu = [
     name: "Series",
   },
   {
-    path: "/favorites",
-    name: "Favorites",
+    path: "/casts",
+    name: "Casts",
   },
   {
-    path: "/watchlists",
-    name: "Watchlists",
-  },
-  {
-    path: "/rated",
-    name: "Rated",
+    path: "/genres",
+    name: "Genres",
   },
 ];

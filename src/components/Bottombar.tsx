@@ -3,13 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 
-import {
-  FavoritesIcon,
-  FilmIcon,
-  RatedIcon,
-  SeriesIcon,
-  WatchlistsIcon,
-} from "@/assets/icons";
+import { CastsIcon, FilmIcon, SeriesIcon, GenresIcon } from "@/assets/icons";
 import { menu } from "@/utils/constants";
 import { isSearchAtom } from "@/store/app.store";
 
@@ -38,19 +32,14 @@ export const Bottombar = () => {
                     <SeriesIcon className="w-6 h-6 flex justify-center" />
                   </div>
                 )}
-                {i.name === "Favorites" && (
+                {i.name === "Casts" && (
                   <div className="flex justify-center">
-                    <FavoritesIcon className="w-6 h-6 flex justify-center" />
+                    <CastsIcon className="w-6 h-6 flex justify-center" />
                   </div>
                 )}
-                {i.name === "Watchlists" && (
+                {i.name === "Genres" && (
                   <div className="flex justify-center">
-                    <WatchlistsIcon className="w-6 h-6 flex justify-center" />
-                  </div>
-                )}
-                {i.name === "Rated" && (
-                  <div className="flex justify-center">
-                    <RatedIcon className="w-6 h-6 flex justify-center" />
+                    <GenresIcon className="w-6 h-6 flex justify-center" />
                   </div>
                 )}
                 <div
