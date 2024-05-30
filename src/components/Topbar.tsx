@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Avatar, Input, Popover } from "antd";
 import { ArrowLeftOutlined, SearchOutlined } from "@ant-design/icons";
 import { useAtom } from "jotai";
-import { signOut, useSession } from "next-auth/react";
+import { deleteCookie } from "cookies-next";
 
 import { menu } from "@/utils/constants";
 import Logo from "@/assets/images/TheMovie (1).png";
@@ -16,7 +16,6 @@ export const Topbar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [isSearch, setIsSearch] = useAtom(isSearchAtom);
-  const { data: userInfo } = useSession();
 
   const LogoImage = ({ className }: { className?: string }) => {
     return (
@@ -39,20 +38,19 @@ export const Topbar = () => {
         content={
           <div
             className="cursor-pointer px-3 flex justify-center items-center hover:opacity-50"
-            onClick={() =>
-              signOut({ callbackUrl: "/login", redirect: false }).then(() =>
-                router.push("/login"),
-              )
-            }
+            onClick={() => {
+              deleteCookie("access_token");
+              router.push("/login");
+            }}
           >
             <LogoutIcon className="w-6 h-6" />
             <p className="pl-3">Logout</p>
           </div>
         }
-        title={userInfo?.user?.name}
+        title={""}
         trigger="click"
       >
-        <Avatar src={userInfo?.user?.image} />
+        <Avatar src={""} />
       </Popover>
     );
   };

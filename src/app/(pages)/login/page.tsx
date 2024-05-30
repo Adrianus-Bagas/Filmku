@@ -1,28 +1,25 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { GithubFilled, GoogleCircleFilled } from "@ant-design/icons";
+import { GoogleCircleFilled } from "@ant-design/icons";
 import { Card } from "antd";
 import Meta from "antd/es/card/Meta";
 import Image from "next/image";
-import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { getCookie } from "cookies-next";
 
 import Logo from "@/assets/images/TheMovie (1).png";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { status } = useSession();
 
   useEffect(() => {
-    if (status === "authenticated") {
-      router.push("/home");
-    }
-  }, [status, router]);
+    getCookie("access_token") && router.push("/home");
+  }, [router]);
 
   return (
     <>
-      {status === "unauthenticated" && (
+      {!getCookie("access_token") && (
         <div className="flex justify-center items-center h-screen px-3">
           <Card
             actions={[
@@ -32,19 +29,13 @@ export default function LoginPage() {
               >
                 <GoogleCircleFilled
                   className="text-3xl"
-                  onClick={() => signIn("google")}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    window.location.href =
+                      "http://localhost:3000/api/auth/callback/google";
+                  }}
                 />
                 <p>Sign In With Google</p>
-              </div>,
-              <div
-                key="login-github"
-                className="flex justify-between px-2 cursor-pointer"
-              >
-                <GithubFilled
-                  className="text-3xl"
-                  onClick={() => signIn("github")}
-                />
-                <p>Sign In With Github</p>
               </div>,
             ]}
             cover={<Image alt="example" className="p-1" src={Logo} />}
