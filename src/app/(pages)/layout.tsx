@@ -3,7 +3,7 @@
 import { useAtomValue } from "jotai";
 import React, { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { getCookie } from "cookies-next";
 
 import { isSearchAtom } from "../../store/app.store";
 
@@ -16,14 +16,11 @@ export default function PageLayout({
 }) {
   const isSearch = useAtomValue(isSearchAtom);
   const pathname = usePathname();
-  const { status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/login");
-    }
-  }, [status, router]);
+    getCookie("access_token") && router.push("/home");
+  }, [router]);
 
   return (
     <>
