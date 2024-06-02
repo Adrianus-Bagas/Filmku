@@ -1,7 +1,7 @@
-import { axios } from "@/utils/axios";
+import { axiosMovie } from "@/utils/axios";
 
 export const GetMoviesTrendingByDay = async () => {
-  const res = await axios({
+  const res = await axiosMovie({
     method: "get",
     url: "/trending/movie/day",
   });

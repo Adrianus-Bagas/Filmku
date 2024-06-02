@@ -5,7 +5,6 @@ import "./globals.css";
 import React from "react";
 
 import QueryProviders from "./react-query-provider";
-import SessionProviders from "./(pages)/SessionProviders";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,9 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProviders>
-          <QueryProviders>{children}</QueryProviders>
-        </SessionProviders>
+        <QueryProviders>{children}</QueryProviders>
       </body>
     </html>
   );
