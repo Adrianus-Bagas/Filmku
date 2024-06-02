@@ -1,9 +1,23 @@
 import defautlAxios, { AxiosRequestConfig } from "axios";
 
-import { ACCESS_TOKEN, API_BASE_URL } from "@/services/api-config";
+import {
+  ACCESS_TOKEN,
+  API_BASE_URL,
+  MOVIE_BASE_URL,
+} from "@/services/api-config";
+import { getCookie } from "cookies-next";
 
-const config: AxiosRequestConfig = {
+const configApi: AxiosRequestConfig = {
   baseURL: API_BASE_URL,
+  timeout: 30000,
+  headers: {
+    Accept: "application/json",
+    Authorization: `Bearer ${getCookie("access_token")}`,
+  },
+};
+
+const configMovie: AxiosRequestConfig = {
+  baseURL: MOVIE_BASE_URL,
   timeout: 30000,
   headers: {
     Accept: "application/json",
@@ -11,6 +25,7 @@ const config: AxiosRequestConfig = {
   },
 };
 
-const axios = defautlAxios.create(config);
+const axiosApi = defautlAxios.create(configApi);
+const axiosMovie = defautlAxios.create(configMovie);
 
-export { axios };
+export { axiosApi, axiosMovie };

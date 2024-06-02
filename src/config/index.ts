@@ -1,7 +1,4 @@
-export const apiBaseUrl = process?.env["API_BASE_URL"];
+export const movieBaseUrl = process?.env["MOVIE_BASE_URL"];
 export const accessToken = process?.env["ACCESS_TOKEN"];
 export const apiKey = process?.env["API_KEY"];
-export const googleClientSecret = process?.env["GOOGLE_CLIENT_SECRET"];
-export const googleClientId = process?.env["GOOGLE_CLIENT_ID"];
-export const githubClientSecret = process?.env["GITHUB_CLIENT_SECRET"];
-export const githubClientId = process?.env["GITHUB_CLIENT_ID"];
+export const apiBaseUrl = process?.env["API_BASE_URL"];
