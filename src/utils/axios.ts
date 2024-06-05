@@ -12,7 +12,7 @@ const configApi: AxiosRequestConfig = {
   timeout: 30000,
   headers: {
     Accept: "application/json",
-    Authorization: `Bearer ${getCookie("access_token")}`,
+    "Content-Type": "application/json",
   },
 };
 
@@ -27,5 +27,13 @@ const configMovie: AxiosRequestConfig = {
 
 const axiosApi = defautlAxios.create(configApi);
 const axiosMovie = defautlAxios.create(configMovie);
+
+axiosApi.interceptors.request.use((req) => {
+  if (typeof window !== "undefined") {
+    const getAccessToken = getCookie("access_token");
+    req.headers["Authorization"] = "Bearer " + getAccessToken;
+  }
+  return req;
+});
 
 export { axiosApi, axiosMovie };

@@ -2,9 +2,10 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
-import { Avatar, Input, Popover } from "antd";
+import { Avatar, Input, Popover, Spin } from "antd";
 import {
   ArrowLeftOutlined,
+  CaretDownOutlined,
   SearchOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -16,14 +17,20 @@ import Logo from "@/assets/images/TheMovie (1).png";
 import { isSearchAtom } from "@/store/app.store";
 import { LogoutIcon } from "@/assets/icons";
 import { useGetUser } from "@/services/user/hooks";
+import {
+  authGoogleUrl,
+  clientId,
+  redirectUri,
+  responseType,
+  scope,
+  state,
+} from "@/config";
 
 export const Topbar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [isSearch, setIsSearch] = useAtom(isSearchAtom);
-  const { data: dataUser } = useGetUser();
-
-  console.log(dataUser);
+  const { data: dataUser, isFetching } = useGetUser();
 
   const LogoImage = ({ className }: { className?: string }) => {
     return (
@@ -90,10 +97,10 @@ export const Topbar = () => {
           ) : (
             <div
               className="cursor-pointer flex items-center hover:opacity-50"
-              onClick={(event) => {
-                event.preventDefault();
-                window.location.href =
-                  "http://localhost:3000/api/auth/callback/google";
+              onClick={() => {
+                router.push(
+                  `${authGoogleUrl}?client_id=${clientId}&scope=${scope}&response_type=${responseType}&redirect_uri=${redirectUri}&state=${state}`,
+                );
               }}
             >
               <LogoutIcon className="w-6 h-6" />
@@ -104,17 +111,24 @@ export const Topbar = () => {
         title={dataUser ? dataUser?.data?.fullName : ""}
         trigger="click"
       >
-        <Avatar
-          src={dataUser ? dataUser?.data?.image : undefined}
-          icon={!dataUser ? <UserOutlined /> : undefined}
-          style={!dataUser ? { backgroundColor: "gray" } : undefined}
-        />
+        <div className="flex justify-center items-center gap-2">
+          <Avatar
+            src={dataUser ? dataUser?.data?.image : undefined}
+            icon={!dataUser ? <UserOutlined /> : undefined}
+            style={!dataUser ? { backgroundColor: "gray" } : undefined}
+          />
+          <p className="text-white hidden lg:inline-block">
+            {dataUser?.data?.fullName?.split(" ")?.slice(0, 1) || "Sign In"}
+          </p>
+          <CaretDownOutlined className="text-white hidden lg:inline-block" />
+        </div>
       </Popover>
     );
   };
 
   return (
     <>
+      {isFetching && <Spin spinning fullscreen></Spin>}
       {isSearch ? (
         <div className="py-3 w-full bg-black top-0 fixed z-10 lg:hidden flex items-center justify-between px-3">
           <ArrowLeftOutlined
@@ -138,7 +152,7 @@ export const Topbar = () => {
           </div>
         </div>
       )}
-      <div className="w-full bg-black top-0 fixed z-10 hidden lg:flex lg:justify-between lg:items-center lg:px-3">
+      <div className="w-full py-2 bg-black top-0 fixed z-10 hidden lg:flex lg:justify-between lg:items-center lg:px-3">
         <div className="flex items-center">
           <LogoImage className="w-[200px] px-3 cursor-pointer" />
           {menu.map((i, index) => (
@@ -157,7 +171,7 @@ export const Topbar = () => {
         </div>
         <div className="flex justify-center items-center">
           <Input.Search
-            className="pr-3"
+            className="pr-10"
             placeholder="Search In Filmku"
             onSearch={(value) => console.log(value)}
           />
