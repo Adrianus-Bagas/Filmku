@@ -18,7 +18,7 @@ export default function Callback() {
           if (res.status === 200) {
             GetUser(res.data.access_token).then((resUser) => {
               const access_token = resUser.access_token;
-              setCookie("access_token", access_token);
+              setCookie("access_token", access_token, { maxAge: 604800 });
               router.push("/home");
             });
           }
