@@ -15,7 +15,7 @@ import { deleteCookie, getCookie } from "cookies-next";
 import { menu } from "@/utils/constants";
 import Logo from "@/assets/images/TheMovie (1).png";
 import { isSearchAtom } from "@/store/app.store";
-import { LogoutIcon } from "@/assets/icons";
+import { FavoriteIcon, LogoutIcon, WatchlistsIcon } from "@/assets/icons";
 import { useGetUser } from "@/services/user/hooks";
 import {
   authGoogleUrl,
@@ -25,12 +25,29 @@ import {
   scope,
   state,
 } from "@/config";
+import { signOut } from "@/services/auth/fetcher";
+import { useEffect, useState } from "react";
+import dayjs from "dayjs";
 
 export const Topbar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [isSearch, setIsSearch] = useAtom(isSearchAtom);
   const { data: dataUser, isFetching } = useGetUser();
+  const [greeting, setGreeting] = useState<string>("");
+
+  useEffect(() => {
+    const hour = dayjs().get("hours");
+    if (hour > 17) {
+      setGreeting("Good Evening");
+    } else if (hour > 10) {
+      setGreeting("Good Afternoon");
+    } else if (hour > 6) {
+      setGreeting("Good Morning");
+    } else {
+      setGreeting("It's Sleep Time");
+    }
+  }, []);
 
   const LogoImage = ({ className }: { className?: string }) => {
     return (
@@ -52,7 +69,7 @@ export const Topbar = () => {
         className="cursor-pointer"
         content={
           getCookie("access_token") ? (
-            <div className="grid grid-rows-4 gap-3">
+            <div className="grid grid-rows-3 gap-3">
               <div
                 className="cursor-pointer flex items-center hover:opacity-50"
                 onClick={() => {
@@ -60,7 +77,7 @@ export const Topbar = () => {
                   window.location.reload();
                 }}
               >
-                <LogoutIcon className="w-3 h-3" />
+                <FavoriteIcon className="w-3 h-3" />
                 <p className="pl-3">Favorites</p>
               </div>
               <div
@@ -70,28 +87,20 @@ export const Topbar = () => {
                   window.location.reload();
                 }}
               >
-                <LogoutIcon className="w-3 h-3" />
+                <WatchlistsIcon className="w-3 h-3" />
                 <p className="pl-3">Watchlist</p>
               </div>
               <div
                 className="cursor-pointer flex items-center hover:opacity-50"
                 onClick={() => {
-                  deleteCookie("access_token");
-                  window.location.reload();
+                  signOut(getCookie("google_token") ?? "").then(() => {
+                    deleteCookie("access_token");
+                    window.location.reload();
+                  });
                 }}
               >
                 <LogoutIcon className="w-3 h-3" />
-                <p className="pl-3">Rated</p>
-              </div>
-              <div
-                className="cursor-pointer flex items-center hover:opacity-50"
-                onClick={() => {
-                  deleteCookie("access_token");
-                  window.location.reload();
-                }}
-              >
-                <LogoutIcon className="w-3 h-3" />
-                <p className="pl-3">Sign Out</p>
+                <p className="pl-3">Logout</p>
               </div>
             </div>
           ) : (
@@ -104,11 +113,20 @@ export const Topbar = () => {
               }}
             >
               <LogoutIcon className="w-6 h-6" />
-              <p className="pl-3">Sign In With Google</p>
+              <p className="pl-3">Login With Google</p>
             </div>
           )
         }
-        title={dataUser ? dataUser?.data?.fullName : ""}
+        title={
+          dataUser ? (
+            <div>
+              <p>{greeting}</p>
+              <p>{dataUser?.data?.fullName}</p>
+            </div>
+          ) : (
+            ""
+          )
+        }
         trigger="click"
       >
         <div className="flex justify-center items-center gap-2">
@@ -118,7 +136,7 @@ export const Topbar = () => {
             style={!dataUser ? { backgroundColor: "gray" } : undefined}
           />
           <p className="text-white hidden lg:inline-block">
-            {dataUser?.data?.fullName?.split(" ")?.slice(0, 1) || "Sign In"}
+            {dataUser?.data?.fullName?.split(" ")?.slice(0, 1) || "Login"}
           </p>
           <CaretDownOutlined className="text-white hidden lg:inline-block" />
         </div>

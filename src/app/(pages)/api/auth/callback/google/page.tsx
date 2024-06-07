@@ -16,6 +16,7 @@ export default function Callback() {
       getToken(code)
         .then((res) => {
           if (res.status === 200) {
+            setCookie("google_token", res.data.access_token);
             GetUser(res.data.access_token).then((resUser) => {
               const access_token = resUser.access_token;
               setCookie("access_token", access_token, { maxAge: 604800 });

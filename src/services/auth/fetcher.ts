@@ -2,6 +2,7 @@ import {
   clientId,
   clientSecret,
   redirectUri,
+  signOutGoogle,
   tokenGoogleUrl,
   userInfoGoogleUrl,
 } from "@/config";
@@ -29,6 +30,20 @@ export const getUserInfo = async () => {
     url: userInfoGoogleUrl,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+  return result;
+};
+
+export const signOut = async (token: string) => {
+  const result = await axios({
+    method: "post",
+    url: signOutGoogle,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    params: {
+      token,
     },
   });
   return result;
