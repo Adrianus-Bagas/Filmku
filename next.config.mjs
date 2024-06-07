@@ -14,6 +14,7 @@ const nextConfig = {
         AUTH_GOOGLE_URL : process.env['AUTH_GOOGLE_URL'],
         TOKEN_GOOGLE_URL : process.env['TOKEN_GOOGLE_URL'],
         USER_INFO_GOOGLE_URL : process.env['USER_INFO_GOOGLE_URL'],
+        SIGN_OUT_GOOGLE : process.env['SIGN_OUT_GOOGLE'],
     }
 };
 

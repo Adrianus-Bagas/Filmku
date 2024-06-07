@@ -11,3 +11,4 @@ export const scope = process?.env["SCOPE"];
 export const authGoogleUrl = process?.env["AUTH_GOOGLE_URL"];
 export const tokenGoogleUrl = process?.env["TOKEN_GOOGLE_URL"];
 export const userInfoGoogleUrl = process?.env["USER_INFO_GOOGLE_URL"];
+export const signOutGoogle = process?.env["SIGN_OUT_GOOGLE"];
