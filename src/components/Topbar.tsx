@@ -35,6 +35,7 @@ export const Topbar = () => {
   const [isSearch, setIsSearch] = useAtom(isSearchAtom);
   const { data: dataUser, isFetching } = useGetUser();
   const [greeting, setGreeting] = useState<string>("");
+  const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
     const hour = dayjs().get("hours");
@@ -47,6 +48,7 @@ export const Topbar = () => {
     } else {
       setGreeting("It's Sleep Time");
     }
+    setMounted(true);
   }, []);
 
   const LogoImage = ({ className }: { className?: string }) => {
@@ -95,6 +97,7 @@ export const Topbar = () => {
                 onClick={() => {
                   signOut(getCookie("google_token") ?? "").then(() => {
                     deleteCookie("access_token");
+                    deleteCookie("google_token");
                     window.location.reload();
                   });
                 }}
@@ -146,56 +149,60 @@ export const Topbar = () => {
 
   return (
     <>
-      {isFetching && <Spin spinning fullscreen></Spin>}
-      {isSearch ? (
-        <div className="py-3 w-full bg-black top-0 fixed z-10 lg:hidden flex items-center justify-between px-3">
-          <ArrowLeftOutlined
-            className="text-[24px] pr-3 text-white"
-            onClick={() => setIsSearch(false)}
-          />
-          <Input.Search
-            placeholder="Search In Filmku"
-            onSearch={(value) => console.log(value)}
-          />
-        </div>
-      ) : (
-        <div className="py-3 w-full bg-black top-0 fixed z-10 lg:hidden flex items-center justify-between px-3">
-          <LogoImage className="w-[100px] cursor-pointer" />
-          <div className="flex justify-center items-center">
-            <SearchOutlined
-              className="text-[24px] pr-3 text-white"
-              onClick={() => setIsSearch(true)}
-            />
-            <PopOverProfile />
-          </div>
-        </div>
-      )}
-      <div className="w-full py-2 bg-black top-0 fixed z-10 hidden lg:flex lg:justify-between lg:items-center lg:px-3">
-        <div className="flex items-center">
-          <LogoImage className="w-[200px] px-3 cursor-pointer" />
-          {menu.map((i, index) => (
-            <div
-              key={index}
-              className={`${i.path === pathname && pathname !== "/" ? "opacity-100" : "opacity-50"} bg-black p-3`}
-            >
-              <p
-                className="text-white px-3 cursor-pointer hover:opacity-50"
-                onClick={() => router.push(i.path)}
-              >
-                {i.name}
-              </p>
+      {mounted && (
+        <>
+          {isFetching && <Spin spinning fullscreen></Spin>}
+          {isSearch ? (
+            <div className="py-3 w-full bg-black top-0 fixed z-10 lg:hidden flex items-center justify-between px-3">
+              <ArrowLeftOutlined
+                className="text-[24px] pr-3 text-white"
+                onClick={() => setIsSearch(false)}
+              />
+              <Input.Search
+                placeholder="Search In Filmku"
+                onSearch={(value) => console.log(value)}
+              />
             </div>
-          ))}
-        </div>
-        <div className="flex justify-center items-center">
-          <Input.Search
-            className="pr-10"
-            placeholder="Search In Filmku"
-            onSearch={(value) => console.log(value)}
-          />
-          <PopOverProfile />
-        </div>
-      </div>
+          ) : (
+            <div className="py-3 w-full bg-black top-0 fixed z-10 lg:hidden flex items-center justify-between px-3">
+              <LogoImage className="w-[100px] cursor-pointer" />
+              <div className="flex justify-center items-center">
+                <SearchOutlined
+                  className="text-[24px] pr-3 text-white"
+                  onClick={() => setIsSearch(true)}
+                />
+                <PopOverProfile />
+              </div>
+            </div>
+          )}
+          <div className="w-full py-2 bg-black top-0 fixed z-10 hidden lg:flex lg:justify-between lg:items-center lg:px-3">
+            <div className="flex items-center">
+              <LogoImage className="w-[200px] px-3 cursor-pointer" />
+              {menu.map((i, index) => (
+                <div
+                  key={index}
+                  className={`${i.path === pathname && pathname !== "/" ? "opacity-100" : "opacity-50"} bg-black p-3`}
+                >
+                  <p
+                    className="text-white px-3 cursor-pointer hover:opacity-50"
+                    onClick={() => router.push(i.path)}
+                  >
+                    {i.name}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-center items-center">
+              <Input.Search
+                className="pr-10"
+                placeholder="Search In Filmku"
+                onSearch={(value) => console.log(value)}
+              />
+              <PopOverProfile />
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 };
