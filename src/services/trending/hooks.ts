@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { GetMoviesTrendingByDay } from "./fetcher";
+import { GetMoviesTrendingByDay, GetSeriesTrendingByDay } from "./fetcher";
 
 export const useGetMoviesTrendingByDay = () => {
   const { isLoading, isFetching, data } = useQuery({
@@ -9,5 +9,15 @@ export const useGetMoviesTrendingByDay = () => {
     refetchOnWindowFocus: false,
   });
 
-  return { isFetching, isLoading, data };
+  return { isFetching, isLoading, data: data?.results };
+};
+
+export const useGetSeriesTrendingByDay = () => {
+  const { isLoading, isFetching, data } = useQuery({
+    queryKey: ["getSeriesTrendingByDay"],
+    queryFn: () => GetSeriesTrendingByDay(),
+    refetchOnWindowFocus: false,
+  });
+
+  return { isFetching, isLoading, data: data?.results };
 };
