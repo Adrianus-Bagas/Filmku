@@ -1,7 +1,7 @@
 "use client";
 
 import { useAtomValue } from "jotai";
-import React from "react";
+import React, { Suspense } from "react";
 
 import { isSearchAtom } from "../../store/app.store";
 
@@ -18,9 +18,11 @@ export default function PageLayout({
     <>
       <Topbar />
       {!isSearch ? (
-        <div className="min-h-screen bg-[#364d79] text-white pb-20">
-          {children}
-        </div>
+        <Suspense fallback={<></>}>
+          <div className="min-h-screen bg-[#364d79] text-white pb-20">
+            {children}
+          </div>
+        </Suspense>
       ) : (
         <p>halo</p>
       )}
