@@ -7,6 +7,11 @@ export interface CarouselData {
   redirect: string;
 }
 
+export interface CardData {
+  poster_path: string;
+  redirect: string;
+}
+
 export interface GenreData {
   id: number;
   name: string;

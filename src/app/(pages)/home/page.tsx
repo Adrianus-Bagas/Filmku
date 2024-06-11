@@ -2,22 +2,39 @@
 
 import { Spin } from "antd";
 
-import {
-  useGetMoviesTrendingByDay,
-  useGetSeriesTrendingByDay,
-} from "@/services/trending/hooks";
 import { DisplayCarousel } from "@/components";
 import { useEffect, useState } from "react";
-import { CarouselData } from "@/interfaces/app.interface";
+import { CardData, CarouselData } from "@/interfaces/app.interface";
 import { findGenres } from "@/utils/global";
 import { movieGenre, seriesGenre } from "@/utils/constants";
+import DisplayCards from "@/components/DisplayCards";
+import {
+  useGetMoviesTrendingByDay,
+  useGetMoviesUpcoming,
+} from "@/services/movies/hooks";
+import {
+  useGetSeriesTrendingByDay,
+  useGetSeriesUpcoming,
+} from "@/services/series/hooks";
 
 export default function Home() {
   const { data: trendingMovie, isLoading: loadingMovie } =
     useGetMoviesTrendingByDay();
   const { data: trendingSeries, isLoading: loadingSeries } =
     useGetSeriesTrendingByDay();
+  const { data: upcomingMovie, isLoading: loadingMovieUpcoming } =
+    useGetMoviesUpcoming();
+  const { data: upcomingSeries, isLoading: loadingSeriesUpcoming } =
+    useGetSeriesUpcoming();
   const [carouselData, setCarouselData] = useState<CarouselData[]>([]);
+  const [moviesCards, setMoviesCards] = useState<CardData[]>([]);
+  const [seriesCards, setSeriesCards] = useState<CardData[]>([]);
+  const [upcomingMoviesCards, setUpcomingMoviesCards] = useState<CardData[]>(
+    [],
+  );
+  const [upcomingSeriesCards, setUpcomingSeriesCards] = useState<CardData[]>(
+    [],
+  );
 
   useEffect(() => {
     const getFirstTrendingMovie = trendingMovie
@@ -42,7 +59,7 @@ export default function Home() {
           movieGenre,
           getFirstTrendingMovie?.genre_ids as number[],
         ),
-        redirect: getFirstTrendingMovie?.id,
+        redirect: "/movies/" + getFirstTrendingMovie?.id,
         media_type: getFirstTrendingMovie?.media_type,
       },
       {
@@ -53,7 +70,7 @@ export default function Home() {
           movieGenre,
           getSecondTrendingMovie?.genre_ids as number[],
         ),
-        redirect: getSecondTrendingMovie?.id,
+        redirect: "/movies/" + getSecondTrendingMovie?.id,
         media_type: getSecondTrendingMovie?.media_type,
       },
       {
@@ -64,7 +81,7 @@ export default function Home() {
           seriesGenre,
           getFirstTrendingSeries?.genre_ids as number[],
         ),
-        redirect: getFirstTrendingSeries?.id,
+        redirect: "/series/" + getFirstTrendingSeries?.id,
         media_type: getFirstTrendingSeries?.media_type,
       },
       {
@@ -75,19 +92,73 @@ export default function Home() {
           seriesGenre,
           getSecondTrendingSeries?.genre_ids as number[],
         ),
-        redirect: getSecondTrendingSeries?.id,
+        redirect: "/series/" + getSecondTrendingSeries?.id,
         media_type: getSecondTrendingSeries?.media_type,
       },
     ];
+    const dataCardMovie: CardData[] = trendingMovie?.map((movie: any) => {
+      return {
+        poster_path: movie?.poster_path,
+        redirect: "/movies/" + movie?.id,
+      };
+    });
+    const dataCardSeries: CardData[] = trendingSeries?.map((series: any) => {
+      return {
+        poster_path: series?.poster_path,
+        redirect: "/series/" + series?.id,
+      };
+    });
+    const dataCardMovieUpcoming: CardData[] = upcomingMovie?.map(
+      (movie: any) => {
+        return {
+          poster_path: movie?.poster_path,
+          redirect: "/movies/" + movie?.id,
+        };
+      },
+    );
+    const dataCardSeriesUpcoming: CardData[] = upcomingSeries?.map(
+      (series: any) => {
+        return {
+          poster_path: series?.poster_path,
+          redirect: "/series/" + series?.id,
+        };
+      },
+    );
     setCarouselData(dataCarousel);
-    console.log(dataCarousel);
+    setMoviesCards(dataCardMovie.slice(0, 8));
+    setSeriesCards(dataCardSeries.slice(0, 8));
+    setUpcomingMoviesCards(dataCardMovieUpcoming.slice(0, 8));
+    setUpcomingSeriesCards(dataCardSeriesUpcoming.slice(0, 8));
   }, [trendingMovie, trendingSeries]);
 
   return (
     <>
-      {(loadingMovie || loadingSeries) && <Spin fullscreen size="large" />}
+      {(loadingMovie ||
+        loadingSeries ||
+        loadingMovieUpcoming ||
+        loadingSeriesUpcoming) && <Spin fullscreen size="large" />}
       <div>
         <DisplayCarousel carouselData={carouselData} />
+        <DisplayCards
+          title="Trending Movies Today"
+          cardsData={moviesCards}
+          redirect="/movies/trending"
+        />
+        <DisplayCards
+          title="Trending Series Today"
+          cardsData={seriesCards}
+          redirect="/series/trending"
+        />
+        <DisplayCards
+          title="Upcoming Movies"
+          cardsData={upcomingMoviesCards}
+          redirect="/movies/upcoming"
+        />
+        <DisplayCards
+          title="Upcoming Series"
+          cardsData={upcomingSeriesCards}
+          redirect="/series/upcoming"
+        />
       </div>
     </>
   );
