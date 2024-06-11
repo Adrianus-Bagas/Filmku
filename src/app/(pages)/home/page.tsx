@@ -35,6 +35,7 @@ export default function Home() {
   const [upcomingSeriesCards, setUpcomingSeriesCards] = useState<CardData[]>(
     [],
   );
+  const [loadingImage, setLoadingImage] = useState<boolean>(false);
 
   useEffect(() => {
     const getFirstTrendingMovie = trendingMovie
@@ -136,25 +137,33 @@ export default function Home() {
       {(loadingMovie ||
         loadingSeries ||
         loadingMovieUpcoming ||
+        !loadingImage ||
         loadingSeriesUpcoming) && <Spin fullscreen size="large" />}
       <div>
-        <DisplayCarousel carouselData={carouselData} />
+        <DisplayCarousel
+          setLoading={setLoadingImage}
+          carouselData={carouselData}
+        />
         <DisplayCards
+          setLoading={setLoadingImage}
           title="Trending Movies Today"
           cardsData={moviesCards}
           redirect="/movies/trending"
         />
         <DisplayCards
+          setLoading={setLoadingImage}
           title="Trending Series Today"
           cardsData={seriesCards}
           redirect="/series/trending"
         />
         <DisplayCards
+          setLoading={setLoadingImage}
           title="Upcoming Movies"
           cardsData={upcomingMoviesCards}
           redirect="/movies/upcoming"
         />
         <DisplayCards
+          setLoading={setLoadingImage}
           title="Upcoming Series"
           cardsData={upcomingSeriesCards}
           redirect="/series/upcoming"
