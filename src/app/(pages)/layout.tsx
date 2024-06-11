@@ -17,7 +17,13 @@ export default function PageLayout({
   return (
     <>
       <Topbar />
-      {!isSearch ? children : <p>halo</p>}
+      {!isSearch ? (
+        <div className="min-h-screen bg-[#364d79] text-white pb-20">
+          {children}
+        </div>
+      ) : (
+        <p>halo</p>
+      )}
       <Bottombar />
     </>
   );
