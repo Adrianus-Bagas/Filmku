@@ -17,3 +17,30 @@ export const GetMoviesUpcoming = async () => {
 
   return res.data;
 };
+
+export const GetMoviesNowPlaying = async () => {
+  const res = await axiosMovie({
+    method: "get",
+    url: "/movie/now_playing",
+  });
+
+  return res.data;
+};
+
+export const GetMoviesPopular = async () => {
+  const res = await axiosMovie({
+    method: "get",
+    url: "/movie/popular",
+  });
+
+  return res.data;
+};
+
+export const GetMoviesTopRated = async () => {
+  const res = await axiosMovie({
+    method: "get",
+    url: "/movie/top_rated",
+  });
+
+  return res.data;
+};

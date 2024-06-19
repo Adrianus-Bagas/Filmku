@@ -30,18 +30,18 @@ export default function DisplayCards({
             <img
               key={index}
               src={`https://image.tmdb.org/t/p/original${data.poster_path}`}
-              className="w-[75px] h-[100px] md:w-[150px] md:h-[200px] rounded-lg cursor-pointer"
+              className="w-[100px] h-[150px] md:w-[150px] md:h-[200px] rounded-lg cursor-pointer"
               onClick={() => router.push(data.redirect)}
               onLoad={() => setLoading(true)}
             />
           ))}
           <Link
             href={redirect}
-            className="bg-white rounded-full h-5 lg:h-10 w-5 lg:w-10 cursor-pointer flex justify-center items-center p-2"
+            className="bg-white rounded-full h-7 lg:h-10 w-7 lg:w-10 cursor-pointer flex justify-center items-center p-2"
           >
             <ArrowRightOutlined
               style={{ color: "black" }}
-              className="text-[8px] lg:text-base"
+              className="text-[12px] lg:text-base"
             />
           </Link>
         </div>
