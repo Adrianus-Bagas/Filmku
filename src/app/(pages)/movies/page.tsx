@@ -29,7 +29,6 @@ export default function Movie() {
   const [topRatedMoviesCards, setTopRatedMoviesCards] = useState<CardData[]>(
     [],
   );
-  const [loadingImage, setLoadingImage] = useState<boolean>(false);
 
   useEffect(() => {
     const getFirstMovie = nowPlayingMovie
@@ -98,34 +97,28 @@ export default function Movie() {
 
   return (
     <>
-      {(loadingMovieNowPlaying ||
-        loadingMoviePopular ||
-        loadingMovieTopRated ||
-        !loadingImage) && <Spin fullscreen size="large" />}
-      <div>
-        <DisplayCarousel
-          setLoading={setLoadingImage}
-          carouselData={carouselData}
-        />
-        <DisplayCards
-          setLoading={setLoadingImage}
-          title="Now Playing Movies"
-          cardsData={nowPlayingMoviesCards}
-          redirect="/movies/now_playing"
-        />
-        <DisplayCards
-          setLoading={setLoadingImage}
-          title="Popular Movies"
-          cardsData={popularMoviesCards}
-          redirect="/movies/popular"
-        />
-        <DisplayCards
-          setLoading={setLoadingImage}
-          title="Top Rated Movies"
-          cardsData={topRatedMoviesCards}
-          redirect="/movies/top_rated"
-        />
-      </div>
+      {loadingMovieNowPlaying || loadingMoviePopular || loadingMovieTopRated ? (
+        <Spin fullscreen size="large" />
+      ) : (
+        <div>
+          <DisplayCarousel carouselData={carouselData} />
+          <DisplayCards
+            title="Now Playing Movies"
+            cardsData={nowPlayingMoviesCards}
+            redirect="/movies/now_playing"
+          />
+          <DisplayCards
+            title="Popular Movies"
+            cardsData={popularMoviesCards}
+            redirect="/movies/popular"
+          />
+          <DisplayCards
+            title="Top Rated Movies"
+            cardsData={topRatedMoviesCards}
+            redirect="/movies/top_rated"
+          />
+        </div>
+      )}
     </>
   );
 }

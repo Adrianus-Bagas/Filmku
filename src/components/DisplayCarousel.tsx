@@ -1,16 +1,13 @@
 "use client";
 
-import React, { Dispatch, SetStateAction } from "react";
 import { Carousel } from "antd";
 import { CarouselData } from "@/interfaces/app.interface";
 import Link from "next/link";
 
 export const DisplayCarousel = ({
   carouselData,
-  setLoading,
 }: {
   carouselData: CarouselData[];
-  setLoading: Dispatch<SetStateAction<boolean>>;
 }) => {
   return (
     <div className="mt-14 lg:mt-[72px]">
@@ -24,7 +21,6 @@ export const DisplayCarousel = ({
               <img
                 src={`https://image.tmdb.org/t/p/original${data.backdrop_path}`}
                 className="object-cover object-center h-[150px] lg:h-[350px] w-full"
-                onLoad={() => setLoading(true)}
               />
             </Link>
             <div className="absolute top-0 left-0 bg-gradient-to-r from-black w-full h-full flex items-center">

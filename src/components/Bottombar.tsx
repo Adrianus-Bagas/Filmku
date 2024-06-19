@@ -21,6 +21,10 @@ export const Bottombar = () => {
               <div
                 key={index}
                 className={`${i.path === pathname && pathname !== "/" ? "opacity-100" : "opacity-50"} bg-black p-1 cursor-pointer`}
+                onClick={() => {
+                  router.push(i.path);
+                  setIsSearch(false);
+                }}
               >
                 {i.name === "Movies" && (
                   <div className="flex justify-center">
@@ -42,15 +46,7 @@ export const Bottombar = () => {
                     <GenresIcon className="w-6 h-6 flex justify-center" />
                   </div>
                 )}
-                <div
-                  className="text-white px-1 text-[10px]"
-                  onClick={() => {
-                    router.push(i.path);
-                    setIsSearch(false);
-                  }}
-                >
-                  {i.name}
-                </div>
+                <div className="text-white px-1 text-[10px]">{i.name}</div>
               </div>
             ))}
           </div>
