@@ -15,12 +15,12 @@ export const DisplayCarousel = ({
         {carouselData.map((data, index) => (
           <div
             key={index}
-            className="relative h-[150px] lg:h-[350px] text-[#fff] bg-[#364d79] cursor-pointer"
+            className="relative h-[150px] lg:h-[500px] text-[#fff] bg-[#364d79] cursor-pointer"
           >
             <Link href={data.redirect}>
               <img
                 src={`https://image.tmdb.org/t/p/original${data.backdrop_path}`}
-                className="object-cover object-center h-[150px] lg:h-[350px] w-full"
+                className="object-cover object-center h-[150px] lg:h-[500px] w-full"
               />
             </Link>
             <div className="absolute top-0 left-0 bg-gradient-to-r from-black w-full h-full flex items-center">

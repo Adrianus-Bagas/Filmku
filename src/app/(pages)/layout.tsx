@@ -6,6 +6,7 @@ import React, { Suspense } from "react";
 import { isSearchAtom } from "../../store/app.store";
 
 import { Bottombar, Topbar } from "@/components";
+import { FloatButton } from "antd";
 
 export default function PageLayout({
   children,
@@ -19,13 +20,14 @@ export default function PageLayout({
       <Topbar />
       {!isSearch ? (
         <Suspense fallback={<></>}>
-          <div className="min-h-screen bg-[#364d79] text-white pb-20">
+          <div className="min-h-screen bg-black text-white pb-20">
             {children}
           </div>
         </Suspense>
       ) : (
         <p>halo</p>
       )}
+      <FloatButton.BackTop />
       <Bottombar />
     </>
   );

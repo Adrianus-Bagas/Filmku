@@ -44,3 +44,21 @@ export const GetMoviesTopRated = async () => {
 
   return res.data;
 };
+
+export const GetMoviesDetail = async (movie_id: string) => {
+  const res = await axiosMovie({
+    method: "get",
+    url: `/movie/${movie_id}`,
+  });
+
+  return res.data;
+};
+
+export const GetMoviesVideos = async (movie_id: string) => {
+  const res = await axiosMovie({
+    method: "get",
+    url: `/movie/${movie_id}/videos`,
+  });
+
+  return res.data;
+};

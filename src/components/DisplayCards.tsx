@@ -33,10 +33,10 @@ export default function DisplayCards({
           ))}
           <Link
             href={redirect}
-            className="bg-white rounded-full h-7 lg:h-10 w-7 lg:w-10 cursor-pointer flex justify-center items-center p-2"
+            className="bg-black rounded-full h-7 lg:h-10 w-7 lg:w-10 cursor-pointer flex justify-center items-center p-2"
           >
             <ArrowRightOutlined
-              style={{ color: "black" }}
+              style={{ color: "white" }}
               className="text-[12px] lg:text-base"
             />
           </Link>

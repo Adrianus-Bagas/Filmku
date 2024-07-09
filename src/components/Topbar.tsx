@@ -95,11 +95,17 @@ export const Topbar = () => {
               <div
                 className="cursor-pointer flex items-center hover:opacity-50"
                 onClick={() => {
-                  signOut(getCookie("google_token") ?? "").then(() => {
-                    deleteCookie("access_token");
-                    deleteCookie("google_token");
-                    window.location.reload();
-                  });
+                  signOut(getCookie("google_token") ?? "")
+                    .then(() => {
+                      deleteCookie("access_token");
+                      deleteCookie("google_token");
+                      window.location.reload();
+                    })
+                    .catch(() => {
+                      deleteCookie("access_token");
+                      deleteCookie("google_token");
+                      window.location.reload();
+                    });
                 }}
               >
                 <LogoutIcon className="w-3 h-3" />
