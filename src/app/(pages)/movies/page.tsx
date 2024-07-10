@@ -31,15 +31,12 @@ export default function Movie() {
   );
 
   useEffect(() => {
-    const getFirstMovie = nowPlayingMovie
-      ? nowPlayingMovie[Math.floor(Math.random() * (9 - 0) + 0)]
-      : {};
-    const getSecondMovie = popularMovie
-      ? popularMovie[Math.floor(Math.random() * (19 - 10) + 10)]
-      : {};
-    const getThirdMovie = topRatedMovie
-      ? topRatedMovie[Math.floor(Math.random() * (9 - 0) + 0)]
-      : {};
+    const getFirstMovie =
+      nowPlayingMovie[Math.floor(Math.random() * (9 - 0) + 0)];
+    const getSecondMovie =
+      popularMovie[Math.floor(Math.random() * (19 - 10) + 10)];
+    const getThirdMovie =
+      topRatedMovie[Math.floor(Math.random() * (9 - 0) + 0)];
 
     const dataCarousel = [
       {
@@ -48,7 +45,7 @@ export default function Movie() {
         backdrop_path: getFirstMovie?.backdrop_path,
         genres: findGenres(movieGenre, getFirstMovie?.genre_ids as number[]),
         redirect: "/movies/" + getFirstMovie?.id,
-        media_type: getFirstMovie?.media_type,
+        media_type: "movie",
       },
       {
         title: getSecondMovie?.title,
@@ -56,7 +53,7 @@ export default function Movie() {
         backdrop_path: getSecondMovie?.backdrop_path,
         genres: findGenres(movieGenre, getSecondMovie?.genre_ids as number[]),
         redirect: "/movies/" + getSecondMovie?.id,
-        media_type: getSecondMovie?.media_type,
+        media_type: "movie",
       },
       {
         title: getThirdMovie?.title,
@@ -64,7 +61,7 @@ export default function Movie() {
         backdrop_path: getThirdMovie?.backdrop_path,
         genres: findGenres(movieGenre, getThirdMovie?.genre_ids as number[]),
         redirect: "/movies/" + getThirdMovie?.id,
-        media_type: getThirdMovie?.media_type,
+        media_type: "movie",
       },
     ];
     const dataCardMovieNowPlaying: CardData[] = nowPlayingMovie?.map(

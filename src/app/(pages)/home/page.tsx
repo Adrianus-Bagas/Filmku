@@ -37,18 +37,14 @@ export default function Home() {
   );
 
   useEffect(() => {
-    const getFirstTrendingMovie = trendingMovie
-      ? trendingMovie[Math.floor(Math.random() * (9 - 0) + 0)]
-      : {};
-    const getSecondTrendingMovie = trendingMovie
-      ? trendingMovie[Math.floor(Math.random() * (19 - 10) + 10)]
-      : {};
-    const getFirstTrendingSeries = trendingSeries
-      ? trendingSeries[Math.floor(Math.random() * (9 - 0) + 0)]
-      : {};
-    const getSecondTrendingSeries = trendingSeries
-      ? trendingSeries[Math.floor(Math.random() * (19 - 10) + 10)]
-      : {};
+    const getFirstTrendingMovie =
+      trendingMovie[Math.floor(Math.random() * (9 - 0) + 0)];
+    const getSecondTrendingMovie =
+      trendingMovie[Math.floor(Math.random() * (19 - 10) + 10)];
+    const getFirstTrendingSeries =
+      trendingSeries[Math.floor(Math.random() * (9 - 0) + 0)];
+    const getSecondTrendingSeries =
+      trendingSeries[Math.floor(Math.random() * (19 - 10) + 10)];
 
     const dataCarousel = [
       {
@@ -60,7 +56,7 @@ export default function Home() {
           getFirstTrendingMovie?.genre_ids as number[],
         ),
         redirect: "/movies/" + getFirstTrendingMovie?.id,
-        media_type: getFirstTrendingMovie?.media_type,
+        media_type: "movie",
       },
       {
         title: getSecondTrendingMovie?.title,
@@ -71,7 +67,7 @@ export default function Home() {
           getSecondTrendingMovie?.genre_ids as number[],
         ),
         redirect: "/movies/" + getSecondTrendingMovie?.id,
-        media_type: getSecondTrendingMovie?.media_type,
+        media_type: "movie",
       },
       {
         title: getFirstTrendingSeries?.name,
