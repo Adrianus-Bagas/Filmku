@@ -3,6 +3,7 @@ import {
   GetMoviesDetail,
   GetMoviesNowPlaying,
   GetMoviesPopular,
+  GetMoviesSimilar,
   GetMoviesTopRated,
   GetMoviesTrendingByDay,
   GetMoviesUpcoming,
@@ -10,11 +11,15 @@ import {
 } from "./fetcher";
 import {
   MovieDetailInterface,
+  MovieListInterface,
   MovieVideoInterface,
 } from "@/interfaces/movies.interfaces";
 
 export const useGetMoviesTrendingByDay = () => {
-  const { isLoading, isFetching, data } = useQuery({
+  const { isLoading, isFetching, data } = useQuery<{
+    page: number;
+    results: MovieListInterface[];
+  }>({
     queryKey: ["getMoviesTrendingByDay"],
     queryFn: () => GetMoviesTrendingByDay(),
     refetchOnWindowFocus: false,
@@ -24,7 +29,10 @@ export const useGetMoviesTrendingByDay = () => {
 };
 
 export const useGetMoviesUpcoming = () => {
-  const { isLoading, isFetching, data } = useQuery({
+  const { isLoading, isFetching, data } = useQuery<{
+    page: number;
+    results: MovieListInterface[];
+  }>({
     queryKey: ["getMoviesUpcoming"],
     queryFn: () => GetMoviesUpcoming(),
     refetchOnWindowFocus: false,
@@ -34,7 +42,10 @@ export const useGetMoviesUpcoming = () => {
 };
 
 export const useGetMoviesNowPlaying = () => {
-  const { isLoading, isFetching, data } = useQuery({
+  const { isLoading, isFetching, data } = useQuery<{
+    page: number;
+    results: MovieListInterface[];
+  }>({
     queryKey: ["getMoviesNowPlaying"],
     queryFn: () => GetMoviesNowPlaying(),
     refetchOnWindowFocus: false,
@@ -44,7 +55,10 @@ export const useGetMoviesNowPlaying = () => {
 };
 
 export const useGetMoviesPopular = () => {
-  const { isLoading, isFetching, data } = useQuery({
+  const { isLoading, isFetching, data } = useQuery<{
+    page: number;
+    results: MovieListInterface[];
+  }>({
     queryKey: ["getMoviesPopular"],
     queryFn: () => GetMoviesPopular(),
     refetchOnWindowFocus: false,
@@ -54,7 +68,10 @@ export const useGetMoviesPopular = () => {
 };
 
 export const useGetMoviesTopRated = () => {
-  const { isLoading, isFetching, data } = useQuery({
+  const { isLoading, isFetching, data } = useQuery<{
+    page: number;
+    results: MovieListInterface[];
+  }>({
     queryKey: ["getMoviesTopRated"],
     queryFn: () => GetMoviesTopRated(),
     refetchOnWindowFocus: false,
@@ -81,6 +98,20 @@ export const useGetMoviesVideos = (movie_id: string) => {
   }>({
     queryKey: ["getMoviesVideos", movie_id],
     queryFn: () => GetMoviesVideos(movie_id),
+    refetchOnWindowFocus: false,
+    enabled: !!movie_id,
+  });
+
+  return { isFetching, isLoading, data: data?.results ?? [] };
+};
+
+export const useGetMoviesSimilar = (movie_id: string) => {
+  const { isLoading, isFetching, data } = useQuery<{
+    page: number;
+    results: MovieListInterface[];
+  }>({
+    queryKey: ["getMoviesSimilar", movie_id],
+    queryFn: () => GetMoviesSimilar(movie_id),
     refetchOnWindowFocus: false,
     enabled: !!movie_id,
   });

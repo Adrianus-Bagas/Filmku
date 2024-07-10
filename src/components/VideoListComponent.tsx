@@ -27,6 +27,7 @@ export default function VideoListComponent({
             }
           >
             <List.Item.Meta
+              className="text-center md:text-left"
               title={<p className="text-white">{item.name}</p>}
               description={<p className="text-white">Source: {item.site}</p>}
             />

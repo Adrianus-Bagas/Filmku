@@ -9,3 +9,7 @@
 .ant-tabs-content-holder {
   border-left: 0px !important;
 }
+
+.ant-tabs-nav::before {
+  border-bottom: 0px !important;
+}

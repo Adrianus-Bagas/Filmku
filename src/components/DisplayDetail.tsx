@@ -2,27 +2,30 @@
 
 import { FavoriteIcon, WatchlistsIcon } from "@/assets/icons";
 import { MovieDetailInterface } from "@/interfaces/movies.interfaces";
-import { useGetMoviesVideos } from "@/services/movies/hooks";
+import {
+  useGetMoviesSimilar,
+  useGetMoviesVideos,
+} from "@/services/movies/hooks";
 import { ConfigProvider, Spin, Tabs } from "antd";
 import dayjs from "dayjs";
 import VideoListComponent from "./VideoListComponent";
+import SimilarListComponent from "./SimilarListComponent";
 
 export default function DisplayDetail({
   data,
 }: {
   data: MovieDetailInterface;
 }) {
-  const { data: videoData, isLoading } = useGetMoviesVideos(data.id.toString());
-
-  const getVideoType = videoData.map((i) => i.type);
-
-  const getVideoTypeFiltered = getVideoType.filter(
-    (item, index) => getVideoType.indexOf(item) === index,
+  const { data: videoData, isLoading: loadingVideo } = useGetMoviesVideos(
+    data.id.toString(),
+  );
+  const { data: similarData, isLoading: loadingSimilar } = useGetMoviesSimilar(
+    data.id.toString(),
   );
 
   return (
     <>
-      {isLoading ? (
+      {loadingVideo || loadingSimilar ? (
         <Spin size="large" fullscreen />
       ) : (
         <>
@@ -58,7 +61,7 @@ export default function DisplayDetail({
               </div>
             </div>
           </div>
-          <div className="px-10 py-5">
+          <div className="lg:px-10 lg:py-5">
             <ConfigProvider
               theme={{
                 token: {
@@ -81,15 +84,38 @@ export default function DisplayDetail({
                 size="large"
                 style={{ padding: "40px" }}
                 tabBarStyle={{ height: "fit-content" }}
-                items={getVideoTypeFiltered.map((item, index) => {
+                items={["Videos", "Similar"].map((item, index) => {
                   return {
                     label: <p className="font-bold">{item}</p>,
                     key: index.toString(),
                     children: (
                       <>
-                        <VideoListComponent
-                          videos={videoData.filter((i) => i.type === item)}
-                        />
+                        {item === "Videos" ? (
+                          <VideoListComponent videos={videoData} />
+                        ) : (
+                          <SimilarListComponent similarData={similarData} />
+                        )}
+                      </>
+                    ),
+                  };
+                })}
+              />
+              <Tabs
+                className="lg:hidden"
+                tabPosition="top"
+                centered
+                size="middle"
+                items={["Videos", "Similar"].map((item, index) => {
+                  return {
+                    label: <p className="font-bold">{item}</p>,
+                    key: index.toString(),
+                    children: (
+                      <>
+                        {item === "Videos" ? (
+                          <VideoListComponent videos={videoData} />
+                        ) : (
+                          <SimilarListComponent similarData={similarData} />
+                        )}
                       </>
                     ),
                   };
