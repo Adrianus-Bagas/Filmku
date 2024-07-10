@@ -12,7 +12,7 @@ export default function SimilarListComponent({
 
   return (
     <>
-      <div className="px-2">
+      <div className="px-2 flex justify-center items-center">
         <div className="grid grid-cols-3 gap-2 md:grid-cols-6">
           {similarData.map((data, index) => (
             <img
