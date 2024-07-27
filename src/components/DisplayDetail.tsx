@@ -91,7 +91,10 @@ export default function DisplayDetail({
                     children: (
                       <>
                         {item === "Videos" ? (
-                          <VideoListComponent videos={videoData} />
+                          <VideoListComponent
+                            videos={videoData}
+                            movieId={data.id.toString()}
+                          />
                         ) : (
                           <SimilarListComponent similarData={similarData} />
                         )}
@@ -112,7 +115,10 @@ export default function DisplayDetail({
                     children: (
                       <>
                         {item === "Videos" ? (
-                          <VideoListComponent videos={videoData} />
+                          <VideoListComponent
+                            videos={videoData}
+                            movieId={data.id.toString()}
+                          />
                         ) : (
                           <SimilarListComponent similarData={similarData} />
                         )}
