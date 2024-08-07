@@ -22,21 +22,21 @@ export const DisplayCarousel = ({
                 src={`https://image.tmdb.org/t/p/original${data.backdrop_path}`}
                 className="object-cover object-center h-[150px] lg:h-[500px] w-full"
               />
-            </Link>
-            <div className="absolute top-0 left-0 bg-gradient-to-r from-black w-full h-full flex items-center">
-              <div className="w-full lg:ml-20">
-                <p className="text-base text-center lg:text-3xl lg:text-start">
-                  {data.title}
-                </p>
-                <p className="text-xs text-center lg:text-base lg:text-start">
-                  {data.media_type === "movie" ? "Movie" : "Series"} |{" "}
-                  {data.genres}
-                </p>
-                <div className="hidden lg:inline-block lg:w-1/2 lg:my-5">
-                  <p className="break-words">{data.overview}</p>
+              <div className="absolute top-0 left-0 bg-gradient-to-r from-black w-full h-full flex items-center">
+                <div className="w-full lg:ml-20">
+                  <p className="text-base text-center lg:text-3xl lg:text-start">
+                    {data.title}
+                  </p>
+                  <p className="text-xs text-center lg:text-base lg:text-start">
+                    {data.media_type === "movie" ? "Movie" : "Series"} |{" "}
+                    {data.genres}
+                  </p>
+                  <div className="hidden lg:inline-block lg:w-1/2 lg:my-5">
+                    <p className="break-words">{data.overview}</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
         ))}
       </Carousel>

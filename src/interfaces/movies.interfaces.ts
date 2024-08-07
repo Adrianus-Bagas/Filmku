@@ -83,3 +83,38 @@ export interface MovieVideoInterface {
   published_at: string;
   id: string;
 }
+
+export interface MovieCreditInterface {
+  id: number;
+  cast: MovieCastInterface[];
+  crew: MovieCreditInterface[];
+}
+
+export interface MovieCastInterface {
+  adult: boolean;
+  gender: number;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string;
+  cast_id: number;
+  character: string;
+  credit_id: string;
+  order: number;
+}
+
+export interface MovieCrewInterface {
+  adult: boolean;
+  gender: number;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string;
+  credit_id: string;
+  department: string;
+  job: string;
+}

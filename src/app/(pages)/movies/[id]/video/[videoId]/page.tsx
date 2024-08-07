@@ -31,7 +31,7 @@ export default function DetailVideo({
           <div className="lg:flex lg:justify-between lg:px-5">
             <div>
               <iframe
-                className="lg:my-3 w-full lg:w-[800px] h-fit lg:h-[360px]"
+                className="lg:my-3 w-full lg:w-[800px] h-[200px] lg:h-[360px]"
                 src={`https://www.youtube.com/embed/${getDetailVideo?.key}`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen

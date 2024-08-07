@@ -20,6 +20,7 @@ export default function SimilarListComponent({
               src={`https://image.tmdb.org/t/p/original${data.poster_path}`}
               className="w-[100px] h-[150px] md:w-[150px] md:h-[200px] rounded-lg cursor-pointer"
               onClick={() => router.push(`/movies/${data.id}`)}
+              alt={data.title}
             />
           ))}
         </div>

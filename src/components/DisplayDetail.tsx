@@ -3,6 +3,7 @@
 import { FavoriteIcon, WatchlistsIcon } from "@/assets/icons";
 import { MovieDetailInterface } from "@/interfaces/movies.interfaces";
 import {
+  useGetMoviesCredits,
   useGetMoviesSimilar,
   useGetMoviesVideos,
 } from "@/services/movies/hooks";
@@ -10,6 +11,7 @@ import { ConfigProvider, Spin, Tabs } from "antd";
 import dayjs from "dayjs";
 import VideoListComponent from "./VideoListComponent";
 import SimilarListComponent from "./SimilarListComponent";
+import CreditsListComponent from "./CreditListComponent";
 
 export default function DisplayDetail({
   data,
@@ -22,10 +24,15 @@ export default function DisplayDetail({
   const { data: similarData, isLoading: loadingSimilar } = useGetMoviesSimilar(
     data.id.toString(),
   );
+  const {
+    dataCast,
+    dataCrew,
+    isLoading: loadingCredits,
+  } = useGetMoviesCredits(data.id.toString());
 
   return (
     <>
-      {loadingVideo || loadingSimilar ? (
+      {loadingVideo || loadingSimilar || loadingCredits ? (
         <Spin size="large" fullscreen />
       ) : (
         <>
@@ -61,6 +68,19 @@ export default function DisplayDetail({
               </div>
             </div>
           </div>
+          <div className="text-justify text-sm p-2 lg:hidden">
+            <p>{data.overview}</p>
+            <div className="flex justify-center gap-2 my-2 lg:hidden">
+              <div className="flex items-center p-3 bg-[#364d79] w-fit rounded-lg cursor-pointer transition duration-300 ease-in-out hover:opacity-70">
+                <FavoriteIcon className="h-3 w-3 fill-white" />
+                <p className="pl-3">Add to Favorites</p>
+              </div>
+              <div className="flex items-center p-3 bg-[#364d79] w-fit rounded-lg cursor-pointer transition duration-300 ease-in-out hover:opacity-70">
+                <WatchlistsIcon className="h-3 w-3 fill-white" />
+                <p className="pl-3">Add to Watchlist</p>
+              </div>
+            </div>
+          </div>
           <div className="lg:px-10 lg:py-5">
             <ConfigProvider
               theme={{
@@ -84,7 +104,7 @@ export default function DisplayDetail({
                 size="large"
                 style={{ padding: "40px" }}
                 tabBarStyle={{ height: "fit-content" }}
-                items={["Videos", "Similar"].map((item, index) => {
+                items={["Videos", "Similar", "Credits"].map((item, index) => {
                   return {
                     label: <p className="font-bold">{item}</p>,
                     key: index.toString(),
@@ -95,8 +115,13 @@ export default function DisplayDetail({
                             videos={videoData}
                             movieId={data.id.toString()}
                           />
-                        ) : (
+                        ) : item === "Similar" ? (
                           <SimilarListComponent similarData={similarData} />
+                        ) : (
+                          <CreditsListComponent
+                            dataCast={dataCast}
+                            dataCrew={dataCrew}
+                          />
                         )}
                       </>
                     ),
@@ -108,7 +133,7 @@ export default function DisplayDetail({
                 tabPosition="top"
                 centered
                 size="middle"
-                items={["Videos", "Similar"].map((item, index) => {
+                items={["Videos", "Similar", "Credits"].map((item, index) => {
                   return {
                     label: <p className="font-bold">{item}</p>,
                     key: index.toString(),
@@ -119,8 +144,13 @@ export default function DisplayDetail({
                             videos={videoData}
                             movieId={data.id.toString()}
                           />
-                        ) : (
+                        ) : item === "Similar" ? (
                           <SimilarListComponent similarData={similarData} />
+                        ) : (
+                          <CreditsListComponent
+                            dataCast={dataCast}
+                            dataCrew={dataCrew}
+                          />
                         )}
                       </>
                     ),

@@ -71,3 +71,12 @@ export const GetMoviesSimilar = async (movie_id: string) => {
 
   return res.data;
 };
+
+export const GetMoviesCredits = async (movie_id: string) => {
+  const res = await axiosMovie({
+    method: "get",
+    url: `/movie/${movie_id}/credits`,
+  });
+
+  return res.data;
+};

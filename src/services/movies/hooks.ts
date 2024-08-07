@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import {
+  GetMoviesCredits,
   GetMoviesDetail,
   GetMoviesNowPlaying,
   GetMoviesPopular,
@@ -10,6 +11,8 @@ import {
   GetMoviesVideos,
 } from "./fetcher";
 import {
+  MovieCastInterface,
+  MovieCrewInterface,
   MovieDetailInterface,
   MovieListInterface,
   MovieVideoInterface,
@@ -117,4 +120,24 @@ export const useGetMoviesSimilar = (movie_id: string) => {
   });
 
   return { isFetching, isLoading, data: data?.results ?? [] };
+};
+
+export const useGetMoviesCredits = (movie_id: string) => {
+  const { isLoading, isFetching, data } = useQuery<{
+    id: number;
+    cast: MovieCastInterface[];
+    crew: MovieCrewInterface[];
+  }>({
+    queryKey: ["getMoviesCredit", movie_id],
+    queryFn: () => GetMoviesCredits(movie_id),
+    refetchOnWindowFocus: false,
+    enabled: !!movie_id,
+  });
+
+  return {
+    isFetching,
+    isLoading,
+    dataCast: data?.cast ?? [],
+    dataCrew: data?.crew ?? [],
+  };
 };
