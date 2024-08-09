@@ -1,5 +1,11 @@
-import { RequestParamMovieSchedule } from "@/interfaces/movies.interfaces";
-import { RequestParamSeriesSchedule } from "@/interfaces/series.interface";
+import {
+  MovieListInterface,
+  RequestParamMovieSchedule,
+} from "@/interfaces/movies.interfaces";
+import {
+  RequestParamSeriesSchedule,
+  SeriesListInterface,
+} from "@/interfaces/series.interface";
 import dayjs, { Dayjs } from "dayjs";
 import { atom } from "jotai";
 
@@ -21,3 +27,6 @@ export const paramsScheduleSeriesAtom = atom<RequestParamSeriesSchedule>({
 
 export const valueAtom = atom<Dayjs>(dayjs());
 export const valueSelectAtom = atom<Dayjs>(dayjs());
+
+export const filteredMovieScheduleAtom = atom<MovieListInterface[]>([]);
+export const filteredSeriesScheduleAtom = atom<SeriesListInterface[]>([]);

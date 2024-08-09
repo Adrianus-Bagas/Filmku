@@ -8,6 +8,8 @@ import dayjs from "dayjs";
 import { useGetMoviesSchedule } from "@/services/movies/hooks";
 import { useAtom, useAtomValue } from "jotai";
 import {
+  filteredMovieScheduleAtom,
+  filteredSeriesScheduleAtom,
   paramsScheduleMovieAtom,
   paramsScheduleSeriesAtom,
   valueAtom,
@@ -16,18 +18,28 @@ import {
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import dayLocaleData from "dayjs/plugin/localeData";
 import { useGetSeriesSchedule } from "@/services/series/hooks";
+import { useState } from "react";
+import { ModalScheduleComponent } from "@/components";
 
 dayjs.extend(dayLocaleData);
 
 export default function Schedules() {
   const paramsMovie = useAtomValue(paramsScheduleMovieAtom);
   const paramsSeries = useAtomValue(paramsScheduleSeriesAtom);
+  const [filteredMovieList, setFilteredMovieList] = useAtom(
+    filteredMovieScheduleAtom,
+  );
+  const [filteredSerisList, setFilteredSeriesList] = useAtom(
+    filteredSeriesScheduleAtom,
+  );
   const [value, setValue] = useAtom(valueAtom);
   const [selectedValue, setSelectedValue] = useAtom(valueSelectAtom);
   const { data: movieList, isLoading: loadingMovie } =
     useGetMoviesSchedule(paramsMovie);
   const { data: seriesList, isLoading: loadingSeries } =
     useGetSeriesSchedule(paramsSeries);
+
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const dateCellRender = (value: Dayjs) => {
     const filteredMovie = movieList.filter(
@@ -83,6 +95,13 @@ export default function Schedules() {
         <Spin size="large" fullscreen />
       ) : (
         <>
+          <ModalScheduleComponent
+            openModal={openModal}
+            setOpenModal={setOpenModal}
+            title={`Schedules on ${selectedValue.format("DD MMMM YYYY")}`}
+            movieList={filteredMovieList}
+            seriesList={filteredSerisList}
+          />
           <div className="mt-14 lg:mt-[72px]">
             <Calendar
               cellRender={cellRender}
@@ -117,6 +136,21 @@ export default function Schedules() {
               onSelect={(date, { source }) => {
                 if (source === "date") {
                   setSelectedValue(date);
+                  setOpenModal(true);
+                  setFilteredMovieList(
+                    movieList.filter(
+                      (i) =>
+                        dayjs(i.release_date).format("DD/MM/YYYY") ===
+                        date.format("DD/MM/YYYY"),
+                    ),
+                  );
+                  setFilteredSeriesList(
+                    seriesList.filter(
+                      (i) =>
+                        dayjs(i.first_air_date).format("DD/MM/YYYY") ===
+                        date.format("DD/MM/YYYY"),
+                    ),
+                  );
                 }
                 setValue(date);
               }}
