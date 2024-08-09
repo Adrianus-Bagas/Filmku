@@ -3,7 +3,13 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 
-import { CastsIcon, FilmIcon, SeriesIcon, GenresIcon } from "@/assets/icons";
+import {
+  CastsIcon,
+  FilmIcon,
+  SeriesIcon,
+  GenresIcon,
+  CalendarIcon,
+} from "@/assets/icons";
 import { menu } from "@/utils/constants";
 import { isSearchAtom } from "@/store/app.store";
 
@@ -44,6 +50,11 @@ export const Bottombar = () => {
                 {i.name === "Genres" && (
                   <div className="flex justify-center">
                     <GenresIcon className="w-6 h-6 flex justify-center" />
+                  </div>
+                )}
+                {i.name === "Schedules" && (
+                  <div className="flex justify-center">
+                    <CalendarIcon className="w-6 h-6 flex justify-center" />
                   </div>
                 )}
                 <div className="text-white px-1 text-[10px]">{i.name}</div>

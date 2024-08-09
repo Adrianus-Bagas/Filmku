@@ -5,3 +5,4 @@ export * from "@/assets/icons/GenresIcon";
 export * from "@/assets/icons/LogoutIcon";
 export * from "@/assets/icons/WatchlistIcon";
 export * from "@/assets/icons/FavoriteIcon";
+export * from "@/assets/icons/CalendarIcon";

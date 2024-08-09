@@ -1,3 +1,4 @@
+import { RequestParamMovieSchedule } from "@/interfaces/movies.interfaces";
 import { axiosMovie } from "@/utils/axios";
 
 export const GetMoviesTrendingByDay = async () => {
@@ -76,6 +77,25 @@ export const GetMoviesCredits = async (movie_id: string) => {
   const res = await axiosMovie({
     method: "get",
     url: `/movie/${movie_id}/credits`,
+  });
+
+  return res.data;
+};
+
+export const GetMoviesSchedule = async (params: RequestParamMovieSchedule) => {
+  const res = await axiosMovie({
+    method: "get",
+    url: "discover/movie",
+    params: {
+      include_adult: false,
+      include_video: false,
+      language: "en-US",
+      page: 1,
+      "primary_release_date.gte": params.primary_release_date_gte,
+      "primary_release_date.lte": params.primary_release_date_lte,
+      sort_by: "popularity.desc",
+      with_original_language: params.original_language,
+    },
   });
 
   return res.data;

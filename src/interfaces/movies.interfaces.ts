@@ -118,3 +118,9 @@ export interface MovieCrewInterface {
   department: string;
   job: string;
 }
+
+export interface RequestParamMovieSchedule {
+  primary_release_date_gte?: string;
+  primary_release_date_lte?: string;
+  original_language?: string;
+}

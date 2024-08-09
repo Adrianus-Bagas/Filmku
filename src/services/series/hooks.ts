@@ -1,5 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { GetSeriesTrendingByDay, GetSeriesUpcoming } from "./fetcher";
+import {
+  GetSeriesSchedule,
+  GetSeriesTrendingByDay,
+  GetSeriesUpcoming,
+} from "./fetcher";
+import {
+  RequestParamSeriesSchedule,
+  SeriesListInterface,
+} from "@/interfaces/series.interface";
 
 export const useGetSeriesTrendingByDay = () => {
   const { isLoading, isFetching, data } = useQuery({
@@ -19,4 +27,24 @@ export const useGetSeriesUpcoming = () => {
   });
 
   return { isFetching, isLoading, data: data?.results ?? [] };
+};
+
+export const useGetSeriesSchedule = (params: RequestParamSeriesSchedule) => {
+  const { isLoading, isFetching, data, refetch } = useQuery<{
+    page: number;
+    results: SeriesListInterface[];
+    total_pages: number;
+    total_results: number;
+  }>({
+    queryKey: ["getSeriesSchedule", params],
+    queryFn: () => GetSeriesSchedule(params),
+    refetchOnWindowFocus: false,
+  });
+
+  return {
+    isFetching,
+    isLoading,
+    data: data?.results || [],
+    refetch,
+  };
 };

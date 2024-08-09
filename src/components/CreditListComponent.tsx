@@ -5,7 +5,7 @@ import {
   MovieCrewInterface,
 } from "@/interfaces/movies.interfaces";
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Select } from "antd";
+import { Avatar, ConfigProvider, Select } from "antd";
 import { useState } from "react";
 
 export default function CreditsListComponent({
@@ -19,15 +19,25 @@ export default function CreditsListComponent({
 
   return (
     <>
-      <Select
-        style={{ width: 120, marginBottom: "8px", marginLeft: "8px" }}
-        onChange={(value) => setView(value)}
-        options={[
-          { value: "cast", label: "Cast" },
-          { value: "crew", label: "Crew" },
-        ]}
-        value={view}
-      />
+      <ConfigProvider
+        theme={{
+          components: {
+            Select: {
+              lineWidth: 1,
+            },
+          },
+        }}
+      >
+        <Select
+          style={{ width: 120, marginBottom: "8px", marginLeft: "8px" }}
+          onChange={(value) => setView(value)}
+          options={[
+            { value: "cast", label: "Cast" },
+            { value: "crew", label: "Crew" },
+          ]}
+          value={view}
+        />
+      </ConfigProvider>
       <div className="px-2 flex justify-center items-center text-[#fff]">
         <div className="grid grid-cols-3 gap-2 md:grid-cols-6">
           {view === "cast"

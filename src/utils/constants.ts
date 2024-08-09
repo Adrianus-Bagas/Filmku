@@ -15,6 +15,10 @@ export const menu = [
     path: "/genres",
     name: "Genres",
   },
+  {
+    path: "/schedules",
+    name: "Schedules",
+  },
 ];
 
 export const movieGenre = [
