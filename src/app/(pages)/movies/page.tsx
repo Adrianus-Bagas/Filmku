@@ -28,6 +28,8 @@ export default function Movie() {
     [],
   );
 
+  const [loading, setLoading] = useState<boolean>(true);
+
   useEffect(() => {
     const getFirstMovie =
       nowPlayingMovie[Math.floor(Math.random() * (9 - 0) + 0)];
@@ -100,24 +102,31 @@ export default function Movie() {
       {loadingMovieNowPlaying || loadingMoviePopular || loadingMovieTopRated ? (
         <Spin fullscreen size="large" />
       ) : (
-        <div>
-          <DisplayCarousel carouselData={carouselData} />
+        <>
+          {loading && <Spin fullscreen size="large" />}
+          <DisplayCarousel
+            carouselData={carouselData}
+            setLoading={setLoading}
+          />
           <DisplayCards
             cardsData={nowPlayingMoviesCards}
             redirect="/movies/now_playing"
+            setLoading={setLoading}
             title="Now Playing Movies"
           />
           <DisplayCards
             cardsData={popularMoviesCards}
             redirect="/movies/popular"
+            setLoading={setLoading}
             title="Popular Movies"
           />
           <DisplayCards
             cardsData={topRatedMoviesCards}
             redirect="/movies/top_rated"
+            setLoading={setLoading}
             title="Top Rated Movies"
           />
-        </div>
+        </>
       )}
     </>
   );
