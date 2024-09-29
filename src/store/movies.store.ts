@@ -1,13 +1,12 @@
+import dayjs, { Dayjs } from "dayjs";
+import { atom } from "jotai";
+
 import {
   MovieListInterface,
   RequestParamMovieSchedule,
-} from "@/interfaces/movies.interfaces";
-import {
   RequestParamSeriesSchedule,
   SeriesListInterface,
-} from "@/interfaces/series.interface";
-import dayjs, { Dayjs } from "dayjs";
-import { atom } from "jotai";
+} from "@/interfaces";
 
 export const paramsScheduleMovieAtom = atom<RequestParamMovieSchedule>({
   primary_release_date_gte: dayjs().startOf("month").format("YYYY-MM-DD"),

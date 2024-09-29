@@ -1,12 +1,9 @@
 "use client";
 
-import SimilarListComponent from "@/components/SimilarListComponent";
-import VideoListComponent from "@/components/VideoListComponent";
-import {
-  useGetMoviesSimilar,
-  useGetMoviesVideos,
-} from "@/services/movies/hooks";
 import { ConfigProvider, Spin, Tabs } from "antd";
+
+import { SimilarListComponent, VideoListComponent } from "@/components";
+import { useGetMoviesSimilar, useGetMoviesVideos } from "@/services/hooks";
 
 export default function DetailVideo({
   params,
@@ -31,10 +28,10 @@ export default function DetailVideo({
           <div className="lg:flex lg:justify-between lg:px-5">
             <div>
               <iframe
+                allowFullScreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 className="lg:my-3 w-full lg:w-[800px] h-[200px] lg:h-[360px]"
                 src={`https://www.youtube.com/embed/${getDetailVideo?.key}`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
                 title="Embedded youtube"
               />
               <div className="py-5 font-bold md:text-xl hidden lg:inline-block">
@@ -47,9 +44,9 @@ export default function DetailVideo({
             <div>
               <div className="hidden lg:inline-block">
                 <VideoListComponent
-                  videos={videoData}
                   movieId={params.id}
                   videoId={params.videoId}
+                  videos={videoData}
                 />
               </div>
               <div className="lg:px-10 lg:py-5">
@@ -70,10 +67,8 @@ export default function DetailVideo({
                   }}
                 >
                   <Tabs
-                    className="lg:hidden"
-                    tabPosition="top"
                     centered
-                    size="middle"
+                    className="lg:hidden"
                     items={["Videos", "Similar"].map((item, index) => {
                       return {
                         label: <p className="font-bold">{item}</p>,
@@ -82,9 +77,9 @@ export default function DetailVideo({
                           <>
                             {item === "Videos" ? (
                               <VideoListComponent
-                                videos={videoData}
                                 movieId={params.id}
                                 videoId={params.videoId}
+                                videos={videoData}
                               />
                             ) : (
                               <SimilarListComponent similarData={similarData} />
@@ -93,6 +88,8 @@ export default function DetailVideo({
                         ),
                       };
                     })}
+                    size="middle"
+                    tabPosition="top"
                   />
                 </ConfigProvider>
               </div>

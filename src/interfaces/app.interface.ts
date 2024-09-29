@@ -8,6 +8,8 @@ export interface CarouselData {
 }
 
 export interface CardData {
+  id: number;
+  title: string;
   poster_path: string;
   redirect: string;
 }
@@ -15,4 +17,11 @@ export interface CardData {
 export interface GenreData {
   id: number;
   name: string;
+}
+
+export interface SearchInterface {
+  query: string;
+  MovieResults: CardData[];
+  SeriesResults: CardData[];
+  PeopleResults: CardData[];
 }

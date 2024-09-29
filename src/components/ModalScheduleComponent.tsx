@@ -1,10 +1,11 @@
 "use client";
 
-import { MovieListInterface } from "@/interfaces/movies.interfaces";
-import { SeriesListInterface } from "@/interfaces/series.interface";
 import { Modal, Rate } from "antd";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
+import Image from "next/image";
+
+import { MovieListInterface, SeriesListInterface } from "@/interfaces";
 
 const ModalScheduleComponent = ({
   movieList,
@@ -20,14 +21,15 @@ const ModalScheduleComponent = ({
   title: string;
 }) => {
   const router = useRouter();
+
   return (
     <>
       <Modal
         centered
-        title={title}
-        open={openModal}
-        footer={null}
         closable
+        footer={null}
+        open={openModal}
+        title={title}
         onCancel={() => setOpenModal(false)}
       >
         <div className="overflow-y-scroll">
@@ -36,14 +38,17 @@ const ModalScheduleComponent = ({
               key={i.id}
               className="flex gap-2 items-center my-2 cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100"
             >
-              <img
-                src={`https://image.tmdb.org/t/p/original${i.poster_path}`}
+              <Image
+                alt={i.title}
                 className="w-[100px] h-[150px] md:w-[150px] md:h-[200px] rounded-lg cursor-pointer"
+                height={200}
+                src={`https://image.tmdb.org/t/p/original${i.poster_path}`}
+                width={150}
                 onClick={() => router.push(`/movies/${i.id}`)}
               />
               <div>
                 <p>{i.title}</p>
-                <Rate disabled value={i.vote_average / 2} allowHalf />
+                <Rate allowHalf disabled value={i.vote_average / 2} />
               </div>
             </div>
           ))}
@@ -52,14 +57,17 @@ const ModalScheduleComponent = ({
               key={i.id}
               className="flex gap-2 items-center my-2 cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100"
             >
-              <img
-                src={`https://image.tmdb.org/t/p/original${i.poster_path}`}
+              <Image
+                alt={i.name}
                 className="w-[100px] h-[150px] md:w-[150px] md:h-[200px] rounded-lg cursor-pointer"
+                height={200}
+                src={`https://image.tmdb.org/t/p/original${i.poster_path}`}
+                width={150}
                 onClick={() => router.push(`/series/${i.id}`)}
               />
               <div>
                 <p>{i.name}</p>
-                <Rate disabled value={i.vote_average / 2} allowHalf />
+                <Rate allowHalf disabled value={i.vote_average / 2} />
               </div>
             </div>
           ))}

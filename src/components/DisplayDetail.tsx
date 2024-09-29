@@ -1,23 +1,23 @@
 "use client";
 
+import { ConfigProvider, Spin, Tabs } from "antd";
+import dayjs from "dayjs";
+import Image from "next/image";
+
 import { FavoriteIcon, WatchlistsIcon } from "@/assets/icons";
-import { MovieDetailInterface } from "@/interfaces/movies.interfaces";
+import { MovieDetailInterface } from "@/interfaces";
 import {
   useGetMoviesCredits,
   useGetMoviesSimilar,
   useGetMoviesVideos,
-} from "@/services/movies/hooks";
-import { ConfigProvider, Spin, Tabs } from "antd";
-import dayjs from "dayjs";
-import VideoListComponent from "./VideoListComponent";
-import SimilarListComponent from "./SimilarListComponent";
-import CreditsListComponent from "./CreditListComponent";
+} from "@/services/hooks";
+import {
+  VideoListComponent,
+  SimilarListComponent,
+  CreditsListComponent,
+} from "@/components";
 
-export default function DisplayDetail({
-  data,
-}: {
-  data: MovieDetailInterface;
-}) {
+export const DisplayDetail = ({ data }: { data: MovieDetailInterface }) => {
   const { data: videoData, isLoading: loadingVideo } = useGetMoviesVideos(
     data.id.toString(),
   );
@@ -33,14 +33,17 @@ export default function DisplayDetail({
   return (
     <>
       {loadingVideo || loadingSimilar || loadingCredits ? (
-        <Spin size="large" fullscreen />
+        <Spin fullscreen size="large" />
       ) : (
         <>
           <div className="mt-14 lg:mt-[72px]">
             <div className="relative h-[150px] lg:h-[500px] text-[#fff] bg-black">
-              <img
-                src={`https://image.tmdb.org/t/p/original${data.backdrop_path}`}
+              <Image
+                alt={data.title}
                 className="object-cover object-center h-[150px] lg:h-[500px] w-full"
+                height={500}
+                src={`https://image.tmdb.org/t/p/original${data.backdrop_path}`}
+                width={1000}
               />
               <div className="absolute top-0 left-0 bg-gradient-to-r from-black w-full h-full flex items-center">
                 <div className="w-full lg:ml-20">
@@ -100,39 +103,37 @@ export default function DisplayDetail({
             >
               <Tabs
                 className="hidden lg:flex"
-                tabPosition="left"
+                items={["Videos", "Similar", "Credits"].map((item, index) => {
+                  return {
+                    label: <p className="font-bold">{item}</p>,
+                    key: index.toString(),
+                    children: (
+                      <>
+                        {item === "Videos" ? (
+                          <VideoListComponent
+                            movieId={data.id.toString()}
+                            videos={videoData}
+                          />
+                        ) : item === "Similar" ? (
+                          <SimilarListComponent similarData={similarData} />
+                        ) : (
+                          <CreditsListComponent
+                            dataCast={dataCast}
+                            dataCrew={dataCrew}
+                          />
+                        )}
+                      </>
+                    ),
+                  };
+                })}
                 size="large"
                 style={{ padding: "40px" }}
                 tabBarStyle={{ height: "fit-content" }}
-                items={["Videos", "Similar", "Credits"].map((item, index) => {
-                  return {
-                    label: <p className="font-bold">{item}</p>,
-                    key: index.toString(),
-                    children: (
-                      <>
-                        {item === "Videos" ? (
-                          <VideoListComponent
-                            videos={videoData}
-                            movieId={data.id.toString()}
-                          />
-                        ) : item === "Similar" ? (
-                          <SimilarListComponent similarData={similarData} />
-                        ) : (
-                          <CreditsListComponent
-                            dataCast={dataCast}
-                            dataCrew={dataCrew}
-                          />
-                        )}
-                      </>
-                    ),
-                  };
-                })}
+                tabPosition="left"
               />
               <Tabs
-                className="lg:hidden"
-                tabPosition="top"
                 centered
-                size="middle"
+                className="lg:hidden"
                 items={["Videos", "Similar", "Credits"].map((item, index) => {
                   return {
                     label: <p className="font-bold">{item}</p>,
@@ -141,8 +142,8 @@ export default function DisplayDetail({
                       <>
                         {item === "Videos" ? (
                           <VideoListComponent
-                            videos={videoData}
                             movieId={data.id.toString()}
+                            videos={videoData}
                           />
                         ) : item === "Similar" ? (
                           <SimilarListComponent similarData={similarData} />
@@ -156,6 +157,8 @@ export default function DisplayDetail({
                     ),
                   };
                 })}
+                size="middle"
+                tabPosition="top"
               />
             </ConfigProvider>
           </div>
@@ -163,4 +166,4 @@ export default function DisplayDetail({
       )}
     </>
   );
-}
+};

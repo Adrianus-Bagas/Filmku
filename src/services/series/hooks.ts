@@ -1,13 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
+
 import {
   GetSeriesSchedule,
   GetSeriesTrendingByDay,
   GetSeriesUpcoming,
 } from "./fetcher";
-import {
-  RequestParamSeriesSchedule,
-  SeriesListInterface,
-} from "@/interfaces/series.interface";
+
+import { RequestParamSeriesSchedule, SeriesListInterface } from "@/interfaces";
 
 export const useGetSeriesTrendingByDay = () => {
   const { isLoading, isFetching, data } = useQuery({

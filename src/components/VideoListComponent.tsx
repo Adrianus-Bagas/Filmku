@@ -1,9 +1,11 @@
 "use client";
 
-import { MovieVideoInterface } from "@/interfaces/movies.interfaces";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
-export default function VideoListComponent({
+import { MovieVideoInterface } from "@/interfaces";
+
+export const VideoListComponent = ({
   videos,
   movieId,
   videoId,
@@ -11,8 +13,9 @@ export default function VideoListComponent({
   videos: MovieVideoInterface[];
   movieId: string;
   videoId?: string;
-}) {
+}) => {
   const router = useRouter();
+
   return (
     <>
       <div>
@@ -22,9 +25,12 @@ export default function VideoListComponent({
             className={`${videoId === item.id && "bg-gray-900"} flex justify-start gap-3 items-center cursor-pointer hover:bg-gray-900 transition duration-300 ease-in-out my-3 py-3 focus:bg-gray-900`}
             onClick={() => router.push(`/movies/${movieId}/video/${item.id}`)}
           >
-            <img
+            <Image
+              alt={item.name}
               className="w-[150px] md:w-[200px] ml-3"
+              height={200}
               src={`https://img.youtube.com/vi/${item.key}/mqdefault.jpg`}
+              width={200}
             />
             <div>
               <p className="text-white">{item.type}</p>
@@ -36,4 +42,4 @@ export default function VideoListComponent({
       </div>
     </>
   );
-}
+};

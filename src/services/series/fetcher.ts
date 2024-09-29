@@ -1,5 +1,5 @@
-import { RequestParamSeriesSchedule } from "@/interfaces/series.interface";
-import { axiosMovie } from "@/utils/axios";
+import { RequestParamSeriesSchedule } from "@/interfaces";
+import { axiosMovie } from "@/utils";
 
 export const GetSeriesTrendingByDay = async () => {
   const res = await axiosMovie({

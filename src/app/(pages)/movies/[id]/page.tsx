@@ -1,9 +1,10 @@
 "use client";
 
-import DisplayDetail from "@/components/DisplayDetail";
-import { MovieDetailInterface } from "@/interfaces/movies.interfaces";
-import { useGetMoviesDetail } from "@/services/movies/hooks";
 import { Spin } from "antd";
+
+import { DisplayDetail } from "@/components";
+import { MovieDetailInterface } from "@/interfaces";
+import { useGetMoviesDetail } from "@/services/hooks";
 
 export default function DetailMovies({ params }: { params: { id: string } }) {
   const { data, isLoading } = useGetMoviesDetail(params.id);

@@ -15,7 +15,10 @@ const nextConfig = {
         TOKEN_GOOGLE_URL : process.env['TOKEN_GOOGLE_URL'],
         USER_INFO_GOOGLE_URL : process.env['USER_INFO_GOOGLE_URL'],
         SIGN_OUT_GOOGLE : process.env['SIGN_OUT_GOOGLE'],
-    }
+    },
+    images: {
+        domains: ['image.tmdb.org', 'img.youtube.com'],
+      }
 };
 
 export default nextConfig;

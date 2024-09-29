@@ -1,18 +1,16 @@
 "use client";
 
 import { Spin } from "antd";
-
-import { DisplayCarousel } from "@/components";
 import { useEffect, useState } from "react";
-import { CardData, CarouselData } from "@/interfaces/app.interface";
-import { findGenres } from "@/utils/global";
-import { movieGenre } from "@/utils/constants";
-import DisplayCards from "@/components/DisplayCards";
+
+import { DisplayCarousel, DisplayCards } from "@/components";
+import { CardData, CarouselData } from "@/interfaces";
+import { findGenres, movieGenre } from "@/utils";
 import {
   useGetMoviesNowPlaying,
   useGetMoviesPopular,
   useGetMoviesTopRated,
-} from "@/services/movies/hooks";
+} from "@/services/hooks";
 
 export default function Movie() {
   const { data: nowPlayingMovie, isLoading: loadingMovieNowPlaying } =
@@ -65,27 +63,32 @@ export default function Movie() {
       },
     ];
     const dataCardMovieNowPlaying: CardData[] = nowPlayingMovie?.map(
-      (movie: any) => {
+      (movie) => {
         return {
+          id: movie.id,
+          title: movie.title,
           poster_path: movie?.poster_path,
           redirect: "/movies/" + movie?.id,
         };
       },
     );
-    const dataCardMoviePopular: CardData[] = popularMovie?.map((movie: any) => {
+    const dataCardMoviePopular: CardData[] = popularMovie?.map((movie) => {
       return {
+        id: movie.id,
+        title: movie.title,
         poster_path: movie?.poster_path,
         redirect: "/movies/" + movie?.id,
       };
     });
-    const dataCardMovieTopRated: CardData[] = topRatedMovie?.map(
-      (movie: any) => {
-        return {
-          poster_path: movie?.poster_path,
-          redirect: "/movies/" + movie?.id,
-        };
-      },
-    );
+    const dataCardMovieTopRated: CardData[] = topRatedMovie?.map((movie) => {
+      return {
+        id: movie.id,
+        title: movie.title,
+        poster_path: movie?.poster_path,
+        redirect: "/movies/" + movie?.id,
+      };
+    });
+
     setCarouselData(dataCarousel);
     setNowPlayingMoviesCards(dataCardMovieNowPlaying.slice(0, 8));
     setPopularMoviesCards(dataCardMoviePopular.slice(0, 8));
@@ -100,19 +103,19 @@ export default function Movie() {
         <div>
           <DisplayCarousel carouselData={carouselData} />
           <DisplayCards
-            title="Now Playing Movies"
             cardsData={nowPlayingMoviesCards}
             redirect="/movies/now_playing"
+            title="Now Playing Movies"
           />
           <DisplayCards
-            title="Popular Movies"
             cardsData={popularMoviesCards}
             redirect="/movies/popular"
+            title="Popular Movies"
           />
           <DisplayCards
-            title="Top Rated Movies"
             cardsData={topRatedMoviesCards}
             redirect="/movies/top_rated"
+            title="Top Rated Movies"
           />
         </div>
       )}

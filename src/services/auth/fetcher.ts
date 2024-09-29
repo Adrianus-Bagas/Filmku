@@ -1,3 +1,5 @@
+import axios from "axios";
+
 import {
   clientId,
   clientSecret,
@@ -6,8 +8,7 @@ import {
   tokenGoogleUrl,
   userInfoGoogleUrl,
 } from "@/config";
-import { axiosApi } from "@/utils/axios";
-import axios from "axios";
+import { axiosApi } from "@/utils";
 
 export const getToken = async (code: string) => {
   const result = await axios({
@@ -21,6 +22,7 @@ export const getToken = async (code: string) => {
       client_secret: clientSecret,
     },
   });
+
   return result;
 };
 
@@ -32,6 +34,7 @@ export const getUserInfo = async () => {
       Authorization: `Bearer ${localStorage.getItem("access_token")}`,
     },
   });
+
   return result;
 };
 
@@ -46,6 +49,7 @@ export const signOut = async (token: string) => {
       token,
     },
   });
+
   return result;
 };
 
@@ -57,5 +61,6 @@ export const GetUser = async (token: string) => {
       token,
     },
   });
+
   return result.data;
 };

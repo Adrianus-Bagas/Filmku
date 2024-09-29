@@ -1,20 +1,18 @@
 "use client";
 
-import {
-  MovieCastInterface,
-  MovieCrewInterface,
-} from "@/interfaces/movies.interfaces";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, ConfigProvider, Select } from "antd";
 import { useState } from "react";
 
-export default function CreditsListComponent({
+import { MovieCastInterface, MovieCrewInterface } from "@/interfaces";
+
+export const CreditsListComponent = ({
   dataCast,
   dataCrew,
 }: {
   dataCast: MovieCastInterface[];
   dataCrew: MovieCrewInterface[];
-}) {
+}) => {
   const [view, setView] = useState<"cast" | "crew">("cast");
 
   return (
@@ -29,13 +27,13 @@ export default function CreditsListComponent({
         }}
       >
         <Select
-          style={{ width: 120, marginBottom: "8px", marginLeft: "8px" }}
-          onChange={(value) => setView(value)}
           options={[
             { value: "cast", label: "Cast" },
             { value: "crew", label: "Crew" },
           ]}
+          style={{ width: 120, marginBottom: "8px", marginLeft: "8px" }}
           value={view}
+          onChange={(value) => setView(value)}
         />
       </ConfigProvider>
       <div className="px-2 flex justify-center items-center text-[#fff]">
@@ -43,17 +41,17 @@ export default function CreditsListComponent({
           {view === "cast"
             ? dataCast.map((data) => (
                 <div
-                  className="flex flex-col items-center text-center"
                   key={data.id}
+                  className="flex flex-col items-center text-center"
                 >
                   <Avatar
+                    icon={!data.profile_path ? <UserOutlined /> : undefined}
                     size={64}
                     src={
                       data.profile_path
                         ? `https://image.tmdb.org/t/p/original${data.profile_path}`
                         : undefined
                     }
-                    icon={!data.profile_path ? <UserOutlined /> : undefined}
                     style={
                       !data.profile_path
                         ? { backgroundColor: "gray" }
@@ -67,17 +65,17 @@ export default function CreditsListComponent({
               ))
             : dataCrew.map((data) => (
                 <div
-                  className="flex flex-col items-center text-center"
                   key={data.id}
+                  className="flex flex-col items-center text-center"
                 >
                   <Avatar
+                    icon={!data.profile_path ? <UserOutlined /> : undefined}
                     size={64}
                     src={
                       data.profile_path
                         ? `https://image.tmdb.org/t/p/original${data.profile_path}`
                         : undefined
                     }
-                    icon={!data.profile_path ? <UserOutlined /> : undefined}
                     style={
                       !data.profile_path
                         ? { backgroundColor: "gray" }
@@ -93,4 +91,4 @@ export default function CreditsListComponent({
       </div>
     </>
   );
-}
+};

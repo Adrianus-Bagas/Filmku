@@ -1,9 +1,10 @@
-import { axiosApi } from "@/utils/axios";
+import { axiosApi } from "@/utils";
 
-export const GetUser = async () => {
+export const GetUserData = async () => {
   const result = await axiosApi({
     method: "get",
     url: "/user",
   });
+
   return result.data;
 };

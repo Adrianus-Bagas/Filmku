@@ -1,12 +1,17 @@
 "use client";
 
-import React from "react";
 import type { CalendarProps } from "antd";
-import { Badge, Calendar, Spin } from "antd";
 import type { Dayjs } from "dayjs";
+
+import { Badge, Calendar, Spin } from "antd";
+import React from "react";
 import dayjs from "dayjs";
-import { useGetMoviesSchedule } from "@/services/movies/hooks";
 import { useAtom, useAtomValue } from "jotai";
+import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import dayLocaleData from "dayjs/plugin/localeData";
+import { useState } from "react";
+
+import { useGetSeriesSchedule } from "@/services/hooks";
 import {
   filteredMovieScheduleAtom,
   filteredSeriesScheduleAtom,
@@ -14,11 +19,8 @@ import {
   paramsScheduleSeriesAtom,
   valueAtom,
   valueSelectAtom,
-} from "@/store/movies.store";
-import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
-import dayLocaleData from "dayjs/plugin/localeData";
-import { useGetSeriesSchedule } from "@/services/series/hooks";
-import { useState } from "react";
+} from "@/store";
+import { useGetMoviesSchedule } from "@/services/hooks";
 import { ModalScheduleComponent } from "@/components";
 
 dayjs.extend(dayLocaleData);
@@ -52,6 +54,7 @@ export default function Schedules() {
         dayjs(i.first_air_date).format("DD/MM/YYYY") ===
         value.format("DD/MM/YYYY"),
     );
+
     return (
       <div className="flex flex-col justify-center gap-2 items-center">
         {filteredMovie.length > 0 && (
@@ -77,6 +80,7 @@ export default function Schedules() {
       const cellDate = document.querySelector(
         "[title=" + CSS.escape(current.format("YYYY-MM-DD")) + "]",
       );
+
       if (cellDate) {
         if (current.format("DDMMYYYY") === selectedValue.format("DDMMYYYY")) {
           cellDate.classList.add("ant-picker-cell-selected");
@@ -86,21 +90,22 @@ export default function Schedules() {
       }
     }
     if (info.type === "date") return dateCellRender(current);
+
     return info.originNode;
   };
 
   return (
     <>
       {loadingMovie || loadingSeries ? (
-        <Spin size="large" fullscreen />
+        <Spin fullscreen size="large" />
       ) : (
         <>
           <ModalScheduleComponent
+            movieList={filteredMovieList}
             openModal={openModal}
+            seriesList={filteredSerisList}
             setOpenModal={setOpenModal}
             title={`Schedules on ${selectedValue.format("DD MMMM YYYY")}`}
-            movieList={filteredMovieList}
-            seriesList={filteredSerisList}
           />
           <div className="mt-14 lg:mt-[72px]">
             <Calendar

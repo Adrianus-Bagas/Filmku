@@ -9,14 +9,17 @@ import {
   SearchOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { deleteCookie, getCookie } from "cookies-next";
+import { useEffect, useState } from "react";
+import dayjs from "dayjs";
+import Marquee from "react-fast-marquee";
 
-import { menu } from "@/utils/constants";
+import { menu } from "@/utils";
 import Logo from "@/assets/images/TheMovie (1).png";
-import { isSearchAtom } from "@/store/app.store";
+import { homeAtom, searchAtom } from "@/store";
 import { FavoriteIcon, LogoutIcon, WatchlistsIcon } from "@/assets/icons";
-import { useGetUser } from "@/services/user/hooks";
+import { useGetUser } from "@/services/hooks";
 import {
   authGoogleUrl,
   clientId,
@@ -25,20 +28,20 @@ import {
   scope,
   state,
 } from "@/config";
-import { signOut } from "@/services/auth/fetcher";
-import { useEffect, useState } from "react";
-import dayjs from "dayjs";
+import { signOut } from "@/services/fetcher";
 
 export const Topbar = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const [isSearch, setIsSearch] = useAtom(isSearchAtom);
+  const home = useAtomValue(homeAtom);
+  const [search, setSearch] = useAtom(searchAtom);
   const { data: dataUser, isFetching } = useGetUser();
   const [greeting, setGreeting] = useState<string>("");
   const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
     const hour = dayjs().get("hours");
+
     if (hour > 17) {
       setGreeting("Good Evening");
     } else if (hour > 10) {
@@ -59,7 +62,6 @@ export const Topbar = () => {
         src={Logo}
         onClick={() => {
           router.push("/home");
-          setIsSearch(false);
         }}
       />
     );
@@ -140,8 +142,8 @@ export const Topbar = () => {
       >
         <div className="flex justify-center items-center gap-2">
           <Avatar
-            src={dataUser ? dataUser?.data?.image : undefined}
             icon={!dataUser ? <UserOutlined /> : undefined}
+            src={dataUser ? dataUser?.data?.image : undefined}
             style={!dataUser ? { backgroundColor: "gray" } : undefined}
           />
           <p className="text-white hidden lg:inline-block">
@@ -157,17 +159,41 @@ export const Topbar = () => {
     <>
       {mounted && (
         <>
-          {isFetching && <Spin spinning fullscreen></Spin>}
-          {isSearch ? (
+          {isFetching && <Spin fullscreen spinning />}
+          {pathname.includes("search") ? (
             <div className="py-3 w-full bg-black top-0 fixed z-10 lg:hidden flex items-center justify-between px-3">
               <ArrowLeftOutlined
                 className="text-[24px] pr-3 text-white"
-                onClick={() => setIsSearch(false)}
+                onClick={() => {
+                  router.replace("/home");
+                }}
               />
               <Input.Search
                 placeholder="Search In Filmku"
-                onSearch={(value) => console.log(value)}
+                onSearch={(value) => {
+                  setSearch({
+                    ...search,
+                    query: value,
+                  });
+                  router.push("/search");
+                }}
               />
+            </div>
+          ) : pathname.includes("recommendations") ||
+            pathname.includes("trending") ||
+            pathname.includes("upcoming") ? (
+            <div className="py-3 w-full bg-black top-0 fixed z-10 lg:hidden flex items-center justify-between px-3">
+              <ArrowLeftOutlined
+                className="text-[24px] pr-3 text-white"
+                onClick={() => {
+                  router.replace("/home");
+                }}
+              />
+              <Marquee pauseOnHover speed={35}>
+                <p className="text-white">
+                  {home.recommendList.title}&emsp;&emsp;&emsp;&emsp;&emsp;
+                </p>
+              </Marquee>
             </div>
           ) : (
             <div className="py-3 w-full bg-black top-0 fixed z-10 lg:hidden flex items-center justify-between px-3">
@@ -175,7 +201,7 @@ export const Topbar = () => {
               <div className="flex justify-center items-center">
                 <SearchOutlined
                   className="text-[24px] pr-3 text-white"
-                  onClick={() => setIsSearch(true)}
+                  onClick={() => router.push("/search")}
                 />
                 <PopOverProfile />
               </div>
@@ -202,7 +228,13 @@ export const Topbar = () => {
               <Input.Search
                 className="pr-10"
                 placeholder="Search In Filmku"
-                onSearch={(value) => console.log(value)}
+                onSearch={(value) => {
+                  setSearch({
+                    ...search,
+                    query: value,
+                  });
+                  router.push("/search");
+                }}
               />
               <PopOverProfile />
             </div>

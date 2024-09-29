@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+
 import {
   GetMoviesCredits,
   GetMoviesDetail,
@@ -11,6 +12,7 @@ import {
   GetMoviesUpcoming,
   GetMoviesVideos,
 } from "./fetcher";
+
 import {
   MovieCastInterface,
   MovieCrewInterface,
@@ -18,7 +20,7 @@ import {
   MovieListInterface,
   MovieVideoInterface,
   RequestParamMovieSchedule,
-} from "@/interfaces/movies.interfaces";
+} from "@/interfaces";
 
 export const useGetMoviesTrendingByDay = () => {
   const { isLoading, isFetching, data } = useQuery<{

@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { GetUser } from "./fetcher";
 import { getCookie } from "cookies-next";
+
+import { GetUserData } from "./fetcher";
 
 export const useGetUser = () => {
   const { isLoading, isFetching, data } = useQuery({
-    queryKey: ["getUser"],
-    queryFn: () => GetUser(),
+    queryKey: ["getUserData"],
+    queryFn: () => GetUserData(),
     refetchOnWindowFocus: false,
     enabled: !!getCookie("access_token"),
   });

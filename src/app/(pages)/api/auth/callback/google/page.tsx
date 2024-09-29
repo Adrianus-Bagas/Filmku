@@ -1,10 +1,11 @@
 "use client";
 
-import { GetUser, getToken } from "@/services/auth/fetcher";
 import { Spin } from "antd";
 import { setCookie } from "cookies-next";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+
+import { GetUser, getToken } from "@/services/fetcher";
 
 export default function Callback() {
   const params = useSearchParams();
@@ -21,6 +22,7 @@ export default function Callback() {
             });
             GetUser(res.data.access_token).then((resUser) => {
               const access_token = resUser.access_token;
+
               setCookie("access_token", access_token, { maxAge: 604800 });
               router.push("/home");
             });
@@ -36,7 +38,7 @@ export default function Callback() {
 
   return (
     <>
-      <Spin spinning fullscreen></Spin>
+      <Spin fullscreen spinning />
     </>
   );
 }

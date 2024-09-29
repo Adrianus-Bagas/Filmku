@@ -40,6 +40,7 @@ export interface MovieListInterface {
   video: string;
   vote_average: number;
   vote_count: number;
+  media_type: string;
 }
 
 export interface MovieDetailInterface {
@@ -123,4 +124,9 @@ export interface RequestParamMovieSchedule {
   primary_release_date_gte?: string;
   primary_release_date_lte?: string;
   original_language?: string;
+}
+
+export interface RecommendedMoviesInterface {
+  title: string;
+  data: MovieListInterface[];
 }
