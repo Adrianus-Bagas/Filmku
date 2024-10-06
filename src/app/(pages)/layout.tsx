@@ -22,14 +22,14 @@ export default function PageLayout({
 
   return (
     <>
-      <Topbar />
       <Suspense fallback={<></>}>
+        <Topbar />
         <div className="min-h-screen bg-black text-white pb-20">
           <>{children}</>
         </div>
+        <FloatButton.BackTop />
+        <Bottombar />
       </Suspense>
-      <FloatButton.BackTop />
-      <Bottombar />
     </>
   );
 }
