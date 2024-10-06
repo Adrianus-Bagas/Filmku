@@ -2,7 +2,7 @@
 
 import { ShowMoreComponent } from "@/components";
 
-export default function UpcomingMovies() {
+export default function SearchMovies() {
   return (
     <>
       <ShowMoreComponent />

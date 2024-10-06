@@ -31,7 +31,9 @@ export const ModalNotification = ({
       >
         {loading && <Spin fullscreen size="large" />}
         <div className="flex flex-col items-center gap-2">
-          <p className="text-lg">{notification.text.toUpperCase()}</p>
+          <p className="text-lg text-center">
+            {notification.text.toUpperCase()}
+          </p>
           <p className="text-lg text-center">{notification.title}</p>
           <Image
             alt={notification.title}

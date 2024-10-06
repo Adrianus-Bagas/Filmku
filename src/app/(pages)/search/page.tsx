@@ -18,8 +18,7 @@ export default function Search() {
   const home = useAtomValue(homeAtom);
   const [search, setSearch] = useAtom(searchAtom);
   const { data: searchResult, isLoading } = useSearch(search.query);
-  const [loadingSearch, setLoadingSearch] = useState<boolean>(true);
-  const [loadingTopChart, setLoadingTopChart] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const router = useRouter();
 
@@ -43,6 +42,7 @@ export default function Search() {
             poster_path: item.poster_path,
             redirect: `/movies/${item.id}`,
             title: item.title,
+            type: "movies",
           };
         }),
         SeriesResults: (
@@ -55,6 +55,7 @@ export default function Search() {
             poster_path: item.poster_path,
             redirect: `/series/${item.id}`,
             title: item.name,
+            type: "series",
           };
         }),
         PeopleResults: (
@@ -67,6 +68,7 @@ export default function Search() {
             poster_path: item.profile_path,
             redirect: `/casts/${item.id}`,
             title: item.name,
+            type: "people",
           };
         }),
       });
@@ -79,8 +81,7 @@ export default function Search() {
         <Spin fullscreen size="large" />
       ) : (
         <>
-          {loadingSearch ||
-            (loadingTopChart && <Spin fullscreen size="large" />)}
+          {loading && <Spin fullscreen size="large" />}
           {search.MovieResults.length === 0 &&
           search.PeopleResults.length === 0 &&
           search.SeriesResults.length === 0 ? (
@@ -88,36 +89,52 @@ export default function Search() {
               <DisplayCards
                 cardsData={home.trendingMovies}
                 redirect="/movies/trending"
-                setLoading={setLoadingTopChart}
+                setLoading={setLoading}
                 title="Top Chart Movies"
               />
               <DisplayCards
                 cardsData={home.trendingSeries}
                 redirect="/series/trending"
-                setLoading={setLoadingTopChart}
+                setLoading={setLoading}
                 title="Top Chart Series"
               />
             </div>
           ) : (
             <div className="mt-14 lg:mt-[72px]">
-              <DisplayCards
-                cardsData={search.MovieResults}
-                redirect="/movies/trending"
-                setLoading={setLoadingSearch}
-                title={`Movies that Related to '${search.query}'`}
-              />
-              <DisplayCards
-                cardsData={search.SeriesResults}
-                redirect="/series/trending"
-                setLoading={setLoadingSearch}
-                title={`Series that Related to '${search.query}'`}
-              />
-              <DisplayCards
-                cardsData={search.PeopleResults}
-                redirect="/series/trending"
-                setLoading={setLoadingSearch}
-                title={`People that Related to '${search.query}'`}
-              />
+              {search.MovieResults.length > 0 && (
+                <DisplayCards
+                  cardsData={search.MovieResults}
+                  redirect={{
+                    pathname: "/search/movies",
+                    query: {
+                      searchfor: search.query,
+                    },
+                  }}
+                  setLoading={setLoading}
+                  title={`Movies that Related to '${search.query}'`}
+                />
+              )}
+              {search.SeriesResults.length > 0 && (
+                <DisplayCards
+                  cardsData={search.SeriesResults}
+                  redirect={{
+                    pathname: "/search/series",
+                    query: {
+                      searchfor: search.query,
+                    },
+                  }}
+                  setLoading={setLoading}
+                  title={`Series that Related to '${search.query}'`}
+                />
+              )}
+              {search.PeopleResults.length > 0 && (
+                <DisplayCards
+                  cardsData={search.PeopleResults}
+                  redirect="/search/people"
+                  setLoading={setLoading}
+                  title={`People that Related to '${search.query}'`}
+                />
+              )}
             </div>
           )}
         </>

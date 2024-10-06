@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Avatar, Input, Popover, Spin } from "antd";
 import {
@@ -32,6 +32,7 @@ import { signOut } from "@/services/fetcher";
 
 export const Topbar = () => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const home = useAtomValue(homeAtom);
   const [search, setSearch] = useAtom(searchAtom);
@@ -53,6 +54,26 @@ export const Topbar = () => {
     }
     setMounted(true);
   }, []);
+
+  const handleSignOut = () => {
+    if (getCookie("google_token")) {
+      signOut(getCookie("google_token") ?? "")
+        .then(() => {
+          deleteCookie("access_token");
+          deleteCookie("google_token");
+          window.location.reload();
+        })
+        .catch(() => {
+          deleteCookie("access_token");
+          deleteCookie("google_token");
+          window.location.reload();
+        });
+    } else {
+      deleteCookie("access_token");
+      deleteCookie("google_token");
+      window.location.reload();
+    }
+  };
 
   const LogoImage = ({ className }: { className?: string }) => {
     return (
@@ -96,19 +117,7 @@ export const Topbar = () => {
               </div>
               <div
                 className="cursor-pointer flex items-center hover:opacity-50"
-                onClick={() => {
-                  signOut(getCookie("google_token") ?? "")
-                    .then(() => {
-                      deleteCookie("access_token");
-                      deleteCookie("google_token");
-                      window.location.reload();
-                    })
-                    .catch(() => {
-                      deleteCookie("access_token");
-                      deleteCookie("google_token");
-                      window.location.reload();
-                    });
-                }}
+                onClick={handleSignOut}
               >
                 <LogoutIcon className="w-3 h-3" />
                 <p className="pl-3">Logout</p>
@@ -160,7 +169,7 @@ export const Topbar = () => {
       {mounted && (
         <>
           {isFetching && <Spin fullscreen spinning />}
-          {pathname.includes("search") ? (
+          {pathname.includes("search") && !searchParams.get("searchfor") ? (
             <div className="py-3 w-full bg-black top-0 fixed z-10 lg:hidden flex items-center justify-between px-3">
               <ArrowLeftOutlined
                 className="text-[24px] pr-3 text-white"
@@ -181,7 +190,8 @@ export const Topbar = () => {
             </div>
           ) : pathname.includes("recommendations") ||
             pathname.includes("trending") ||
-            pathname.includes("upcoming") ? (
+            pathname.includes("upcoming") ||
+            searchParams.get("searchfor") ? (
             <div className="py-3 w-full bg-black top-0 fixed z-10 lg:hidden flex items-center justify-between px-3">
               <ArrowLeftOutlined
                 className="text-[24px] pr-3 text-white"

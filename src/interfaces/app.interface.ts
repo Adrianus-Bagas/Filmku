@@ -12,6 +12,7 @@ export interface CardData {
   title: string;
   poster_path: string;
   redirect: string;
+  type: "movies" | "series" | "people";
 }
 
 export interface GenreData {

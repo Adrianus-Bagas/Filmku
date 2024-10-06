@@ -8,3 +8,5 @@ export * from "@/components/VideoListComponent";
 export * from "@/components/ModalScheduleComponent";
 export * from "@/components/SimilarListComponent";
 export * from "@/components/ModalNotification";
+export * from "@/components/ShowMoreComponent";
+export * from "@/components/RenderPosterListComponent";

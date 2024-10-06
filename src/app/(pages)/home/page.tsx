@@ -37,6 +37,7 @@ export default function Home() {
             title: movie.title,
             poster_path: movie.poster_path,
             redirect: "/movies/" + movie.id,
+            type: "movies",
           };
         })
       : dataSeries.map((series) => {
@@ -45,6 +46,7 @@ export default function Home() {
             title: series.name,
             poster_path: series.poster_path,
             redirect: "/series/" + series.id,
+            type: "series",
           };
         });
   };

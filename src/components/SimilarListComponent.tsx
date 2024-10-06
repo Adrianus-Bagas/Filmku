@@ -1,19 +1,20 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import Image from "next/image";
+import React from "react";
 
-import { CardData, MovieListInterface } from "@/interfaces";
+import { RenderPosterListComponent } from ".";
+
+import { CardData } from "@/interfaces";
 
 export const SimilarListComponent = ({
   similarData,
+  setLoading,
   title,
 }: {
-  similarData: MovieListInterface[] | CardData[];
+  similarData: CardData[];
+  setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
   title?: string;
 }) => {
-  const router = useRouter();
-
   return (
     <>
       <div className="px-2 flex flex-col justify-center items-center">
@@ -21,15 +22,12 @@ export const SimilarListComponent = ({
           <p>{title}</p>
         </div>
         <div className="grid grid-cols-3 gap-2 md:grid-cols-6">
-          {similarData.map((data, index) => (
-            <Image
-              key={index}
-              alt={data.title}
-              className="w-[100px] h-[150px] md:w-[150px] md:h-[200px] rounded-lg cursor-pointer"
-              height={200}
-              src={`https://image.tmdb.org/t/p/original${data.poster_path}`}
-              width={150}
-              onClick={() => router.push(`/movies/${data.id}`)}
+          {similarData.map((data) => (
+            <RenderPosterListComponent
+              key={data.id}
+              data={data}
+              setLoading={setLoading}
+              title={title || ""}
             />
           ))}
         </div>

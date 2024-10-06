@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import Image from "next/image";
 
 import { FavoriteIcon, WatchlistsIcon } from "@/assets/icons";
-import { MovieDetailInterface } from "@/interfaces";
+import { CardData, MovieDetailInterface } from "@/interfaces";
 import {
   useGetMoviesCredits,
   useGetMoviesSimilar,
@@ -29,6 +29,16 @@ export const DisplayDetail = ({ data }: { data: MovieDetailInterface }) => {
     dataCrew,
     isLoading: loadingCredits,
   } = useGetMoviesCredits(data.id.toString());
+
+  const similarCardData: CardData[] = similarData.map((item) => {
+    return {
+      id: item.id,
+      poster_path: item.poster_path,
+      redirect: `movies/${item.id}`,
+      title: item.title,
+      type: "movies",
+    };
+  });
 
   return (
     <>
@@ -115,7 +125,7 @@ export const DisplayDetail = ({ data }: { data: MovieDetailInterface }) => {
                             videos={videoData}
                           />
                         ) : item === "Similar" ? (
-                          <SimilarListComponent similarData={similarData} />
+                          <SimilarListComponent similarData={similarCardData} />
                         ) : (
                           <CreditsListComponent
                             dataCast={dataCast}
@@ -146,7 +156,7 @@ export const DisplayDetail = ({ data }: { data: MovieDetailInterface }) => {
                             videos={videoData}
                           />
                         ) : item === "Similar" ? (
-                          <SimilarListComponent similarData={similarData} />
+                          <SimilarListComponent similarData={similarCardData} />
                         ) : (
                           <CreditsListComponent
                             dataCast={dataCast}

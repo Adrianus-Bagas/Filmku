@@ -71,6 +71,7 @@ export default function Movie() {
           title: movie.title,
           poster_path: movie?.poster_path,
           redirect: "/movies/" + movie?.id,
+          type: "movies",
         };
       },
     );
@@ -80,6 +81,7 @@ export default function Movie() {
         title: movie.title,
         poster_path: movie?.poster_path,
         redirect: "/movies/" + movie?.id,
+        type: "movies",
       };
     });
     const dataCardMovieTopRated: CardData[] = topRatedMovie?.map((movie) => {
@@ -88,6 +90,7 @@ export default function Movie() {
         title: movie.title,
         poster_path: movie?.poster_path,
         redirect: "/movies/" + movie?.id,
+        type: "movies",
       };
     });
 
