@@ -205,7 +205,7 @@ export default function Home() {
             cardsData={home.upcomingSeries}
             redirect="/series/upcoming"
             setLoading={setLoading}
-            title="Upcoming Series"
+            title="Upcoming Series (Air in the next 7 days)"
           />
           {home.recommendSeriesByFavorite.length > 0 && (
             <DisplayCards

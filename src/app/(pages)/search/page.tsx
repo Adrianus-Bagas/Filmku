@@ -130,7 +130,12 @@ export default function Search() {
               {search.PeopleResults.length > 0 && (
                 <DisplayCards
                   cardsData={search.PeopleResults}
-                  redirect="/search/people"
+                  redirect={{
+                    pathname: "/search/people",
+                    query: {
+                      searchfor: search.query,
+                    },
+                  }}
                   setLoading={setLoading}
                   title={`People that Related to '${search.query}'`}
                 />
