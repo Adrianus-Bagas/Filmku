@@ -26,3 +26,15 @@ export interface SearchInterface {
   SeriesResults: CardData[];
   PeopleResults: CardData[];
 }
+
+export interface MovieDatabaseInterface {
+  id: string;
+  type: string;
+  title: string;
+  overview: string;
+  posterPath: string;
+  backdropPath: string;
+  releaseDate: string;
+  tmdbId: string;
+  userId: string;
+}

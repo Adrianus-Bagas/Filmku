@@ -2,41 +2,28 @@
 
 import { Spin } from "antd";
 import { useEffect, useState } from "react";
+import { useAtom } from "jotai";
 
 import { DisplayCarousel, DisplayCards } from "@/components";
-import { CardData, CarouselData } from "@/interfaces";
+import { CardData } from "@/interfaces";
 import { findGenres, movieGenre } from "@/utils";
-import {
-  useGetMoviesNowPlaying,
-  useGetMoviesPopular,
-  useGetMoviesTopRated,
-} from "@/services/hooks";
+import { useGetMovies } from "@/services/hooks";
+import { movieAtom } from "@/store";
 
 export default function Movie() {
-  const { data: nowPlayingMovie, isLoading: loadingMovieNowPlaying } =
-    useGetMoviesNowPlaying();
-  const { data: popularMovie, isLoading: loadingMoviePopular } =
-    useGetMoviesPopular();
-  const { data: topRatedMovie, isLoading: loadingMovieTopRated } =
-    useGetMoviesTopRated();
-  const [carouselData, setCarouselData] = useState<CarouselData[]>([]);
-  const [nowPlayingMoviesCards, setNowPlayingMoviesCards] = useState<
-    CardData[]
-  >([]);
-  const [popularMoviesCards, setPopularMoviesCards] = useState<CardData[]>([]);
-  const [topRatedMoviesCards, setTopRatedMoviesCards] = useState<CardData[]>(
-    [],
-  );
+  const { data: movieList, isLoading } = useGetMovies();
+
+  const [movie, setMovie] = useAtom(movieAtom);
 
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const getFirstMovie =
-      nowPlayingMovie[Math.floor(Math.random() * (9 - 0) + 0)];
+      movieList.nowPlaying[Math.floor(Math.random() * (9 - 0) + 0)];
     const getSecondMovie =
-      popularMovie[Math.floor(Math.random() * (19 - 10) + 10)];
+      movieList.popular[Math.floor(Math.random() * (19 - 10) + 10)];
     const getThirdMovie =
-      topRatedMovie[Math.floor(Math.random() * (9 - 0) + 0)];
+      movieList.topRated[Math.floor(Math.random() * (9 - 0) + 0)];
 
     const dataCarousel = [
       {
@@ -64,7 +51,7 @@ export default function Movie() {
         media_type: "movie",
       },
     ];
-    const dataCardMovieNowPlaying: CardData[] = nowPlayingMovie?.map(
+    const dataCardMovieNowPlaying: CardData[] = movieList.nowPlaying?.map(
       (movie) => {
         return {
           id: movie.id,
@@ -75,7 +62,7 @@ export default function Movie() {
         };
       },
     );
-    const dataCardMoviePopular: CardData[] = popularMovie?.map((movie) => {
+    const dataCardMoviePopular: CardData[] = movieList.popular?.map((movie) => {
       return {
         id: movie.id,
         title: movie.title,
@@ -84,47 +71,52 @@ export default function Movie() {
         type: "movies",
       };
     });
-    const dataCardMovieTopRated: CardData[] = topRatedMovie?.map((movie) => {
-      return {
-        id: movie.id,
-        title: movie.title,
-        poster_path: movie?.poster_path,
-        redirect: "/movies/" + movie?.id,
-        type: "movies",
-      };
-    });
+    const dataCardMovieTopRated: CardData[] = movieList.topRated?.map(
+      (movie) => {
+        return {
+          id: movie.id,
+          title: movie.title,
+          poster_path: movie?.poster_path,
+          redirect: "/movies/" + movie?.id,
+          type: "movies",
+        };
+      },
+    );
 
-    setCarouselData(dataCarousel);
-    setNowPlayingMoviesCards(dataCardMovieNowPlaying.slice(0, 8));
-    setPopularMoviesCards(dataCardMoviePopular.slice(0, 8));
-    setTopRatedMoviesCards(dataCardMovieTopRated.slice(0, 8));
-  }, [nowPlayingMovie, popularMovie, topRatedMovie]);
+    setMovie({
+      ...movie,
+      carouselData: dataCarousel,
+      nowPlaying: dataCardMovieNowPlaying,
+      popular: dataCardMoviePopular,
+      topRated: dataCardMovieTopRated,
+    });
+  }, [movieList]);
 
   return (
     <>
-      {loadingMovieNowPlaying || loadingMoviePopular || loadingMovieTopRated ? (
+      {isLoading ? (
         <Spin fullscreen size="large" />
       ) : (
         <>
           {loading && <Spin fullscreen size="large" />}
           <DisplayCarousel
-            carouselData={carouselData}
+            carouselData={movie.carouselData}
             setLoading={setLoading}
           />
           <DisplayCards
-            cardsData={nowPlayingMoviesCards}
+            cardsData={movie.nowPlaying}
             redirect="/movies/now_playing"
             setLoading={setLoading}
             title="Now Playing Movies"
           />
           <DisplayCards
-            cardsData={popularMoviesCards}
+            cardsData={movie.popular}
             redirect="/movies/popular"
             setLoading={setLoading}
             title="Popular Movies"
           />
           <DisplayCards
-            cardsData={topRatedMoviesCards}
+            cardsData={movie.topRated}
             redirect="/movies/top_rated"
             setLoading={setLoading}
             title="Top Rated Movies"

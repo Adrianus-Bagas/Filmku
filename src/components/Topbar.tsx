@@ -141,7 +141,7 @@ export const Topbar = () => {
           dataUser ? (
             <div>
               <p>{greeting}</p>
-              <p>{dataUser?.data?.fullName}</p>
+              <p>{dataUser?.fullName}</p>
             </div>
           ) : (
             ""
@@ -152,11 +152,11 @@ export const Topbar = () => {
         <div className="flex justify-center items-center gap-2">
           <Avatar
             icon={!dataUser ? <UserOutlined /> : undefined}
-            src={dataUser ? dataUser?.data?.image : undefined}
+            src={dataUser ? dataUser?.image : undefined}
             style={!dataUser ? { backgroundColor: "gray" } : undefined}
           />
           <p className="text-white hidden lg:inline-block">
-            {dataUser?.data?.fullName?.split(" ")?.slice(0, 1) || "Login"}
+            {dataUser?.fullName?.split(" ")?.slice(0, 1) || "Login"}
           </p>
           <CaretDownOutlined className="text-white hidden lg:inline-block" />
         </div>

@@ -3,8 +3,10 @@ import { getCookie } from "cookies-next";
 
 import { GetUserData } from "./fetcher";
 
+import { UserInterface } from "@/interfaces/user.interfaces";
+
 export const useGetUser = () => {
-  const { isLoading, isFetching, data } = useQuery({
+  const { isLoading, isFetching, data } = useQuery<UserInterface>({
     queryKey: ["getUserData"],
     queryFn: () => GetUserData(),
     refetchOnWindowFocus: false,

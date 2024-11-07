@@ -1,5 +1,14 @@
 import { RequestParamMovieSchedule } from "@/interfaces";
-import { axiosMovie } from "@/utils";
+import { axiosApiMovie, axiosMovie } from "@/utils";
+
+export const GetMoviesPage = async () => {
+  const result = await axiosApiMovie({
+    method: "get",
+    url: "/movies",
+  });
+
+  return result.data;
+};
 
 export const GetMoviesTrendingByDay = async () => {
   const res = await axiosMovie({

@@ -3,10 +3,20 @@ import { atom } from "jotai";
 
 import {
   MovieListInterface,
+  MoviePageInterface,
   RequestParamMovieSchedule,
   RequestParamSeriesSchedule,
   SeriesListInterface,
 } from "@/interfaces";
+
+export const initialMoviePageAtomValue: MoviePageInterface = {
+  carouselData: [],
+  nowPlaying: [],
+  popular: [],
+  topRated: [],
+};
+
+export const movieAtom = atom<MoviePageInterface>(initialMoviePageAtomValue);
 
 export const paramsScheduleMovieAtom = atom<RequestParamMovieSchedule>({
   primary_release_date_gte: dayjs().startOf("month").format("YYYY-MM-DD"),

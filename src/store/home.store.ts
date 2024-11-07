@@ -22,22 +22,4 @@ export const initialHomeAtomValue: HomeInterface = {
   notifAlreadyShown: false,
 };
 
-export const homeAtom = atom<HomeInterface>({
-  carouselData: [],
-  trendingMovies: [],
-  upcomingMovies: [],
-  trendingSeries: [],
-  upcomingSeries: [],
-  recommendMoviesByWatchlist: [],
-  recommendMoviesByFavorite: [],
-  recommendMoviesByHistory: [],
-  recommendSeriesByWatchlist: [],
-  recommendSeriesByFavorite: [],
-  recommendSeriesByHistory: [],
-  recommendList: {
-    title: "",
-    data: [],
-  },
-  openModalNotif: false,
-  notifAlreadyShown: false,
-});
+export const homeAtom = atom<HomeInterface>(initialHomeAtomValue);

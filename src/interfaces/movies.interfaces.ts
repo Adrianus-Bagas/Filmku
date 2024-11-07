@@ -1,4 +1,11 @@
-import { GenreData } from "./app.interface";
+import { CardData, CarouselData, GenreData } from "./app.interface";
+
+export interface MoviePageInterface {
+  carouselData: CarouselData[];
+  nowPlaying: CardData[];
+  popular: CardData[];
+  topRated: CardData[];
+}
 
 export interface BelongToCollectionInterface {
   id: number;

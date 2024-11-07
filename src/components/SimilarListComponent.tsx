@@ -18,7 +18,7 @@ export const SimilarListComponent = ({
   return (
     <>
       <div className="px-2 flex flex-col justify-center items-center">
-        <div className="py-5 font-bold md:text-xl">
+        <div className="py-5 font-bold md:text-xl text-center">
           <p>{title}</p>
         </div>
         <div className="grid grid-cols-3 gap-2 md:grid-cols-6">

@@ -4,6 +4,7 @@ import {
   GetMoviesCredits,
   GetMoviesDetail,
   GetMoviesNowPlaying,
+  GetMoviesPage,
   GetMoviesPopular,
   GetMoviesSchedule,
   GetMoviesSimilar,
@@ -21,6 +22,28 @@ import {
   MovieVideoInterface,
   RequestParamMovieSchedule,
 } from "@/interfaces";
+
+export const useGetMovies = () => {
+  const { isLoading, isFetching, data } = useQuery<{
+    nowPlaying: MovieListInterface[];
+    popular: MovieListInterface[];
+    topRated: MovieListInterface[];
+  }>({
+    queryKey: ["getMoviesPage"],
+    queryFn: () => GetMoviesPage(),
+    refetchOnWindowFocus: false,
+  });
+
+  return {
+    isFetching,
+    isLoading,
+    data: data || {
+      nowPlaying: [],
+      popular: [],
+      topRated: [],
+    },
+  };
+};
 
 export const useGetMoviesTrendingByDay = () => {
   const { isLoading, isFetching, data } = useQuery<{
