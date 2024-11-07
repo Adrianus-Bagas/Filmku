@@ -1,23 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import {
-  GetMoviesCredits,
-  GetMoviesDetail,
-  GetMoviesNowPlaying,
+  GetMovieDetailPage,
   GetMoviesPage,
-  GetMoviesPopular,
   GetMoviesSchedule,
   GetMoviesSimilar,
-  GetMoviesTopRated,
-  GetMoviesTrendingByDay,
-  GetMoviesUpcoming,
   GetMoviesVideos,
+  GetMoviesVideosPage,
 } from "./fetcher";
 
 import {
-  MovieCastInterface,
-  MovieCrewInterface,
-  MovieDetailInterface,
   MovieListInterface,
   MovieVideoInterface,
   RequestParamMovieSchedule,
@@ -45,80 +37,40 @@ export const useGetMovies = () => {
   };
 };
 
-export const useGetMoviesTrendingByDay = () => {
-  const { isLoading, isFetching, data } = useQuery<{
-    page: number;
-    results: MovieListInterface[];
-  }>({
-    queryKey: ["getMoviesTrendingByDay"],
-    queryFn: () => GetMoviesTrendingByDay(),
-    refetchOnWindowFocus: false,
+export const useGetMoviesDetailPage = () => {
+  const { mutate, data, isIdle, isPending } = useMutation({
+    mutationFn: ({
+      movie_id,
+      user_token,
+    }: {
+      movie_id: string;
+      user_token: string;
+    }) => GetMovieDetailPage({ movie_id, user_token }),
   });
 
-  return { isFetching, isLoading, data: data?.results ?? [] };
+  return { mutate, data, isIdle, isPending };
 };
 
-export const useGetMoviesUpcoming = () => {
-  const { isLoading, isFetching, data } = useQuery<{
-    page: number;
-    results: MovieListInterface[];
-  }>({
-    queryKey: ["getMoviesUpcoming"],
-    queryFn: () => GetMoviesUpcoming(),
-    refetchOnWindowFocus: false,
+export const useGetMoviesVideosPage = () => {
+  const { mutate, data, isIdle, isPending } = useMutation({
+    mutationFn: ({
+      movie_id,
+      user_token,
+    }: {
+      movie_id: string;
+      user_token: string;
+    }) => GetMoviesVideosPage({ movie_id, user_token }),
   });
 
-  return { isFetching, isLoading, data: data?.results ?? [] };
-};
-
-export const useGetMoviesNowPlaying = () => {
-  const { isLoading, isFetching, data } = useQuery<{
-    page: number;
-    results: MovieListInterface[];
-  }>({
-    queryKey: ["getMoviesNowPlaying"],
-    queryFn: () => GetMoviesNowPlaying(),
-    refetchOnWindowFocus: false,
-  });
-
-  return { isFetching, isLoading, data: data?.results ?? [] };
-};
-
-export const useGetMoviesPopular = () => {
-  const { isLoading, isFetching, data } = useQuery<{
-    page: number;
-    results: MovieListInterface[];
-  }>({
-    queryKey: ["getMoviesPopular"],
-    queryFn: () => GetMoviesPopular(),
-    refetchOnWindowFocus: false,
-  });
-
-  return { isFetching, isLoading, data: data?.results ?? [] };
-};
-
-export const useGetMoviesTopRated = () => {
-  const { isLoading, isFetching, data } = useQuery<{
-    page: number;
-    results: MovieListInterface[];
-  }>({
-    queryKey: ["getMoviesTopRated"],
-    queryFn: () => GetMoviesTopRated(),
-    refetchOnWindowFocus: false,
-  });
-
-  return { isFetching, isLoading, data: data?.results ?? [] };
-};
-
-export const useGetMoviesDetail = (movie_id: string) => {
-  const { isLoading, isFetching, data } = useQuery<MovieDetailInterface>({
-    queryKey: ["getMoviesDetail", movie_id],
-    queryFn: () => GetMoviesDetail(movie_id),
-    refetchOnWindowFocus: false,
-    enabled: !!movie_id,
-  });
-
-  return { isFetching, isLoading, data };
+  return {
+    mutate,
+    data: data || {
+      similar: [],
+      videos: [],
+    },
+    isIdle,
+    isPending,
+  };
 };
 
 export const useGetMoviesVideos = (movie_id: string) => {
@@ -147,26 +99,6 @@ export const useGetMoviesSimilar = (movie_id: string) => {
   });
 
   return { isFetching, isLoading, data: data?.results ?? [] };
-};
-
-export const useGetMoviesCredits = (movie_id: string) => {
-  const { isLoading, isFetching, data } = useQuery<{
-    id: number;
-    cast: MovieCastInterface[];
-    crew: MovieCrewInterface[];
-  }>({
-    queryKey: ["getMoviesCredit", movie_id],
-    queryFn: () => GetMoviesCredits(movie_id),
-    refetchOnWindowFocus: false,
-    enabled: !!movie_id,
-  });
-
-  return {
-    isFetching,
-    isLoading,
-    dataCast: data?.cast ?? [],
-    dataCrew: data?.crew ?? [],
-  };
 };
 
 export const useGetMoviesSchedule = (params: RequestParamMovieSchedule) => {

@@ -1,21 +1,35 @@
 "use client";
 
 import { Spin } from "antd";
+import { useEffect } from "react";
+import { getCookie } from "cookies-next";
 
 import { DisplayDetail } from "@/components";
-import { MovieDetailInterface } from "@/interfaces";
-import { useGetMoviesDetail } from "@/services/hooks";
+import { useGetMoviesDetailPage } from "@/services/hooks";
 
-export default function DetailMovies({ params }: { params: { id: string } }) {
-  const { data, isLoading } = useGetMoviesDetail(params.id);
+export default function DetailMovies({
+  params: { id },
+}: {
+  params: { id: string };
+}) {
+  const { data, mutate, isIdle, isPending } = useGetMoviesDetailPage();
+
+  useEffect(() => {
+    mutate({
+      movie_id: id,
+      user_token: getCookie("access_token") || "",
+    });
+  }, []);
 
   return (
     <>
-      {isLoading ? (
+      {isIdle ? (
         <Spin fullscreen size="large" />
       ) : data ? (
-        <DisplayDetail data={data as MovieDetailInterface} />
-      ) : null}
+        <DisplayDetail data={data} isIdle={isIdle} isPending={isPending} />
+      ) : (
+        <Spin fullscreen size="large" />
+      )}
     </>
   );
 }

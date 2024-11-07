@@ -1,25 +1,23 @@
 "use client";
 
 import { ConfigProvider, Spin, Tabs } from "antd";
+import { useEffect } from "react";
+import { getCookie } from "cookies-next";
 
 import { SimilarListComponent, VideoListComponent } from "@/components";
-import { useGetMoviesSimilar, useGetMoviesVideos } from "@/services/hooks";
+import { useGetMoviesVideosPage } from "@/services/hooks";
 import { CardData } from "@/interfaces";
 
 export default function DetailVideo({
-  params,
+  params: { id, videoId },
 }: {
   params: { id: string; videoId: string };
 }) {
-  const { data: videoData, isLoading: loadingVideo } = useGetMoviesVideos(
-    params.id,
-  );
-  const { data: similarData, isLoading: loadingSimilar } = useGetMoviesSimilar(
-    params.id,
-  );
-  const getDetailVideo = videoData.find((item) => item.id === params.videoId);
+  const { data, isIdle, isPending, mutate } = useGetMoviesVideosPage();
 
-  const similarCardData: CardData[] = similarData.map((item) => {
+  const getDetailVideo = data.videos.find((item) => item.id === videoId);
+
+  const similarCardData: CardData[] = data.similar.map((item) => {
     return {
       id: item.id,
       poster_path: item.poster_path,
@@ -29,9 +27,16 @@ export default function DetailVideo({
     };
   });
 
+  useEffect(() => {
+    mutate({
+      movie_id: id,
+      user_token: getCookie("access_token") || "",
+    });
+  }, []);
+
   return (
     <>
-      {loadingVideo || loadingSimilar ? (
+      {isPending || isIdle ? (
         <Spin fullscreen size="large" />
       ) : (
         <>
@@ -55,9 +60,9 @@ export default function DetailVideo({
               <div>
                 <div className="hidden lg:inline-block">
                   <VideoListComponent
-                    movieId={params.id}
-                    videoId={params.videoId}
-                    videos={videoData}
+                    movieId={id}
+                    videoId={videoId}
+                    videos={data.videos}
                   />
                 </div>
                 <div className="lg:px-10 lg:py-5">
@@ -88,9 +93,9 @@ export default function DetailVideo({
                             <>
                               {item === "Videos" ? (
                                 <VideoListComponent
-                                  movieId={params.id}
-                                  videoId={params.videoId}
-                                  videos={videoData}
+                                  movieId={id}
+                                  videoId={videoId}
+                                  videos={data.videos}
                                 />
                               ) : (
                                 <SimilarListComponent

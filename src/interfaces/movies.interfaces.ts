@@ -137,3 +137,36 @@ export interface RecommendedMoviesInterface {
   title: string;
   data: MovieListInterface[];
 }
+
+export interface ReviewListInterface {
+  author: string;
+  author_details: {
+    name: string;
+    username: string;
+    avatar_path: string;
+    rating: number;
+  };
+  content: string;
+  created_at: string;
+  id: string;
+  updated_at: string;
+  url: string;
+}
+
+export interface ResponseMovieDetailInterface {
+  detail: MovieDetailInterface;
+  videos: MovieVideoInterface[];
+  similar: MovieListInterface[];
+  credits: {
+    cast: MovieCastInterface[];
+    crew: MovieCrewInterface[];
+  };
+  reviews: ReviewListInterface[];
+  isFavorite: boolean;
+  isWatchlist: boolean;
+}
+
+export interface ResponseMovieVideosInterface {
+  videos: MovieVideoInterface[];
+  similar: MovieListInterface[];
+}

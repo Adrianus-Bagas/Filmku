@@ -17,8 +17,16 @@ const nextConfig = {
         SIGN_OUT_GOOGLE : process.env['SIGN_OUT_GOOGLE'],
     },
     images: {
-        domains: ['image.tmdb.org', 'img.youtube.com'],
-      }
+        remotePatterns: [
+            {
+                hostname: 'image.tmdb.org'
+            },
+            {
+                hostname: 'img.youtube.com'
+            },
+        ],
+      },
+      reactStrictMode: false
 };
 
 export default nextConfig;

@@ -1,4 +1,8 @@
-import { RequestParamMovieSchedule } from "@/interfaces";
+import {
+  RequestParamMovieSchedule,
+  ResponseMovieDetailInterface,
+  ResponseMovieVideosInterface,
+} from "@/interfaces";
 import { axiosApiMovie, axiosMovie } from "@/utils";
 
 export const GetMoviesPage = async () => {
@@ -10,55 +14,37 @@ export const GetMoviesPage = async () => {
   return result.data;
 };
 
-export const GetMoviesTrendingByDay = async () => {
-  const res = await axiosMovie({
-    method: "get",
-    url: "/trending/movie/day",
+export const GetMovieDetailPage = async ({
+  movie_id,
+  user_token,
+}: {
+  movie_id: string;
+  user_token: string;
+}): Promise<ResponseMovieDetailInterface> => {
+  const result = await axiosApiMovie({
+    method: "post",
+    url: `/movies/${movie_id}`,
+    data: {
+      user_token,
+    },
   });
 
-  return res.data;
+  return result.data;
 };
 
-export const GetMoviesUpcoming = async () => {
-  const res = await axiosMovie({
-    method: "get",
-    url: "/movie/upcoming",
-  });
-
-  return res.data;
-};
-
-export const GetMoviesNowPlaying = async () => {
-  const res = await axiosMovie({
-    method: "get",
-    url: "/movie/now_playing",
-  });
-
-  return res.data;
-};
-
-export const GetMoviesPopular = async () => {
-  const res = await axiosMovie({
-    method: "get",
-    url: "/movie/popular",
-  });
-
-  return res.data;
-};
-
-export const GetMoviesTopRated = async () => {
-  const res = await axiosMovie({
-    method: "get",
-    url: "/movie/top_rated",
-  });
-
-  return res.data;
-};
-
-export const GetMoviesDetail = async (movie_id: string) => {
-  const res = await axiosMovie({
-    method: "get",
-    url: `/movie/${movie_id}`,
+export const GetMoviesVideosPage = async ({
+  movie_id,
+  user_token,
+}: {
+  movie_id: string;
+  user_token: string;
+}): Promise<ResponseMovieVideosInterface> => {
+  const res = await axiosApiMovie({
+    method: "post",
+    url: `/movies/${movie_id}/videos`,
+    data: {
+      user_token,
+    },
   });
 
   return res.data;
@@ -77,15 +63,6 @@ export const GetMoviesSimilar = async (movie_id: string) => {
   const res = await axiosMovie({
     method: "get",
     url: `/movie/${movie_id}/similar`,
-  });
-
-  return res.data;
-};
-
-export const GetMoviesCredits = async (movie_id: string) => {
-  const res = await axiosMovie({
-    method: "get",
-    url: `/movie/${movie_id}/credits`,
   });
 
   return res.data;
