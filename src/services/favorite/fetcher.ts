@@ -1,6 +1,6 @@
 import { axiosApi } from "@/utils";
 
-export const AddToWatchlist = async ({
+export const AddToFavorite = async ({
   tmdbId,
   userId,
   type,
@@ -11,7 +11,7 @@ export const AddToWatchlist = async ({
 }) => {
   const result = await axiosApi({
     method: "post",
-    url: `/watchlist`,
+    url: `/favorite`,
     data: {
       tmdbId,
       userId,
@@ -22,10 +22,10 @@ export const AddToWatchlist = async ({
   return result.data;
 };
 
-export const DeleteFromWatchlist = async (id: string) => {
+export const DeleteFromFavorite = async (id: string) => {
   const result = await axiosApi({
     method: "delete",
-    url: `/watchlist/${id}`,
+    url: `/favorite/${id}`,
   });
 
   return result.data;

@@ -17,7 +17,7 @@ import Marquee from "react-fast-marquee";
 
 import { menu } from "@/utils";
 import Logo from "@/assets/images/TheMovie (1).png";
-import { homeAtom, searchAtom } from "@/store";
+import { homeAtom, searchAtom, userAtom } from "@/store";
 import { FavoriteIcon, LogoutIcon, WatchlistsIcon } from "@/assets/icons";
 import { useGetUser } from "@/services/hooks";
 import {
@@ -36,6 +36,7 @@ export const Topbar = () => {
   const router = useRouter();
   const home = useAtomValue(homeAtom);
   const [search, setSearch] = useAtom(searchAtom);
+  const [user, setUser] = useAtom(userAtom);
   const { data: dataUser, isFetching } = useGetUser();
   const [greeting, setGreeting] = useState<string>("");
   const [mounted, setMounted] = useState<boolean>(false);
@@ -54,6 +55,15 @@ export const Topbar = () => {
     }
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (dataUser) {
+      setUser({
+        ...user,
+        ...dataUser,
+      });
+    }
+  }, [dataUser]);
 
   const handleSignOut = () => {
     if (getCookie("google_token")) {

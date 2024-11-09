@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { AddToWatchlist, DeleteFromWatchlist } from "./fetcher";
+import { AddToFavorite, DeleteFromFavorite } from "./fetcher";
 
-export const useAddToWatchlist = () => {
+export const useAddToFavorite = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: ({
       tmdbId,
@@ -12,15 +12,15 @@ export const useAddToWatchlist = () => {
       tmdbId: string;
       userId: string;
       type: "movies" | "series";
-    }) => AddToWatchlist({ tmdbId, userId, type }),
+    }) => AddToFavorite({ tmdbId, userId, type }),
   });
 
   return { mutate, isPending };
 };
 
-export const useDeleteFromWatchlist = () => {
+export const useDeleteFromFavorite = () => {
   const { mutate, isPending } = useMutation({
-    mutationFn: (id: string) => DeleteFromWatchlist(id),
+    mutationFn: (id: string) => DeleteFromFavorite(id),
   });
 
   return { mutate, isPending };

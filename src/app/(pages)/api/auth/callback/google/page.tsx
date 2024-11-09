@@ -13,7 +13,7 @@ export default function Callback() {
   const router = useRouter();
 
   useEffect(() => {
-    if (code) {
+    if (code && typeof window !== "undefined") {
       getToken(code)
         .then((res) => {
           if (res.status === 200) {
@@ -24,7 +24,10 @@ export default function Callback() {
               const access_token = resUser.access_token;
 
               setCookie("access_token", access_token, { maxAge: 604800 });
-              router.push("/home");
+              const routeFrom = localStorage.getItem("from");
+
+              routeFrom ? router.push(routeFrom) : router.push("/home");
+              localStorage.removeItem("from");
             });
           }
         })

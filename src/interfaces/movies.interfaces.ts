@@ -162,8 +162,8 @@ export interface ResponseMovieDetailInterface {
     crew: MovieCrewInterface[];
   };
   reviews: ReviewListInterface[];
-  isFavorite: boolean;
-  isWatchlist: boolean;
+  favoriteId: string | null;
+  watchlistId: string | null;
 }
 
 export interface ResponseMovieVideosInterface {
