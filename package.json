@@ -33,7 +33,7 @@
     "antd": "^5.17.3",
     "axios": "^1.7.2",
     "cookies-next": "^4.2.1",
-    "dayjs": "^1.11.11",
+    "dayjs": "^1.11.13",
     "jotai": "^2.8.1",
     "jotai-devtools": "^0.9.1",
     "jotai-tanstack-query": "^0.8.5",
@@ -43,6 +43,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-fast-marquee": "^1.6.5",
+    "react-infinite-scroll-component": "^6.1.0",
     "wonka": "^6.3.4"
   },
   "devDependencies": {

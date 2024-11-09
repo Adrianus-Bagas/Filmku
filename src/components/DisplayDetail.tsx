@@ -4,8 +4,13 @@ import React from "react";
 import { ConfigProvider, Spin, Tabs } from "antd";
 import dayjs from "dayjs";
 import Image from "next/image";
+import {
+  CheckCircleFilled,
+  CommentOutlined,
+  LikeOutlined,
+  MenuOutlined,
+} from "@ant-design/icons";
 
-import { FavoriteIcon, WatchlistsIcon } from "@/assets/icons";
 import { CardData, ResponseMovieDetailInterface } from "@/interfaces";
 import {
   VideoListComponent,
@@ -13,6 +18,7 @@ import {
   CreditsListComponent,
   ModalLogin,
   ModalConfirm,
+  ModalReview,
 } from "@/components";
 
 export const DisplayDetail = ({
@@ -23,12 +29,18 @@ export const DisplayDetail = ({
   isLoadingDelete,
   handleWatchlistButton,
   handleFavoriteButton,
+  handleReviewButton,
   openModalLogin,
   setOpenModalLogin,
   openModalWatchlist,
   setOpenModalWatchlist,
   openModalFavorite,
   setOpenModalFavorite,
+  openModalReview,
+  setOpenModalReview,
+  type,
+  content,
+  setContent,
 }: {
   data: ResponseMovieDetailInterface;
   isPending: boolean;
@@ -37,20 +49,29 @@ export const DisplayDetail = ({
   isLoadingDelete: boolean;
   handleWatchlistButton: () => void;
   handleFavoriteButton: () => void;
+  handleReviewButton: (
+    action: "add" | "edit" | "delete",
+    reviewId?: string,
+  ) => void;
   openModalLogin: boolean;
   setOpenModalLogin: React.Dispatch<React.SetStateAction<boolean>>;
   openModalWatchlist: boolean;
   setOpenModalWatchlist: React.Dispatch<React.SetStateAction<boolean>>;
   openModalFavorite: boolean;
   setOpenModalFavorite: React.Dispatch<React.SetStateAction<boolean>>;
+  openModalReview: boolean;
+  setOpenModalReview: React.Dispatch<React.SetStateAction<boolean>>;
+  type: "movies" | "series";
+  content: string;
+  setContent: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const similarCardData: CardData[] = data.similar.map((item) => {
     return {
       id: item.id,
       poster_path: item.poster_path,
-      redirect: `movies/${item.id}`,
+      redirect: `${type}/${item.id}`,
       title: item.title,
-      type: "movies",
+      type,
     };
   });
 
@@ -58,22 +79,33 @@ export const DisplayDetail = ({
     return (
       <>
         <div
-          className="flex items-center p-3 bg-[#364d79] w-fit rounded-lg cursor-pointer transition duration-300 ease-in-out hover:opacity-70"
+          className="flex flex-col items-center gap-2 p-3 w-fit rounded-lg cursor-pointer transition duration-300 ease-in-out hover:opacity-70"
           onClick={() => setOpenModalFavorite(true)}
         >
-          <FavoriteIcon className="h-3 w-3 fill-white" />
-          <p className="pl-2 text-[10px] sm:text-sm">
-            {data.favoriteId ? "Remove from Favorites" : "Add to Favorites"}
-          </p>
+          {data.favoriteId ? (
+            <CheckCircleFilled className="text-xl sm:text-4xl" />
+          ) : (
+            <LikeOutlined className="text-xl sm:text-4xl" />
+          )}
+          <p className="text-[10px] sm:text-sm">Favorites</p>
         </div>
         <div
-          className="flex items-center p-3 bg-[#364d79] w-fit rounded-lg cursor-pointer transition duration-300 ease-in-out hover:opacity-70"
+          className="flex flex-col items-center gap-2 p-3 w-fit rounded-lg cursor-pointer transition duration-300 ease-in-out hover:opacity-70"
           onClick={() => setOpenModalWatchlist(true)}
         >
-          <WatchlistsIcon className="h-3 w-3 fill-white" />
-          <p className="pl-2 text-[10px] sm:text-sm">
-            {data.watchlistId ? "Remove from Watchlist" : "Add to Watchlist"}
-          </p>
+          {data.watchlistId ? (
+            <CheckCircleFilled className="text-xl sm:text-4xl" />
+          ) : (
+            <MenuOutlined className="text-xl sm:text-4xl" />
+          )}
+          <p className="text-[10px] sm:text-sm">Watchlist</p>
+        </div>
+        <div
+          className="flex flex-col items-center gap-2 p-3 w-fit rounded-lg cursor-pointer transition duration-300 ease-in-out hover:opacity-70"
+          onClick={() => setOpenModalReview(true)}
+        >
+          <CommentOutlined className="text-xl sm:text-4xl" />
+          <p className="text-[10px] sm:text-sm">Reviews</p>
         </div>
       </>
     );
@@ -124,6 +156,14 @@ export const DisplayDetail = ({
             openModal={openModalFavorite}
             setOpenModal={setOpenModalFavorite}
             onConfirm={handleFavoriteButton}
+          />
+          <ModalReview
+            content={content}
+            handleReview={handleReviewButton}
+            isModalOpen={openModalReview}
+            reviewList={data.reviews}
+            setContent={setContent}
+            setIsModalOpen={setOpenModalReview}
           />
           <div className="mt-14 lg:mt-[72px]">
             <div className="relative h-[150px] lg:h-[500px] text-[#fff] bg-black">

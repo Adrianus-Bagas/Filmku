@@ -10,12 +10,13 @@ import {
   useGetMoviesDetailPage,
   useAddToWatchlist,
   useDeleteFromWatchlist,
-} from "@/services/hooks";
-import { userAtom } from "@/store";
-import {
   useAddToFavorite,
   useDeleteFromFavorite,
-} from "@/services/favorite/hooks";
+  useAddReview,
+  useEditReview,
+  useDeleteReview,
+} from "@/services/hooks";
+import { userAtom } from "@/store";
 
 export default function DetailMovies({
   params: { id },
@@ -25,6 +26,8 @@ export default function DetailMovies({
   const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
   const [openModalWatchlist, setOpenModalWatchlist] = useState<boolean>(false);
   const [openModalFavorite, setOpenModalFavorite] = useState<boolean>(false);
+  const [openModalReview, setOpenModalReview] = useState<boolean>(false);
+  const [content, setContent] = useState<string>("");
 
   const { data, mutate, isIdle, isPending } = useGetMoviesDetailPage();
   const { mutate: addToWatchlist, isPending: isLoadingAddWatchlist } =
@@ -35,6 +38,11 @@ export default function DetailMovies({
     useAddToFavorite();
   const { mutate: deleteFromFavorite, isPending: isLoadingDeleteFavorite } =
     useDeleteFromFavorite();
+  const { mutate: addReview, isPending: isLoadingAddReview } = useAddReview();
+  const { mutate: editReview, isPending: isLoadingEditReview } =
+    useEditReview();
+  const { mutate: deleteReview, isPending: isLoadingDeleteReview } =
+    useDeleteReview();
 
   const user = useAtomValue(userAtom);
 
@@ -150,11 +158,118 @@ export default function DetailMovies({
     }
   };
 
+  const handleReview = (
+    action: "add" | "edit" | "delete",
+    reviewId?: string,
+  ) => {
+    if (!getCookie("access_token")) {
+      localStorage.setItem("from", `/movies/${id}`);
+      setOpenModalLogin(true);
+    } else {
+      switch (action) {
+        case "add": {
+          addReview(
+            {
+              content,
+              tmdbId: id,
+              type: "movies",
+              userId: user.id,
+            },
+            {
+              onSuccess: () => {
+                setContent("");
+                mutate(
+                  {
+                    movie_id: id,
+                    user_token: getCookie("access_token") || "",
+                  },
+                  {
+                    onSuccess: () => {
+                      message.success("Add Review Success");
+                    },
+                  },
+                );
+              },
+              onError: () => {
+                message.error("Add Review Error");
+              },
+            },
+          );
+          break;
+        }
+        case "edit": {
+          if (reviewId) {
+            editReview(
+              {
+                id: reviewId,
+                content,
+              },
+              {
+                onSuccess: () => {
+                  setContent("");
+                  mutate(
+                    {
+                      movie_id: id,
+                      user_token: getCookie("access_token") || "",
+                    },
+                    {
+                      onSuccess: () => {
+                        message.success("Edit Review Success");
+                      },
+                    },
+                  );
+                },
+                onError: () => {
+                  message.error("Edit Review Error");
+                },
+              },
+            );
+          }
+          break;
+        }
+        case "delete": {
+          if (reviewId) {
+            deleteReview(reviewId, {
+              onSuccess: () => {
+                setContent("");
+                mutate(
+                  {
+                    movie_id: id,
+                    user_token: getCookie("access_token") || "",
+                  },
+                  {
+                    onSuccess: () => {
+                      message.success("Delete Review Success");
+                    },
+                  },
+                );
+              },
+              onError: () => {
+                message.error("Delete Review Error");
+              },
+            });
+          }
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  };
+
   useEffect(() => {
-    mutate({
-      movie_id: id,
-      user_token: getCookie("access_token") || "",
-    });
+    mutate(
+      {
+        movie_id: id,
+        user_token: getCookie("access_token") || "",
+      },
+      {
+        onError: () => {
+          message.info("Refresh...");
+          window.location.reload();
+        },
+      },
+    );
   }, []);
 
   return (
@@ -164,12 +279,17 @@ export default function DetailMovies({
       isLoadingAddWatchlist ||
       isLoadingDeleteWatchlist ||
       isLoadingAddFavorite ||
-      isLoadingDeleteFavorite ? (
+      isLoadingDeleteFavorite ||
+      isLoadingAddReview ||
+      isLoadingEditReview ||
+      isLoadingDeleteReview ? (
         <Spin fullscreen size="large" />
       ) : data ? (
         <DisplayDetail
+          content={content}
           data={data}
           handleFavoriteButton={handleFavoriteButton}
+          handleReviewButton={handleReview}
           handleWatchlistButton={handleWatchlistButton}
           isIdle={isIdle}
           isLoadingAdd={isLoadingAddWatchlist || isLoadingAddFavorite}
@@ -177,10 +297,14 @@ export default function DetailMovies({
           isPending={isPending}
           openModalFavorite={openModalFavorite}
           openModalLogin={openModalLogin}
+          openModalReview={openModalReview}
           openModalWatchlist={openModalWatchlist}
+          setContent={setContent}
           setOpenModalFavorite={setOpenModalFavorite}
           setOpenModalLogin={setOpenModalLogin}
+          setOpenModalReview={setOpenModalReview}
           setOpenModalWatchlist={setOpenModalWatchlist}
+          type="movies"
         />
       ) : (
         <Spin fullscreen size="large" />

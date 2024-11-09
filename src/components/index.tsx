@@ -12,3 +12,5 @@ export * from "@/components/ShowMoreComponent";
 export * from "@/components/RenderPosterListComponent";
 export * from "@/components/ModalLogin";
 export * from "@/components/ModalConfirm";
+export * from "@/components/ReviewListComponent";
+export * from "@/components/ModalReview";
