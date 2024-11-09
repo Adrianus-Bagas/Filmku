@@ -62,8 +62,8 @@ export const DisplayDetail = ({
           onClick={() => setOpenModalFavorite(true)}
         >
           <FavoriteIcon className="h-3 w-3 fill-white" />
-          <p className="pl-2">
-            {data.favoriteId ? "Remove from\n Favorites" : "Add to\n Favorites"}
+          <p className="pl-2 text-[10px] sm:text-sm">
+            {data.favoriteId ? "Remove from Favorites" : "Add to Favorites"}
           </p>
         </div>
         <div
@@ -71,10 +71,8 @@ export const DisplayDetail = ({
           onClick={() => setOpenModalWatchlist(true)}
         >
           <WatchlistsIcon className="h-3 w-3 fill-white" />
-          <p className="pl-2">
-            {data.watchlistId
-              ? "Remove from\n Watchlist"
-              : "Add to\n Watchlist"}
+          <p className="pl-2 text-[10px] sm:text-sm">
+            {data.watchlistId ? "Remove from Watchlist" : "Add to Watchlist"}
           </p>
         </div>
       </>

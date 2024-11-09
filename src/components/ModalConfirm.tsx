@@ -21,13 +21,13 @@ export const ModalConfirm = ({
           <div className="flex flex-col items-center">
             <div className="flex gap-2 text-white">
               <div
-                className="flex items-center p-3 bg-red-500 w-fit rounded-lg cursor-pointer transition duration-300 ease-in-out hover:opacity-70"
+                className="flex justify-center items-center p-2 bg-red-500 w-10 rounded-lg cursor-pointer transition duration-300 ease-in-out hover:opacity-70"
                 onClick={() => setOpenModal(false)}
               >
                 <p>No</p>
               </div>
               <div
-                className="flex items-center p-3 bg-green-500 w-fit rounded-lg cursor-pointer transition duration-300 ease-in-out hover:opacity-70"
+                className="flex justify-center items-center p-2 bg-green-500 w-10 rounded-lg cursor-pointer transition duration-300 ease-in-out hover:opacity-70"
                 onClick={onConfirm}
               >
                 <p>Yes</p>

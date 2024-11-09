@@ -137,6 +137,7 @@ export const Topbar = () => {
             <div
               className="cursor-pointer flex items-center hover:opacity-50"
               onClick={() => {
+                localStorage.setItem("from", pathname);
                 router.push(
                   `${authGoogleUrl}?client_id=${clientId}&scope=${scope}&response_type=${responseType}&redirect_uri=${redirectUri}&state=${state}`,
                 );
