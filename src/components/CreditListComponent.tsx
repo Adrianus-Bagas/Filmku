@@ -38,55 +38,52 @@ export const CreditsListComponent = ({
       </ConfigProvider>
       <div className="px-2 flex justify-center items-center text-[#fff]">
         <div className="grid grid-cols-3 gap-2 md:grid-cols-6">
-          {view === "cast"
-            ? dataCast.map((data) => (
-                <div
-                  key={data.id}
-                  className="flex flex-col items-center text-center"
-                >
-                  <Avatar
-                    icon={!data.profile_path ? <UserOutlined /> : undefined}
-                    size={64}
-                    src={
-                      data.profile_path
-                        ? `https://image.tmdb.org/t/p/original${data.profile_path}`
-                        : undefined
-                    }
-                    style={
-                      !data.profile_path
-                        ? { backgroundColor: "gray" }
-                        : undefined
-                    }
-                  />
-                  <p>
-                    {data.name} as {data.character}
-                  </p>
-                </div>
-              ))
-            : dataCrew.map((data) => (
-                <div
-                  key={data.id}
-                  className="flex flex-col items-center text-center"
-                >
-                  <Avatar
-                    icon={!data.profile_path ? <UserOutlined /> : undefined}
-                    size={64}
-                    src={
-                      data.profile_path
-                        ? `https://image.tmdb.org/t/p/original${data.profile_path}`
-                        : undefined
-                    }
-                    style={
-                      !data.profile_path
-                        ? { backgroundColor: "gray" }
-                        : undefined
-                    }
-                  />
-                  <p>
-                    {data.name} as {data.job}
-                  </p>
-                </div>
-              ))}
+          {view === "cast" &&
+            dataCast.map((data) => (
+              <div
+                key={data.id}
+                className="flex flex-col items-center text-center"
+              >
+                <Avatar
+                  icon={!data.profile_path ? <UserOutlined /> : undefined}
+                  size={64}
+                  src={
+                    data.profile_path
+                      ? `https://image.tmdb.org/t/p/original${data.profile_path}`
+                      : undefined
+                  }
+                  style={
+                    !data.profile_path ? { backgroundColor: "gray" } : undefined
+                  }
+                />
+                <p>
+                  {data.name} as {data.character}
+                </p>
+              </div>
+            ))}
+          {view === "crew" &&
+            dataCrew.map((data) => (
+              <div
+                key={data.id}
+                className="flex flex-col items-center text-center"
+              >
+                <Avatar
+                  icon={!data.profile_path ? <UserOutlined /> : undefined}
+                  size={64}
+                  src={
+                    data.profile_path
+                      ? `https://image.tmdb.org/t/p/original${data.profile_path}`
+                      : undefined
+                  }
+                  style={
+                    !data.profile_path ? { backgroundColor: "gray" } : undefined
+                  }
+                />
+                <p>
+                  {data.name} as {data.job}
+                </p>
+              </div>
+            ))}
         </div>
       </div>
     </>
