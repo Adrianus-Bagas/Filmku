@@ -1,7 +1,7 @@
 "use client";
 
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar, ConfigProvider, Select } from "antd";
+import { Avatar } from "antd";
 import { useState } from "react";
 
 import { MovieCastInterface, MovieCrewInterface } from "@/interfaces";
@@ -17,25 +17,24 @@ export const CreditsListComponent = ({
 
   return (
     <>
-      <ConfigProvider
-        theme={{
-          components: {
-            Select: {
-              lineWidth: 1,
-            },
-          },
-        }}
-      >
-        <Select
-          options={[
-            { value: "cast", label: "Cast" },
-            { value: "crew", label: "Crew" },
-          ]}
-          style={{ width: 120, marginBottom: "8px", marginLeft: "8px" }}
-          value={view}
-          onChange={(value) => setView(value)}
-        />
-      </ConfigProvider>
+      <div className="flex items-center gap-2">
+        <div
+          className={`${view === "cast" ? "bg-blue-500 text-white" : "bg-white text-gray-700"} border-[1px] w-fit p-2 rounded-lg text-xs border-gray-200 cursor-pointer`}
+          onClick={() => {
+            setView("cast");
+          }}
+        >
+          Casts
+        </div>
+        <div
+          className={`${view === "crew" ? "bg-blue-500 text-white" : "bg-white text-gray-700"} border-[1px] w-fit p-2 rounded-lg text-xs border-gray-200 cursor-pointer`}
+          onClick={() => {
+            setView("crew");
+          }}
+        >
+          Crews
+        </div>
+      </div>
       <div className="px-2 flex justify-center items-center text-[#fff]">
         <div className="grid grid-cols-3 gap-2 md:grid-cols-6">
           {view === "cast" &&
