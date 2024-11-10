@@ -48,11 +48,11 @@ export const ModalReview = ({
         centered
         footer={null}
         open={isModalOpen}
-        style={{ height: "300px" }}
+        style={{ height: "350px" }}
         width={300}
         onCancel={() => setIsModalOpen(false)}
       >
-        <div className="h-[300px] overflow-scroll">
+        <div className="h-[350px] overflow-scroll">
           <div className="flex items-center gap-2">
             <div
               className={`${isAddReview ? "bg-blue-500 text-white" : "bg-white text-gray-700"} border-[1px] w-fit p-2 rounded-lg text-xs border-gray-200 cursor-pointer`}

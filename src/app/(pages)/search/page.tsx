@@ -2,17 +2,24 @@
 
 import { Spin } from "antd";
 import { useAtom, useAtomValue } from "jotai";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { DisplayCards } from "@/components";
-import {
-  MovieListInterface,
-  PeopleListInterface,
-  SeriesListInterface,
-} from "@/interfaces";
 import { useSearch } from "@/services/hooks";
 import { homeAtom, searchAtom } from "@/store";
+import {
+  ActionIcon,
+  CastsIcon,
+  CrimeIcon,
+  FamilyIcon,
+  FilmIcon,
+  HistoryIcon,
+  MusicIcon,
+  NewsIcon,
+  RomanceIcon,
+  ScifiIcon,
+  SeriesIcon,
+} from "@/assets/icons";
 
 export default function Search() {
   const home = useAtomValue(homeAtom);
@@ -20,23 +27,17 @@ export default function Search() {
   const { data: searchResult, isLoading } = useSearch(search.query);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const router = useRouter();
-
   useEffect(() => {
     if (home.trendingMovies.length === 0 || home.trendingSeries.length === 0) {
-      router.replace("/home");
+      setLoading(false);
     }
-  }, [router]);
+  }, [home]);
 
   useEffect(() => {
     if (searchResult) {
       setSearch({
         ...search,
-        MovieResults: (
-          searchResult.filter(
-            (i) => i.media_type === "movie",
-          ) as MovieListInterface[]
-        ).map((item) => {
+        MovieResults: searchResult.movies.map((item) => {
           return {
             id: item.id,
             poster_path: item.poster_path,
@@ -45,11 +46,7 @@ export default function Search() {
             type: "movies",
           };
         }),
-        SeriesResults: (
-          searchResult.filter(
-            (i) => i.media_type === "tv",
-          ) as SeriesListInterface[]
-        ).map((item) => {
+        SeriesResults: searchResult.series.map((item) => {
           return {
             id: item.id,
             poster_path: item.poster_path,
@@ -58,11 +55,7 @@ export default function Search() {
             type: "series",
           };
         }),
-        PeopleResults: (
-          searchResult.filter(
-            (i) => i.media_type === "person",
-          ) as PeopleListInterface[]
-        ).map((item) => {
+        PeopleResults: searchResult.people.map((item) => {
           return {
             id: item.id,
             poster_path: item.profile_path,
@@ -75,6 +68,57 @@ export default function Search() {
     }
   }, [searchResult]);
 
+  const listCircle = [
+    {
+      icon: <FilmIcon className="w-5 h-5 fill-white" />,
+      title: "Movies",
+    },
+    {
+      icon: <SeriesIcon className="w-5 h-5 fill-white" />,
+      title: "Series",
+    },
+    {
+      icon: <CastsIcon className="w-5 h-5 fill-white" />,
+      title: "Casts",
+    },
+    {
+      icon: <ActionIcon className="w-5 h-5 fill-white" />,
+      title: "Action",
+    },
+    {
+      icon: <CrimeIcon className="w-5 h-5 fill-white" />,
+      title: "Crime",
+    },
+    {
+      icon: <FamilyIcon className="w-5 h-5 fill-white" />,
+      title: "Family",
+    },
+    {
+      icon: <HistoryIcon className="w-5 h-5 fill-white" />,
+      title: "History",
+    },
+    {
+      icon: <MusicIcon className="w-5 h-5 fill-white" />,
+      title: "Music",
+    },
+    {
+      icon: <NewsIcon className="w-5 h-5 fill-white" />,
+      title: "News",
+    },
+    {
+      icon: <RomanceIcon className="w-5 h-5 fill-white" />,
+      title: "Romance",
+    },
+    {
+      icon: <ScifiIcon className="w-5 h-5 fill-white" />,
+      title: "Science Fiction",
+    },
+    {
+      icon: <NewsIcon className="w-5 h-5 fill-white" />,
+      title: "News",
+    },
+  ];
+
   return (
     <>
       {isLoading ? (
@@ -86,18 +130,37 @@ export default function Search() {
           search.PeopleResults.length === 0 &&
           search.SeriesResults.length === 0 ? (
             <div className="mt-14 lg:mt-[72px] lg:hidden">
-              <DisplayCards
-                cardsData={home.trendingMovies}
-                redirect="/movies/trending"
-                setLoading={setLoading}
-                title="Top Chart Movies"
-              />
-              <DisplayCards
-                cardsData={home.trendingSeries}
-                redirect="/series/trending"
-                setLoading={setLoading}
-                title="Top Chart Series"
-              />
+              {home.trendingMovies.length > 0 &&
+              home.trendingSeries.length > 0 ? (
+                <>
+                  <DisplayCards
+                    cardsData={home.trendingMovies}
+                    redirect="/movies/trending"
+                    setLoading={setLoading}
+                    title="Top Chart Movies"
+                  />
+                  <DisplayCards
+                    cardsData={home.trendingSeries}
+                    redirect="/series/trending"
+                    setLoading={setLoading}
+                    title="Top Chart Series"
+                  />
+                </>
+              ) : (
+                <div className="grid grid-cols-4 p-2 gap-3 place-items-center">
+                  {listCircle.map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col items-center place-content-center cursor-pointer gap-2 self-start"
+                    >
+                      <div className="rounded-full w-12 bg-gray-700 flex flex-col items-center place-content-center h-12">
+                        {item.icon}
+                      </div>
+                      <p className="text-xs text-center w-14">{item.title}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           ) : (
             <div className="mt-14 lg:mt-[72px]">

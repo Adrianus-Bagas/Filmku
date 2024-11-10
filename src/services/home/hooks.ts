@@ -51,9 +51,11 @@ export const useGetNotification = () => {
 };
 
 export const useSearch = (query: string) => {
-  const { isLoading, isFetching, data } = useQuery<
-    (MovieListInterface | SeriesListInterface | PeopleListInterface)[]
-  >({
+  const { isLoading, isFetching, data } = useQuery<{
+    movies: MovieListInterface[];
+    series: SeriesListInterface[];
+    people: PeopleListInterface[];
+  }>({
     queryKey: ["postSearch", query],
     queryFn: () => PostSearch(query),
     refetchOnWindowFocus: false,
