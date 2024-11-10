@@ -17,7 +17,7 @@ export const CreditsListComponent = ({
 
   return (
     <>
-      <div className="flex items-center gap-2">
+      <div className="flex justify-center items-center gap-4">
         <div
           className={`${view === "cast" ? "bg-blue-500 text-white" : "bg-white text-gray-700"} border-[1px] w-fit p-2 rounded-lg text-xs border-gray-200 cursor-pointer`}
           onClick={() => {
