@@ -50,24 +50,6 @@ export const GetMoviesVideosPage = async ({
   return res.data;
 };
 
-export const GetMoviesVideos = async (movie_id: string) => {
-  const res = await axiosMovie({
-    method: "get",
-    url: `/movie/${movie_id}/videos`,
-  });
-
-  return res.data;
-};
-
-export const GetMoviesSimilar = async (movie_id: string) => {
-  const res = await axiosMovie({
-    method: "get",
-    url: `/movie/${movie_id}/similar`,
-  });
-
-  return res.data;
-};
-
 export const GetMoviesSchedule = async (params: RequestParamMovieSchedule) => {
   const res = await axiosMovie({
     method: "get",

@@ -1,31 +1,29 @@
 import { useQuery } from "@tanstack/react-query";
 
-import {
-  GetSeriesSchedule,
-  GetSeriesTrendingByDay,
-  GetSeriesUpcoming,
-} from "./fetcher";
+import { GetSeriesPage, GetSeriesSchedule } from "./fetcher";
 
 import { RequestParamSeriesSchedule, SeriesListInterface } from "@/interfaces";
 
-export const useGetSeriesTrendingByDay = () => {
-  const { isLoading, isFetching, data } = useQuery({
-    queryKey: ["getSeriesTrendingByDay"],
-    queryFn: () => GetSeriesTrendingByDay(),
+export const useGetSeries = () => {
+  const { isLoading, isFetching, data } = useQuery<{
+    nowPlaying: SeriesListInterface[];
+    popular: SeriesListInterface[];
+    topRated: SeriesListInterface[];
+  }>({
+    queryKey: ["getSeriesPage"],
+    queryFn: () => GetSeriesPage(),
     refetchOnWindowFocus: false,
   });
 
-  return { isFetching, isLoading, data: data?.results ?? [] };
-};
-
-export const useGetSeriesUpcoming = () => {
-  const { isLoading, isFetching, data } = useQuery({
-    queryKey: ["getSeriesUpcoming"],
-    queryFn: () => GetSeriesUpcoming(),
-    refetchOnWindowFocus: false,
-  });
-
-  return { isFetching, isLoading, data: data?.results ?? [] };
+  return {
+    isFetching,
+    isLoading,
+    data: data || {
+      nowPlaying: [],
+      popular: [],
+      topRated: [],
+    },
+  };
 };
 
 export const useGetSeriesSchedule = (params: RequestParamSeriesSchedule) => {

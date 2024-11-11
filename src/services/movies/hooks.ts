@@ -4,16 +4,10 @@ import {
   GetMovieDetailPage,
   GetMoviesPage,
   GetMoviesSchedule,
-  GetMoviesSimilar,
-  GetMoviesVideos,
   GetMoviesVideosPage,
 } from "./fetcher";
 
-import {
-  MovieListInterface,
-  MovieVideoInterface,
-  RequestParamMovieSchedule,
-} from "@/interfaces";
+import { MovieListInterface, RequestParamMovieSchedule } from "@/interfaces";
 
 export const useGetMovies = () => {
   const { isLoading, isFetching, data } = useQuery<{
@@ -71,34 +65,6 @@ export const useGetMoviesVideosPage = () => {
     isIdle,
     isPending,
   };
-};
-
-export const useGetMoviesVideos = (movie_id: string) => {
-  const { isLoading, isFetching, data } = useQuery<{
-    id: number;
-    results: MovieVideoInterface[];
-  }>({
-    queryKey: ["getMoviesVideos", movie_id],
-    queryFn: () => GetMoviesVideos(movie_id),
-    refetchOnWindowFocus: false,
-    enabled: !!movie_id,
-  });
-
-  return { isFetching, isLoading, data: data?.results ?? [] };
-};
-
-export const useGetMoviesSimilar = (movie_id: string) => {
-  const { isLoading, isFetching, data } = useQuery<{
-    page: number;
-    results: MovieListInterface[];
-  }>({
-    queryKey: ["getMoviesSimilar", movie_id],
-    queryFn: () => GetMoviesSimilar(movie_id),
-    refetchOnWindowFocus: false,
-    enabled: !!movie_id,
-  });
-
-  return { isFetching, isLoading, data: data?.results ?? [] };
 };
 
 export const useGetMoviesSchedule = (params: RequestParamMovieSchedule) => {

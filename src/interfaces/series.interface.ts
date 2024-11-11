@@ -1,3 +1,12 @@
+import { CardData, CarouselData } from ".";
+
+export interface SeriesPageInterface {
+  carouselData: CarouselData[];
+  nowPlaying: CardData[];
+  popular: CardData[];
+  topRated: CardData[];
+}
+
 export interface RequestParamSeriesSchedule {
   first_on_air_date_gte?: string;
   first_on_air_date_lte?: string;

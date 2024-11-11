@@ -1,22 +1,13 @@
 import { RequestParamSeriesSchedule } from "@/interfaces";
-import { axiosMovie } from "@/utils";
+import { axiosApiMovie, axiosMovie } from "@/utils";
 
-export const GetSeriesTrendingByDay = async () => {
-  const res = await axiosMovie({
+export const GetSeriesPage = async () => {
+  const result = await axiosApiMovie({
     method: "get",
-    url: "/trending/tv/day",
+    url: "/series",
   });
 
-  return res.data;
-};
-
-export const GetSeriesUpcoming = async () => {
-  const res = await axiosMovie({
-    method: "get",
-    url: "/tv/on_the_air",
-  });
-
-  return res.data;
+  return result.data;
 };
 
 export const GetSeriesSchedule = async (params: RequestParamSeriesSchedule) => {

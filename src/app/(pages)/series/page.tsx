@@ -1,214 +1,130 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { Spin } from "antd";
+import { useEffect, useState } from "react";
+import { useAtom } from "jotai";
+
+import { DisplayCarousel, DisplayCards } from "@/components";
+import { CardData } from "@/interfaces";
+import { findGenres, seriesGenre } from "@/utils";
+import { useGetSeries } from "@/services/hooks";
+import { seriesAtom } from "@/store/series.store";
+
+export default function Series() {
+  const { data: seriesList, isLoading } = useGetSeries();
+
+  const [series, setSeries] = useAtom(seriesAtom);
+
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const getFirstSeries =
+      seriesList.nowPlaying[Math.floor(Math.random() * (9 - 0) + 0)];
+    const getSecondSeries =
+      seriesList.popular[Math.floor(Math.random() * (19 - 10) + 10)];
+    const getThirdSeries =
+      seriesList.topRated[Math.floor(Math.random() * (9 - 0) + 0)];
+
+    const dataCarousel = [
+      {
+        title: getFirstSeries?.name,
+        overview: getFirstSeries?.overview,
+        backdrop_path: getFirstSeries?.backdrop_path,
+        genres: findGenres(seriesGenre, getFirstSeries?.genre_ids as number[]),
+        redirect: "/series/" + getFirstSeries?.id,
+        media_type: "series",
+      },
+      {
+        title: getSecondSeries?.name,
+        overview: getSecondSeries?.overview,
+        backdrop_path: getSecondSeries?.backdrop_path,
+        genres: findGenres(seriesGenre, getSecondSeries?.genre_ids as number[]),
+        redirect: "/series/" + getSecondSeries?.id,
+        media_type: "series",
+      },
+      {
+        title: getThirdSeries?.name,
+        overview: getThirdSeries?.overview,
+        backdrop_path: getThirdSeries?.backdrop_path,
+        genres: findGenres(seriesGenre, getThirdSeries?.genre_ids as number[]),
+        redirect: "/series/" + getThirdSeries?.id,
+        media_type: "series",
+      },
+    ];
+    const dataCardSeriesNowPlaying: CardData[] = seriesList.nowPlaying?.map(
+      (series) => {
+        return {
+          id: series.id,
+          title: series.name,
+          poster_path: series?.poster_path,
+          redirect: "/series/" + series?.id,
+          type: "series",
+        };
+      },
+    );
+    const dataCardSeriesPopular: CardData[] = seriesList.popular?.map(
+      (series) => {
+        return {
+          id: series.id,
+          title: series.name,
+          poster_path: series?.poster_path,
+          redirect: "/series/" + series?.id,
+          type: "series",
+        };
+      },
+    );
+    const dataCardSeriesTopRated: CardData[] = seriesList.topRated?.map(
+      (series) => {
+        return {
+          id: series.id,
+          title: series.name,
+          poster_path: series?.poster_path,
+          redirect: "/series/" + series?.id,
+          type: "series",
+        };
+      },
+    );
+
+    setSeries({
+      ...series,
+      carouselData: dataCarousel,
+      nowPlaying: dataCardSeriesNowPlaying,
+      popular: dataCardSeriesPopular,
+      topRated: dataCardSeriesTopRated,
+    });
+  }, [seriesList]);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200  lg:p-4 dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:dark:bg-zinc-800/30">
-          Series
-        </p>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40">
-        <Image
-          priority
-          alt="Next.js Logo"
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          height={37}
-          src="/next.svg"
-          width={180}
-        />
-      </div>
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40">
-        <Image
-          priority
-          alt="Next.js Logo"
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          height={37}
-          src="/next.svg"
-          width={180}
-        />
-      </div>
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40">
-        <Image
-          priority
-          alt="Next.js Logo"
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          height={37}
-          src="/next.svg"
-          width={180}
-        />
-      </div>
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40">
-        <Image
-          priority
-          alt="Next.js Logo"
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          height={37}
-          src="/next.svg"
-          width={180}
-        />
-      </div>
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40">
-        <Image
-          priority
-          alt="Next.js Logo"
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          height={37}
-          src="/next.svg"
-          width={180}
-        />
-      </div>
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40">
-        <Image
-          priority
-          alt="Next.js Logo"
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          height={37}
-          src="/next.svg"
-          width={180}
-        />
-      </div>
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40">
-        <Image
-          priority
-          alt="Next.js Logo"
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          height={37}
-          src="/next.svg"
-          width={180}
-        />
-      </div>
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40">
-        <Image
-          priority
-          alt="Next.js Logo"
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          height={37}
-          src="/next.svg"
-          width={180}
-        />
-      </div>
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40">
-        <Image
-          priority
-          alt="Next.js Logo"
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          height={37}
-          src="/next.svg"
-          width={180}
-        />
-      </div>
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40">
-        <Image
-          priority
-          alt="Next.js Logo"
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          height={37}
-          src="/next.svg"
-          width={180}
-        />
-      </div>
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40">
-        <Image
-          priority
-          alt="Next.js Logo"
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          height={37}
-          src="/next.svg"
-          width={180}
-        />
-      </div>
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40">
-        <Image
-          priority
-          alt="Next.js Logo"
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          height={37}
-          src="/next.svg"
-          width={180}
-        />
-      </div>
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40">
-        <Image
-          priority
-          alt="Next.js Logo"
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          height={37}
-          src="/next.svg"
-          width={180}
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    <>
+      {isLoading ? (
+        <Spin fullscreen size="large" />
+      ) : (
+        <>
+          {loading && <Spin fullscreen size="large" />}
+          <DisplayCarousel
+            carouselData={series.carouselData}
+            setLoading={setLoading}
+          />
+          <DisplayCards
+            cardsData={series.nowPlaying}
+            redirect="/series/now_playing"
+            setLoading={setLoading}
+            title="Now Playing Series"
+          />
+          <DisplayCards
+            cardsData={series.popular}
+            redirect="/series/popular"
+            setLoading={setLoading}
+            title="Popular Series"
+          />
+          <DisplayCards
+            cardsData={series.topRated}
+            redirect="/series/top_rated"
+            setLoading={setLoading}
+            title="Top Rated Series"
+          />
+        </>
+      )}
+    </>
   );
 }
