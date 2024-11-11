@@ -4,20 +4,27 @@ import { UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { useState } from "react";
 
-import { MovieCastInterface, MovieCrewInterface } from "@/interfaces";
+import {
+  MovieCastInterface,
+  MovieCrewInterface,
+  SeriesCastInterface,
+  SeriesCrewInterface,
+} from "@/interfaces";
 
 export const CreditsListComponent = ({
   dataCast,
   dataCrew,
+  type,
 }: {
-  dataCast: MovieCastInterface[];
-  dataCrew: MovieCrewInterface[];
+  dataCast: MovieCastInterface[] | SeriesCastInterface[];
+  dataCrew: MovieCrewInterface[] | SeriesCrewInterface[];
+  type: "movies" | "series";
 }) => {
   const [view, setView] = useState<"cast" | "crew">("cast");
 
   return (
     <>
-      <div className="flex justify-center items-center gap-4">
+      <div className="flex justify-center items-center gap-4 my-4">
         <div
           className={`${view === "cast" ? "bg-blue-500 text-white" : "bg-white text-gray-700"} border-[1px] w-fit p-2 rounded-lg text-xs border-gray-200 cursor-pointer`}
           onClick={() => {
@@ -56,7 +63,12 @@ export const CreditsListComponent = ({
                   }
                 />
                 <p>
-                  {data.name} as {data.character}
+                  {data.name} as{" "}
+                  {type === "movies"
+                    ? (data as MovieCastInterface).character
+                    : (data as SeriesCastInterface).roles
+                        .map((item) => item.character)
+                        .join(", ")}
                 </p>
               </div>
             ))}
@@ -79,7 +91,12 @@ export const CreditsListComponent = ({
                   }
                 />
                 <p>
-                  {data.name} as {data.job}
+                  {data.name} as{" "}
+                  {type === "movies"
+                    ? (data as MovieCrewInterface).job
+                    : (data as SeriesCrewInterface).jobs
+                        .map((item) => item.job)
+                        .join(", ")}
                 </p>
               </div>
             ))}

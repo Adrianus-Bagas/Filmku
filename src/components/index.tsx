@@ -14,3 +14,4 @@ export * from "@/components/ModalLogin";
 export * from "@/components/ModalConfirm";
 export * from "@/components/ReviewListComponent";
 export * from "@/components/ModalReview";
+export * from "@/components/SeasonListComponent";

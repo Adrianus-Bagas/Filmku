@@ -1,6 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { GetSeriesPage, GetSeriesSchedule } from "./fetcher";
+import {
+  GetSeriesDetailPage,
+  GetSeriesPage,
+  GetSeriesSchedule,
+} from "./fetcher";
 
 import { RequestParamSeriesSchedule, SeriesListInterface } from "@/interfaces";
 
@@ -24,6 +28,20 @@ export const useGetSeries = () => {
       topRated: [],
     },
   };
+};
+
+export const useGetSeriesDetailPage = () => {
+  const { mutate, data, isIdle, isPending } = useMutation({
+    mutationFn: ({
+      series_id,
+      user_token,
+    }: {
+      series_id: string;
+      user_token: string;
+    }) => GetSeriesDetailPage({ series_id, user_token }),
+  });
+
+  return { mutate, data, isIdle, isPending };
 };
 
 export const useGetSeriesSchedule = (params: RequestParamSeriesSchedule) => {

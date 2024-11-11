@@ -1,10 +1,31 @@
-import { RequestParamSeriesSchedule } from "@/interfaces";
+import {
+  RequestParamSeriesSchedule,
+  ResponseSeriesDetailInterface,
+} from "@/interfaces";
 import { axiosApiMovie, axiosMovie } from "@/utils";
 
 export const GetSeriesPage = async () => {
   const result = await axiosApiMovie({
     method: "get",
     url: "/series",
+  });
+
+  return result.data;
+};
+
+export const GetSeriesDetailPage = async ({
+  series_id,
+  user_token,
+}: {
+  series_id: string;
+  user_token: string;
+}): Promise<ResponseSeriesDetailInterface> => {
+  const result = await axiosApiMovie({
+    method: "post",
+    url: `/series/${series_id}`,
+    data: {
+      user_token,
+    },
   });
 
   return result.data;
