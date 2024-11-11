@@ -5,15 +5,15 @@ import { useEffect } from "react";
 import { getCookie } from "cookies-next";
 
 import { SimilarListComponent, VideoListComponent } from "@/components";
-import { useGetMoviesVideosPage } from "@/services/hooks";
+import { useGetSeriesVideosPage } from "@/services/hooks";
 import { CardData } from "@/interfaces";
 
 export default function DetailVideo({
-  params: { id, videoId },
+  params: { series_id, videoId },
 }: {
-  params: { id: string; videoId: string };
+  params: { series_id: string; videoId: string };
 }) {
-  const { data, isIdle, isPending, mutate } = useGetMoviesVideosPage();
+  const { data, isIdle, isPending, mutate } = useGetSeriesVideosPage();
 
   const getDetailVideo = data.videos.find((item) => item.id === videoId);
 
@@ -21,15 +21,15 @@ export default function DetailVideo({
     return {
       id: item.id,
       poster_path: item.poster_path,
-      redirect: `movies/${item.id}`,
-      title: item.title,
-      type: "movies",
+      redirect: `series/${item.id}`,
+      title: item.name,
+      type: "series",
     };
   });
 
   useEffect(() => {
     mutate({
-      movie_id: id,
+      series_id,
       user_token: getCookie("access_token") || "",
     });
   }, []);
@@ -60,8 +60,8 @@ export default function DetailVideo({
               <div>
                 <div className="hidden lg:inline-block">
                   <VideoListComponent
-                    id={id}
-                    type="movies"
+                    id={series_id}
+                    type="series"
                     videoId={videoId}
                     videos={data.videos}
                   />
@@ -94,8 +94,8 @@ export default function DetailVideo({
                             <>
                               {item === "Videos" ? (
                                 <VideoListComponent
-                                  id={id}
-                                  type="movies"
+                                  id={series_id}
+                                  type="series"
                                   videoId={videoId}
                                   videos={data.videos}
                                 />

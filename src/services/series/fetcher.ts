@@ -1,6 +1,7 @@
 import {
   RequestParamSeriesSchedule,
   ResponseSeriesDetailInterface,
+  ResponseSeriesVideosInterface,
 } from "@/interfaces";
 import { axiosApiMovie, axiosMovie } from "@/utils";
 
@@ -29,6 +30,24 @@ export const GetSeriesDetailPage = async ({
   });
 
   return result.data;
+};
+
+export const GetSeriesVideosPage = async ({
+  series_id,
+  user_token,
+}: {
+  series_id: string;
+  user_token: string;
+}): Promise<ResponseSeriesVideosInterface> => {
+  const res = await axiosApiMovie({
+    method: "post",
+    url: `/series/${series_id}/videos`,
+    data: {
+      user_token,
+    },
+  });
+
+  return res.data;
 };
 
 export const GetSeriesSchedule = async (params: RequestParamSeriesSchedule) => {

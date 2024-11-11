@@ -184,3 +184,8 @@ export interface ResponseSeriesDetailInterface {
   favoriteId: string | null;
   watchlistId: string | null;
 }
+
+export interface ResponseSeriesVideosInterface {
+  similar: SeriesListInterface[];
+  videos: SeriesVideoInterface[];
+}

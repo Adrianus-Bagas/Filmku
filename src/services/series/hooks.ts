@@ -4,6 +4,7 @@ import {
   GetSeriesDetailPage,
   GetSeriesPage,
   GetSeriesSchedule,
+  GetSeriesVideosPage,
 } from "./fetcher";
 
 import { RequestParamSeriesSchedule, SeriesListInterface } from "@/interfaces";
@@ -42,6 +43,28 @@ export const useGetSeriesDetailPage = () => {
   });
 
   return { mutate, data, isIdle, isPending };
+};
+
+export const useGetSeriesVideosPage = () => {
+  const { mutate, data, isIdle, isPending } = useMutation({
+    mutationFn: ({
+      series_id,
+      user_token,
+    }: {
+      series_id: string;
+      user_token: string;
+    }) => GetSeriesVideosPage({ series_id, user_token }),
+  });
+
+  return {
+    mutate,
+    data: data || {
+      similar: [],
+      videos: [],
+    },
+    isIdle,
+    isPending,
+  };
 };
 
 export const useGetSeriesSchedule = (params: RequestParamSeriesSchedule) => {

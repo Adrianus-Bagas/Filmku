@@ -3,15 +3,17 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-import { MovieVideoInterface } from "@/interfaces";
+import { MovieVideoInterface, SeriesVideoInterface } from "@/interfaces";
 
 export const VideoListComponent = ({
   videos,
-  movieId,
+  id,
+  type,
   videoId,
 }: {
-  videos: MovieVideoInterface[];
-  movieId: string;
+  videos: MovieVideoInterface[] | SeriesVideoInterface[];
+  id: string;
+  type: "movies" | "series";
   videoId?: string;
 }) => {
   const router = useRouter();
@@ -23,7 +25,7 @@ export const VideoListComponent = ({
           <div
             key={item.id}
             className={`${videoId === item.id && "bg-gray-900"} flex justify-start gap-3 items-center cursor-pointer hover:bg-gray-900 transition duration-300 ease-in-out my-3 py-3 focus:bg-gray-900`}
-            onClick={() => router.push(`/movies/${movieId}/video/${item.id}`)}
+            onClick={() => router.push(`/${type}/${id}/video/${item.id}`)}
           >
             <Image
               alt={item.name}

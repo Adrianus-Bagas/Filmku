@@ -135,7 +135,8 @@ export const DisplayDetail = ({
           <>
             {item === "Videos" ? (
               <VideoListComponent
-                movieId={data.detail.id.toString()}
+                id={data.detail.id.toString()}
+                type={type}
                 videos={data.videos}
               />
             ) : item === "Similar" ? (
