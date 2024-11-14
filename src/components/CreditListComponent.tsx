@@ -9,16 +9,20 @@ import {
   MovieCrewInterface,
   SeriesCastInterface,
   SeriesCrewInterface,
+  SeriesGuestStarEpisodeInterface,
 } from "@/interfaces";
 
 export const CreditsListComponent = ({
   dataCast,
   dataCrew,
-  type,
+  isGuestStar,
 }: {
-  dataCast: MovieCastInterface[] | SeriesCastInterface[];
+  dataCast:
+    | MovieCastInterface[]
+    | SeriesCastInterface[]
+    | SeriesGuestStarEpisodeInterface[];
   dataCrew: MovieCrewInterface[] | SeriesCrewInterface[];
-  type: "movies" | "series";
+  isGuestStar?: boolean;
 }) => {
   const [view, setView] = useState<"cast" | "crew">("cast");
 
@@ -31,7 +35,7 @@ export const CreditsListComponent = ({
             setView("cast");
           }}
         >
-          Casts
+          {isGuestStar ? "Guest Stars" : "Casts"}
         </div>
         <div
           className={`${view === "crew" ? "bg-blue-500 text-white" : "bg-white text-gray-700"} border-[1px] w-fit p-2 rounded-lg text-xs border-gray-200 cursor-pointer`}
@@ -64,7 +68,7 @@ export const CreditsListComponent = ({
                 />
                 <p>
                   {data.name} as{" "}
-                  {type === "movies"
+                  {(data as MovieCastInterface).character !== undefined
                     ? (data as MovieCastInterface).character
                     : (data as SeriesCastInterface).roles
                         .map((item) => item.character)
@@ -92,7 +96,7 @@ export const CreditsListComponent = ({
                 />
                 <p>
                   {data.name} as{" "}
-                  {type === "movies"
+                  {(data as MovieCrewInterface).job !== undefined
                     ? (data as MovieCrewInterface).job
                     : (data as SeriesCrewInterface).jobs
                         .map((item) => item.job)

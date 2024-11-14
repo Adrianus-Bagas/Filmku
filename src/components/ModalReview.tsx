@@ -14,7 +14,7 @@ import {
 
 import { ModalConfirm } from "./ModalConfirm";
 
-import { userAtom } from "@/store";
+import { isMobileScreenAtom, userAtom } from "@/store";
 import { ReviewListInterface } from "@/interfaces";
 
 const { TextArea } = Input;
@@ -35,6 +35,7 @@ export const ModalReview = ({
   handleReview: (action: "add" | "edit" | "delete", reviewId?: string) => void;
 }) => {
   const user = useAtomValue(userAtom);
+  const isMobileScreen = useAtomValue(isMobileScreenAtom);
 
   const [isMyReview, setIsMyReview] = useState<boolean>(false);
   const [isAddReview, setIsAddReview] = useState<boolean>(false);
@@ -50,7 +51,7 @@ export const ModalReview = ({
         footer={null}
         open={isModalOpen}
         style={{ height: "450px" }}
-        width={300}
+        width={isMobileScreen ? 300 : 500}
         onCancel={() => setIsModalOpen(false)}
       >
         <div className="h-[450px] overflow-scroll">

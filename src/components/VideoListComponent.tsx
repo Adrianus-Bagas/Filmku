@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import React from "react";
 
 import { MovieVideoInterface, SeriesVideoInterface } from "@/interfaces";
 
@@ -10,11 +11,13 @@ export const VideoListComponent = ({
   id,
   type,
   videoId,
+  setVideoId,
 }: {
   videos: MovieVideoInterface[] | SeriesVideoInterface[];
   id: string;
   type: "movies" | "series";
   videoId?: string;
+  setVideoId?: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const router = useRouter();
 
@@ -24,8 +27,12 @@ export const VideoListComponent = ({
         {videos.map((item) => (
           <div
             key={item.id}
-            className={`${videoId === item.id && "bg-gray-900"} flex justify-start gap-3 items-center cursor-pointer hover:bg-gray-900 transition duration-300 ease-in-out my-3 py-3 focus:bg-gray-900`}
-            onClick={() => router.push(`/${type}/${id}/video/${item.id}`)}
+            className={`${(videoId === item.id || videoId === item.key) && "bg-gray-900"} flex justify-start gap-3 items-center cursor-pointer hover:bg-gray-900 transition duration-300 ease-in-out my-3 py-3 focus:bg-gray-900`}
+            onClick={
+              setVideoId
+                ? () => setVideoId(item.key)
+                : () => router.push(`/${type}/${id}/video/${item.id}`)
+            }
           >
             <Image
               alt={item.name}

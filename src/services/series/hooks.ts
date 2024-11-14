@@ -2,8 +2,11 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 import {
   GetSeriesDetailPage,
+  GetSeriesEpisodePage,
+  GetSeriesEpisodeVideoPage,
   GetSeriesPage,
   GetSeriesSchedule,
+  GetSeriesSeasonPage,
   GetSeriesVideosPage,
 } from "./fetcher";
 
@@ -65,6 +68,70 @@ export const useGetSeriesVideosPage = () => {
     isIdle,
     isPending,
   };
+};
+
+export const useGetSeriesSeasonPage = () => {
+  const { mutate, data, isIdle, isPending } = useMutation({
+    mutationFn: ({
+      series_id,
+      season_number,
+      user_token,
+    }: {
+      series_id: string;
+      season_number: string;
+      user_token: string;
+    }) => GetSeriesSeasonPage({ series_id, season_number, user_token }),
+  });
+
+  return { mutate, data, isIdle, isPending };
+};
+
+export const useGetSeriesEpisodePage = () => {
+  const { mutate, data, isIdle, isPending } = useMutation({
+    mutationFn: ({
+      series_id,
+      season_number,
+      episode_number,
+      user_token,
+    }: {
+      series_id: string;
+      season_number: string;
+      episode_number: string;
+      user_token: string;
+    }) =>
+      GetSeriesEpisodePage({
+        series_id,
+        season_number,
+        episode_number,
+        user_token,
+      }),
+  });
+
+  return { mutate, data, isIdle, isPending };
+};
+
+export const useGetSeriesEpisodeVideoPage = () => {
+  const { mutate, data, isIdle, isPending } = useMutation({
+    mutationFn: ({
+      series_id,
+      season_number,
+      episode_number,
+      user_token,
+    }: {
+      series_id: string;
+      season_number: string;
+      episode_number: string;
+      user_token: string;
+    }) =>
+      GetSeriesEpisodeVideoPage({
+        series_id,
+        season_number,
+        episode_number,
+        user_token,
+      }),
+  });
+
+  return { mutate, data, isIdle, isPending };
 };
 
 export const useGetSeriesSchedule = (params: RequestParamSeriesSchedule) => {

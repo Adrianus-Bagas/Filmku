@@ -25,3 +25,4 @@ export const totalImageLoadedAtom = atom<number>(0);
 
 export const searchAtom = atom<SearchInterface>(initialSearchAtomValue);
 export const isOnRecommendationPageAtom = atom<boolean>(false);
+export const isMobileScreenAtom = atom<boolean>(false);

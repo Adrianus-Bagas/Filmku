@@ -26,6 +26,7 @@ import {
   ModalConfirm,
   ModalReview,
   SeasonListComponent,
+  DrawerSeries,
 } from "@/components";
 
 export const DisplayDetail = ({
@@ -48,6 +49,8 @@ export const DisplayDetail = ({
   type,
   content,
   setContent,
+  seasonNumber,
+  setSeasonNumber,
 }: {
   data: ResponseMovieDetailInterface | ResponseSeriesDetailInterface;
   isPending: boolean;
@@ -71,6 +74,8 @@ export const DisplayDetail = ({
   type: "movies" | "series";
   content: string;
   setContent: React.Dispatch<React.SetStateAction<string>>;
+  seasonNumber?: string;
+  setSeasonNumber?: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const similarCardData: CardData[] = data.similar.map((item) => {
     return {
@@ -145,13 +150,17 @@ export const DisplayDetail = ({
               <CreditsListComponent
                 dataCast={data.credits.cast}
                 dataCrew={data.credits.crew}
-                type={type}
               />
             ) : (
-              <SeasonListComponent
-                seasons={(data as ResponseSeriesDetailInterface).detail.seasons}
-                series_id={data.detail.id.toString()}
-              />
+              seasonNumber !== undefined &&
+              setSeasonNumber !== undefined && (
+                <SeasonListComponent
+                  seasons={
+                    (data as ResponseSeriesDetailInterface).detail.seasons
+                  }
+                  setSeasonNumber={setSeasonNumber}
+                />
+              )
             )}
           </>
         ),
@@ -187,6 +196,14 @@ export const DisplayDetail = ({
             setContent={setContent}
             setIsModalOpen={setOpenModalReview}
           />
+          {seasonNumber !== undefined && setSeasonNumber !== undefined && (
+            <DrawerSeries
+              seasonNumber={seasonNumber}
+              series_id={data.detail.id.toString()}
+              setSeasonNumber={setSeasonNumber}
+              title={(data as ResponseSeriesDetailInterface).detail.name}
+            />
+          )}
           <div className="mt-14 lg:mt-[72px]">
             <div className="relative h-[150px] lg:h-[500px] text-[#fff] bg-black">
               {data.detail.backdrop_path ? (

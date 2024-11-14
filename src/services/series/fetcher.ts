@@ -1,6 +1,8 @@
 import {
   RequestParamSeriesSchedule,
   ResponseSeriesDetailInterface,
+  ResponseSeriesEpisodeInterface,
+  ResponseSeriesSeasonInterface,
   ResponseSeriesVideosInterface,
 } from "@/interfaces";
 import { axiosApiMovie, axiosMovie } from "@/utils";
@@ -24,6 +26,70 @@ export const GetSeriesDetailPage = async ({
   const result = await axiosApiMovie({
     method: "post",
     url: `/series/${series_id}`,
+    data: {
+      user_token,
+    },
+  });
+
+  return result.data;
+};
+
+export const GetSeriesSeasonPage = async ({
+  series_id,
+  season_number,
+  user_token,
+}: {
+  series_id: string;
+  season_number: string;
+  user_token: string;
+}): Promise<ResponseSeriesSeasonInterface> => {
+  const result = await axiosApiMovie({
+    method: "post",
+    url: `/series/${series_id}/season/${season_number}`,
+    data: {
+      user_token,
+    },
+  });
+
+  return result.data;
+};
+
+export const GetSeriesEpisodePage = async ({
+  series_id,
+  season_number,
+  episode_number,
+  user_token,
+}: {
+  series_id: string;
+  season_number: string;
+  episode_number: string;
+  user_token: string;
+}): Promise<ResponseSeriesEpisodeInterface> => {
+  const result = await axiosApiMovie({
+    method: "post",
+    url: `/series/${series_id}/season/${season_number}/episode/${episode_number}`,
+    data: {
+      user_token,
+    },
+  });
+
+  return result.data;
+};
+
+export const GetSeriesEpisodeVideoPage = async ({
+  series_id,
+  season_number,
+  episode_number,
+  user_token,
+}: {
+  series_id: string;
+  season_number: string;
+  episode_number: string;
+  user_token: string;
+}): Promise<ResponseSeriesVideosInterface> => {
+  const result = await axiosApiMovie({
+    method: "post",
+    url: `/series/${series_id}/season/${season_number}/episode/${episode_number}/videos`,
     data: {
       user_token,
     },

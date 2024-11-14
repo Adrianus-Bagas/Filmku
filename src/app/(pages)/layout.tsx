@@ -6,7 +6,11 @@ import { usePathname } from "next/navigation";
 import { useSetAtom } from "jotai";
 
 import { Bottombar, Topbar } from "@/components";
-import { initialSearchAtomValue, searchAtom } from "@/store";
+import {
+  initialSearchAtomValue,
+  isMobileScreenAtom,
+  searchAtom,
+} from "@/store";
 
 export default function PageLayout({
   children,
@@ -15,10 +19,25 @@ export default function PageLayout({
 }) {
   const pathname = usePathname();
   const setSearch = useSetAtom(searchAtom);
+  const setIsMobileScreen = useSetAtom(isMobileScreenAtom);
 
   useEffect(() => {
     !pathname.includes("search") && setSearch(initialSearchAtomValue);
   }, [pathname]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMobileScreen(window.innerWidth < 768);
+
+      window.addEventListener("resize", () => {
+        setIsMobileScreen(window.innerWidth < 768);
+      });
+
+      return () => {
+        window.removeEventListener("resize", () => {});
+      };
+    }
+  }, []);
 
   return (
     <>

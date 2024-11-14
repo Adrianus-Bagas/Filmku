@@ -15,3 +15,6 @@ export * from "@/components/ModalConfirm";
 export * from "@/components/ReviewListComponent";
 export * from "@/components/ModalReview";
 export * from "@/components/SeasonListComponent";
+export * from "@/components/DrawerSeries";
+export * from "@/components/CollapseComponent";
+export * from "@/components/EpisodeDrawer";

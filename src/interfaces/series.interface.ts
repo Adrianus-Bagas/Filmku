@@ -172,6 +172,64 @@ export interface SeriesDetailInterface {
   vote_count: number;
 }
 
+export interface SeriesCrewEpisodesInterface {
+  job: string;
+  department: string;
+  credit_id: string;
+  adult: boolean;
+  gender: number;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string;
+}
+
+export interface SeriesGuestStarEpisodeInterface {
+  character: string;
+  credit_id: string;
+  order: number;
+  adult: boolean;
+  gender: number;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string;
+}
+
+export interface SeriesEpisodesInterface {
+  air_date: string;
+  episode_number: number;
+  episode_type: string;
+  id: number;
+  name: string;
+  overview: string;
+  production_code: string;
+  runtime: number;
+  season_number: number;
+  show_id: number;
+  still_path: string;
+  vote_average: number;
+  vote_count: number;
+  crew: SeriesCrewEpisodesInterface[];
+  guest_stars: SeriesGuestStarEpisodeInterface[];
+}
+
+export interface SeriesSeasonDetailInterface {
+  _id: string;
+  air_date: string;
+  episodes: SeriesEpisodesInterface[];
+  name: string;
+  overview: string;
+  id: number;
+  poster_path: string;
+  season_number: number;
+  vote_average: number;
+}
+
 export interface ResponseSeriesDetailInterface {
   detail: SeriesDetailInterface;
   videos: SeriesVideoInterface[];
@@ -181,6 +239,23 @@ export interface ResponseSeriesDetailInterface {
     crew: SeriesCrewInterface[];
   };
   reviews: ReviewListInterface[];
+  favoriteId: string | null;
+  watchlistId: string | null;
+}
+
+export interface ResponseSeriesSeasonInterface {
+  seasonDetail: SeriesSeasonDetailInterface;
+  credits: {
+    cast: SeriesCastInterface[];
+    crew: SeriesCrewInterface[];
+  };
+  favoriteId: string | null;
+  watchlistId: string | null;
+}
+
+export interface ResponseSeriesEpisodeInterface {
+  episodeDetail: SeriesEpisodesInterface;
+  videos: SeriesVideoInterface[];
   favoriteId: string | null;
   watchlistId: string | null;
 }

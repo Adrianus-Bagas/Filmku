@@ -27,6 +27,7 @@ export default function DetailSeries({
   const [openModalWatchlist, setOpenModalWatchlist] = useState<boolean>(false);
   const [openModalFavorite, setOpenModalFavorite] = useState<boolean>(false);
   const [openModalReview, setOpenModalReview] = useState<boolean>(false);
+  const [seasonNumber, setSeasonNumber] = useState<string>("");
   const [content, setContent] = useState<string>("");
 
   const { data, mutate, isIdle, isPending } = useGetSeriesDetailPage();
@@ -104,7 +105,7 @@ export default function DetailSeries({
 
   const handleFavoriteButton = () => {
     if (!getCookie("access_token")) {
-      localStorage.setItem("from", `/movies/${series_id}`);
+      localStorage.setItem("from", `/series/${series_id}`);
       setOpenModalLogin(true);
     } else {
       if (data) {
@@ -163,7 +164,7 @@ export default function DetailSeries({
     reviewId?: string,
   ) => {
     if (!getCookie("access_token")) {
-      localStorage.setItem("from", `/movies/${series_id}`);
+      localStorage.setItem("from", `/series/${series_id}`);
       setOpenModalLogin(true);
     } else {
       switch (action) {
@@ -299,11 +300,13 @@ export default function DetailSeries({
           openModalLogin={openModalLogin}
           openModalReview={openModalReview}
           openModalWatchlist={openModalWatchlist}
+          seasonNumber={seasonNumber}
           setContent={setContent}
           setOpenModalFavorite={setOpenModalFavorite}
           setOpenModalLogin={setOpenModalLogin}
           setOpenModalReview={setOpenModalReview}
           setOpenModalWatchlist={setOpenModalWatchlist}
+          setSeasonNumber={setSeasonNumber}
           type="series"
         />
       ) : (

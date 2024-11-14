@@ -1,20 +1,18 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import dayjs from "dayjs";
+import React from "react";
 
 import { SeriesSeasonInterface } from "@/interfaces";
 
 export const SeasonListComponent = ({
   seasons,
-  series_id,
+  setSeasonNumber,
 }: {
   seasons: SeriesSeasonInterface[];
-  series_id: string;
+  setSeasonNumber: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const router = useRouter();
-
   return (
     <>
       <div>
@@ -22,9 +20,7 @@ export const SeasonListComponent = ({
           <div
             key={item.id}
             className={`flex justify-start gap-3 items-center cursor-pointer hover:bg-gray-900 transition duration-300 ease-in-out my-3 p-3 focus:bg-gray-900`}
-            onClick={() =>
-              router.push(`/series/${series_id}/season/${item.season_number}`)
-            }
+            onClick={() => setSeasonNumber(item.season_number.toString())}
           >
             <Image
               alt={item.name}
@@ -35,7 +31,7 @@ export const SeasonListComponent = ({
             />
             <div>
               <p className="text-white text-base font-bold">
-                {item.name} ({dayjs(item.air_date).format("DD/MM/YYYY")})
+                {item.name} ({dayjs(item.air_date).year()})
               </p>
               <p className="text-white">{item.overview}</p>
             </div>
