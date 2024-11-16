@@ -147,7 +147,10 @@ export const DrawerProfile = ({
                         width: "100px",
                         height: "100px",
                       }
-                    : undefined
+                    : {
+                        width: "100px",
+                        height: "100px",
+                      }
                 }
               />
             </div>
