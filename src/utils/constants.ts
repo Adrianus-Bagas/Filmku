@@ -1,4 +1,4 @@
-export const menu = [
+export const menuDesktop = [
   {
     path: "/movies",
     name: "Movies",
@@ -8,8 +8,31 @@ export const menu = [
     name: "Series",
   },
   {
-    path: "/casts",
-    name: "Casts",
+    path: "/genres",
+    name: "Genres",
+  },
+  {
+    path: "/schedules",
+    name: "Schedules",
+  },
+  {
+    path: "/favorites",
+    name: "Favorites",
+  },
+  {
+    path: "/watchlist",
+    name: "Watchlist",
+  },
+];
+
+export const menuMobile = [
+  {
+    path: "/movies",
+    name: "Movies",
+  },
+  {
+    path: "/series",
+    name: "Series",
   },
   {
     path: "/genres",
@@ -18,6 +41,10 @@ export const menu = [
   {
     path: "/schedules",
     name: "Schedules",
+  },
+  {
+    path: "/profile",
+    name: "Profile",
   },
 ];
 

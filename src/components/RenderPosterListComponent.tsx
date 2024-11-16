@@ -29,7 +29,7 @@ export const RenderPosterListComponent = ({
 
   return (
     <>
-      {title.includes("People") ? (
+      {title.includes("People") || title.includes("Casts") ? (
         searchName.get("searchfor") ? (
           <>
             <div

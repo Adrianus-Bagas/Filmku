@@ -5,3 +5,4 @@ export * from "@/services/user/hooks";
 export * from "@/services/watchlist/hooks";
 export * from "@/services/favorite/hooks";
 export * from "@/services/review/hooks";
+export * from "@/services/casts/hooks";

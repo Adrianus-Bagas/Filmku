@@ -1,19 +1,21 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 
 import {
-  CastsIcon,
   FilmIcon,
   SeriesIcon,
   GenresIcon,
   CalendarIcon,
+  ProfileIcon,
 } from "@/assets/icons";
-import { menu } from "@/utils";
+import { menuMobile } from "@/utils";
 
 export const Bottombar = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const [openProfile, setOpenProfile] = useState<boolean>(false);
 
   return (
     <>
@@ -23,12 +25,14 @@ export const Bottombar = () => {
         !pathname.includes("upcoming") && (
           <div className="w-full h-[56px] bg-black fixed bottom-0 z-10 lg:hidden inline-block py-2">
             <div className="flex justify-evenly items-center">
-              {menu.map((i, index) => (
+              {menuMobile.map((i, index) => (
                 <div
                   key={index}
-                  className={`${i.path === pathname && pathname !== "/" ? "opacity-100" : "opacity-50"} bg-black p-1 cursor-pointer`}
+                  className={`${(i.path === pathname && pathname !== "/" && !openProfile) || (i.path === "/profile" && openProfile) ? "opacity-100" : "opacity-50"} bg-black p-1 cursor-pointer`}
                   onClick={() => {
-                    router.push(i.path);
+                    i.path !== "/profile"
+                      ? router.push(i.path)
+                      : setOpenProfile((prev) => !prev);
                   }}
                 >
                   {i.name === "Movies" && (
@@ -41,9 +45,9 @@ export const Bottombar = () => {
                       <SeriesIcon className="w-6 h-6 flex justify-center" />
                     </div>
                   )}
-                  {i.name === "Casts" && (
+                  {i.name === "Profile" && (
                     <div className="flex justify-center">
-                      <CastsIcon className="w-6 h-6 flex justify-center" />
+                      <ProfileIcon className="w-6 h-6 flex justify-center" />
                     </div>
                   )}
                   {i.name === "Genres" && (

@@ -6,3 +6,4 @@ export * from "@/services/user/fetcher";
 export * from "@/services/watchlist/fetcher";
 export * from "@/services/favorite/fetcher";
 export * from "@/services/review/fetcher";
+export * from "@/services/casts/fetcher";

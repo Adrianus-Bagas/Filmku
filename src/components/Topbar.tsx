@@ -15,10 +15,12 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import Marquee from "react-fast-marquee";
 
-import { menu } from "@/utils";
+import { ModalLogin } from ".";
+
+import { menuDesktop } from "@/utils";
 import Logo from "@/assets/images/TheMovie (1).png";
 import { homeAtom, searchAtom, userAtom } from "@/store";
-import { FavoriteIcon, LogoutIcon, WatchlistsIcon } from "@/assets/icons";
+import { LogoutIcon } from "@/assets/icons";
 import { useGetUser } from "@/services/hooks";
 import {
   authGoogleUrl,
@@ -34,12 +36,16 @@ export const Topbar = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
+
   const home = useAtomValue(homeAtom);
   const [search, setSearch] = useAtom(searchAtom);
   const [user, setUser] = useAtom(userAtom);
+
   const { data: dataUser, isFetching } = useGetUser();
+
   const [greeting, setGreeting] = useState<string>("");
   const [mounted, setMounted] = useState<boolean>(false);
+  const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
 
   useEffect(() => {
     const hour = dayjs().get("hours");
@@ -107,26 +113,6 @@ export const Topbar = () => {
             <div className="grid grid-rows-3 gap-3">
               <div
                 className="cursor-pointer flex items-center hover:opacity-50"
-                onClick={() => {
-                  deleteCookie("access_token");
-                  window.location.reload();
-                }}
-              >
-                <FavoriteIcon className="w-3 h-3" />
-                <p className="pl-3">Favorites</p>
-              </div>
-              <div
-                className="cursor-pointer flex items-center hover:opacity-50"
-                onClick={() => {
-                  deleteCookie("access_token");
-                  window.location.reload();
-                }}
-              >
-                <WatchlistsIcon className="w-3 h-3" />
-                <p className="pl-3">Watchlist</p>
-              </div>
-              <div
-                className="cursor-pointer flex items-center hover:opacity-50"
                 onClick={handleSignOut}
               >
                 <LogoutIcon className="w-3 h-3" />
@@ -180,12 +166,16 @@ export const Topbar = () => {
       {mounted && (
         <>
           {isFetching && <Spin fullscreen spinning />}
+          <ModalLogin
+            openModalLogin={openModalLogin}
+            setOpenModalLogin={setOpenModalLogin}
+          />
           {pathname.includes("search") && !searchParams.get("searchfor") ? (
             <div className="py-3 w-full bg-black top-0 fixed z-10 lg:hidden flex items-center justify-between px-3">
               <ArrowLeftOutlined
                 className="text-[24px] pr-3 text-white"
                 onClick={() => {
-                  router.replace("/home");
+                  router.back();
                 }}
               />
               <Input.Search
@@ -207,7 +197,7 @@ export const Topbar = () => {
               <ArrowLeftOutlined
                 className="text-[24px] pr-3 text-white"
                 onClick={() => {
-                  router.replace("/home");
+                  router.back();
                 }}
               />
               <Marquee pauseOnHover speed={35}>
@@ -224,21 +214,29 @@ export const Topbar = () => {
                   className="text-[24px] pr-3 text-white"
                   onClick={() => router.push("/search")}
                 />
-                <PopOverProfile />
               </div>
             </div>
           )}
           <div className="w-full py-2 bg-black top-0 fixed z-10 hidden lg:flex lg:justify-between lg:items-center lg:px-3">
             <div className="flex items-center">
               <LogoImage className="w-[200px] px-3 cursor-pointer" />
-              {menu.map((i, index) => (
+              {menuDesktop.map((i, index) => (
                 <div
                   key={index}
                   className={`${i.path === pathname && pathname !== "/" ? "opacity-100" : "opacity-50"} bg-black p-3`}
                 >
                   <p
                     className="text-white px-3 cursor-pointer hover:opacity-50"
-                    onClick={() => router.push(i.path)}
+                    onClick={() => {
+                      if (
+                        i.path === "/favorites" ||
+                        (i.path === "/watchlist" && !getCookie("access_token"))
+                      ) {
+                        setOpenModalLogin(true);
+                      } else {
+                        router.push(i.path);
+                      }
+                    }}
                   >
                     {i.name}
                   </p>
