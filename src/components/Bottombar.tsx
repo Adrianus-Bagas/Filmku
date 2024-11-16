@@ -3,6 +3,8 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { DrawerProfile } from "./DrawerProfile";
+
 import {
   FilmIcon,
   SeriesIcon,
@@ -19,10 +21,15 @@ export const Bottombar = () => {
 
   return (
     <>
+      <DrawerProfile
+        openProfile={openProfile}
+        setOpenProfile={setOpenProfile}
+      />
       {!pathname.includes("search") &&
         !pathname.includes("recommendations") &&
         !pathname.includes("trending") &&
-        !pathname.includes("upcoming") && (
+        !pathname.includes("upcoming") &&
+        !openProfile && (
           <div className="w-full h-[56px] bg-black fixed bottom-0 z-10 lg:hidden inline-block py-2">
             <div className="flex justify-evenly items-center">
               {menuMobile.map((i, index) => (
@@ -32,7 +39,7 @@ export const Bottombar = () => {
                   onClick={() => {
                     i.path !== "/profile"
                       ? router.push(i.path)
-                      : setOpenProfile((prev) => !prev);
+                      : setOpenProfile(true);
                   }}
                 >
                   {i.name === "Movies" && (

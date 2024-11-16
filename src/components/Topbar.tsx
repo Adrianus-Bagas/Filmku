@@ -19,7 +19,7 @@ import { ModalLogin } from ".";
 
 import { menuDesktop } from "@/utils";
 import Logo from "@/assets/images/TheMovie (1).png";
-import { homeAtom, searchAtom, userAtom } from "@/store";
+import { homeAtom, initialUserAtomValue, searchAtom, userAtom } from "@/store";
 import { LogoutIcon } from "@/assets/icons";
 import { useGetUser } from "@/services/hooks";
 import {
@@ -46,6 +46,7 @@ export const Topbar = () => {
   const [greeting, setGreeting] = useState<string>("");
   const [mounted, setMounted] = useState<boolean>(false);
   const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
+  const [openSearch, setOpenSearch] = useState<boolean>(false);
 
   useEffect(() => {
     const hour = dayjs().get("hours");
@@ -77,16 +78,19 @@ export const Topbar = () => {
         .then(() => {
           deleteCookie("access_token");
           deleteCookie("google_token");
+          setUser(initialUserAtomValue);
           window.location.reload();
         })
         .catch(() => {
           deleteCookie("access_token");
           deleteCookie("google_token");
+          setUser(initialUserAtomValue);
           window.location.reload();
         });
     } else {
       deleteCookie("access_token");
       deleteCookie("google_token");
+      setUser(initialUserAtomValue);
       window.location.reload();
     }
   };
@@ -207,12 +211,24 @@ export const Topbar = () => {
               </Marquee>
             </div>
           ) : (
-            <div className="py-3 w-full bg-black top-0 fixed z-10 lg:hidden flex items-center justify-between px-3">
+            <div className="py-3 w-full bg-black top-0 fixed z-10 lg:hidden flex items-center justify-between gap-3 px-3">
               <LogoImage className="w-[100px] cursor-pointer" />
+              {openSearch && (
+                <Input.Search
+                  placeholder="Search In Filmku"
+                  onSearch={(value) => {
+                    setSearch({
+                      ...search,
+                      query: value,
+                    });
+                    router.push("/search");
+                  }}
+                />
+              )}
               <div className="flex justify-center items-center">
                 <SearchOutlined
                   className="text-[24px] pr-3 text-white"
-                  onClick={() => router.push("/search")}
+                  onClick={() => setOpenSearch((prev) => !prev)}
                 />
               </div>
             </div>

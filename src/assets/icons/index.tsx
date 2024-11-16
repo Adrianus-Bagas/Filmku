@@ -16,3 +16,5 @@ export * from "@/assets/icons/WarIcon";
 export * from "@/assets/icons/NewsIcon";
 export * from "@/assets/icons/MusicIcon";
 export * from "@/assets/icons/ProfileIcon";
+export * from "@/assets/icons/HistoryListIcon";
+export * from "@/assets/icons/InfoIcon";
