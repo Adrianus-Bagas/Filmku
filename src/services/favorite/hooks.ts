@@ -1,6 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { AddToFavorite, DeleteFromFavorite } from "./fetcher";
+import {
+  AddToFavorite,
+  BulkRemoveFavorite,
+  DeleteFromFavorite,
+  GetFavorites,
+} from "./fetcher";
 
 export const useAddToFavorite = () => {
   const { mutate, isPending } = useMutation({
@@ -21,6 +26,22 @@ export const useAddToFavorite = () => {
 export const useDeleteFromFavorite = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: (id: string) => DeleteFromFavorite(id),
+  });
+
+  return { mutate, isPending };
+};
+
+export const useGetFavorites = () => {
+  const { data, mutate, isPending, isIdle } = useMutation({
+    mutationFn: () => GetFavorites(),
+  });
+
+  return { data, mutate, isPending, isIdle };
+};
+
+export const useBulkDeleteFromFavorite = () => {
+  const { mutate, isPending } = useMutation({
+    mutationFn: ({ ids }: { ids: string[] }) => BulkRemoveFavorite({ ids }),
   });
 
   return { mutate, isPending };

@@ -8,7 +8,7 @@ import { DisplayCarousel, DisplayCards } from "@/components";
 import { CardData } from "@/interfaces";
 import { findGenres, seriesGenre } from "@/utils";
 import { useGetSeries } from "@/services/hooks";
-import { seriesAtom } from "@/store/series.store";
+import { seriesAtom } from "@/store";
 
 export default function Series() {
   const { data: seriesList, isLoading } = useGetSeries();

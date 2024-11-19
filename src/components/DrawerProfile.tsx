@@ -194,7 +194,10 @@ export const DrawerProfile = ({
                 <div
                   key={index}
                   className={`border-t-2 ${menu.name.includes("About") && "border-b-2"} border-y-white flex items-center gap-3 p-3`}
-                  onClick={() => router.push(menu.path)}
+                  onClick={() => {
+                    router.push(menu.path);
+                    setOpenProfile(false);
+                  }}
                 >
                   {menu.icon}
                   <p>{menu.name}</p>
