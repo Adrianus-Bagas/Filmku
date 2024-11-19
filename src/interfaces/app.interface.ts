@@ -37,4 +37,6 @@ export interface MovieDatabaseInterface {
   releaseDate: string;
   tmdbId: string;
   userId: string;
+  historyType?: string;
+  createdAt?: string;
 }

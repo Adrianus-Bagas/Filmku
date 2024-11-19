@@ -1,5 +1,6 @@
 export * from "./app.interface";
 export * from "./favorites.interfaces";
+export * from "./history.interfaces";
 export * from "./home.interfaces";
 export * from "./movies.interfaces";
 export * from "./series.interface";
