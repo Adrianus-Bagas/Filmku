@@ -1,6 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { AddToWatchlist, DeleteFromWatchlist } from "./fetcher";
+import {
+  AddToWatchlist,
+  BulkRemoveWatchlist,
+  DeleteFromWatchlist,
+  GetWatchlist,
+} from "./fetcher";
 
 export const useAddToWatchlist = () => {
   const { mutate, isPending } = useMutation({
@@ -21,6 +26,22 @@ export const useAddToWatchlist = () => {
 export const useDeleteFromWatchlist = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: (id: string) => DeleteFromWatchlist(id),
+  });
+
+  return { mutate, isPending };
+};
+
+export const useGetWatchlist = () => {
+  const { data, mutate, isPending, isIdle } = useMutation({
+    mutationFn: () => GetWatchlist(),
+  });
+
+  return { data, mutate, isPending, isIdle };
+};
+
+export const useBulkDeleteFromWatchlist = () => {
+  const { mutate, isPending } = useMutation({
+    mutationFn: ({ ids }: { ids: string[] }) => BulkRemoveWatchlist({ ids }),
   });
 
   return { mutate, isPending };

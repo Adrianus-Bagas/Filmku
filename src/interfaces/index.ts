@@ -7,3 +7,4 @@ export * from "./series.interface";
 export * from "./people.interface";
 export * from "./user.interfaces";
 export * from "./people.interface";
+export * from "./watchlist.interfaces";
