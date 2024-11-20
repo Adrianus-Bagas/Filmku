@@ -236,7 +236,7 @@ export const DisplayDetail = ({
                     ).year()}{" "}
                     {type === "series" &&
                       `- ${dayjs((data as ResponseSeriesDetailInterface).detail.last_air_date).year()}`}{" "}
-                    | {data.detail.genres.map((i) => i.name).join(",")}
+                    | {data.detail.genres.map((i) => i.name).join(", ")}
                   </p>
                   <div className="hidden lg:inline-block lg:w-1/2 lg:my-3">
                     <p className="break-words">{data.detail.overview}</p>

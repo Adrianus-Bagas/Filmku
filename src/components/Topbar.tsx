@@ -114,14 +114,12 @@ export const Topbar = () => {
         className="cursor-pointer"
         content={
           getCookie("access_token") ? (
-            <div className="grid grid-rows-3 gap-3">
-              <div
-                className="cursor-pointer flex items-center hover:opacity-50"
-                onClick={handleSignOut}
-              >
-                <LogoutIcon className="w-3 h-3" />
-                <p className="pl-3">Logout</p>
-              </div>
+            <div
+              className="cursor-pointer flex items-center hover:opacity-50"
+              onClick={handleSignOut}
+            >
+              <LogoutIcon className="w-3 h-3" />
+              <p className="pl-3">Logout</p>
             </div>
           ) : (
             <div
@@ -236,7 +234,7 @@ export const Topbar = () => {
           <div className="w-full py-2 bg-black top-0 fixed z-10 hidden lg:flex lg:justify-between lg:items-center lg:px-3">
             <div className="flex items-center">
               <LogoImage className="w-[200px] px-3 cursor-pointer" />
-              {menuDesktop.map((i, index) => (
+              {menuDesktop.slice(0, 4).map((i, index) => (
                 <div
                   key={index}
                   className={`${i.path === pathname && pathname !== "/" ? "opacity-100" : "opacity-50"} bg-black p-3`}
@@ -245,8 +243,10 @@ export const Topbar = () => {
                     className="text-white px-3 cursor-pointer hover:opacity-50"
                     onClick={() => {
                       if (
-                        i.path === "/favorites" ||
-                        (i.path === "/watchlist" && !getCookie("access_token"))
+                        (i.path === "/favorites" ||
+                          i.path === "/history" ||
+                          i.path === "/watchlist") &&
+                        !getCookie("access_token")
                       ) {
                         setOpenModalLogin(true);
                       } else {
@@ -258,6 +258,31 @@ export const Topbar = () => {
                   </p>
                 </div>
               ))}
+              {getCookie("access_token") && (
+                <Popover
+                  className="cursor-pointer bg-black"
+                  content={
+                    <div className="bg-black flex flex-col">
+                      {menuDesktop.slice(4).map((item, index) => (
+                        <p
+                          key={index}
+                          className="text-white opacity-50 text-lg p-4 cursor-pointer"
+                          onClick={() => router.push(item.path)}
+                        >
+                          {item.name}
+                        </p>
+                      ))}
+                    </div>
+                  }
+                  overlayInnerStyle={{ padding: 0 }}
+                  placement="bottomRight"
+                >
+                  <div className="flex justify-center items-center gap-2 text-white opacity-50">
+                    <p>More</p>
+                    <CaretDownOutlined />
+                  </div>
+                </Popover>
+              )}
             </div>
             <div className="flex justify-center items-center">
               <Input.Search

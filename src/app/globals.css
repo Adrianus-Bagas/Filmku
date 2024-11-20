@@ -13,3 +13,7 @@
 .ant-tabs-nav::before {
   border-bottom: 0px !important;
 }
+
+.ant-popover-arrow {
+  display: none !important;
+}

@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { Input } from "antd";
 import { useAtomValue } from "jotai";
 import {
+  ArrowLeftOutlined,
   DeleteOutlined,
   EditOutlined,
   MoreOutlined,
@@ -45,16 +46,79 @@ export const ModalReview = ({
 
   return (
     <>
-      <Modal
-        centered
-        closable={false}
+      <Drawer
+        closeIcon={<ArrowLeftOutlined className="text-[24px] text-black" />}
         footer={null}
         open={isModalOpen}
-        style={{ height: "450px" }}
-        width={isMobileScreen ? 300 : 500}
-        onCancel={() => setIsModalOpen(false)}
+        width={isMobileScreen ? "100%" : "50%"}
+        onClose={() => setIsModalOpen(false)}
       >
-        <div className="h-[450px] overflow-scroll">
+        <Modal
+          centered
+          closable={false}
+          footer={null}
+          open={!!reviewId}
+          width={isMobileScreen ? "50%" : "25%"}
+          onCancel={() => setReviewId("")}
+        >
+          <div className="flex justify-evenly items-center my-2">
+            <div
+              className="cursor-pointer mx-2 p-2 flex flex-col items-center gap-2 transition duration-300 ease-in-out hover:opacity-70 hover:bg-gray-300"
+              onClick={() => {
+                setOpenEditDrawer(true);
+                setContent(
+                  reviewList.find((item) => item.id === reviewId)?.content ||
+                    "",
+                );
+              }}
+            >
+              <div className="text-lg">
+                <EditOutlined />
+              </div>
+              <p>Edit</p>
+            </div>
+            <div
+              className="cursor-pointer mx-2 p-2 flex flex-col items-center gap-2 transition duration-300 ease-in-out hover:opacity-70 hover:bg-gray-300"
+              onClick={() => setOpenModalConfirm("delete")}
+            >
+              <div className="text-lg">
+                <DeleteOutlined />
+              </div>
+              <p>Delete</p>
+            </div>
+          </div>
+        </Modal>
+        <Modal
+          centered
+          closable={false}
+          footer={null}
+          open={openEditDrawer}
+          styles={{
+            body: {
+              padding: 0,
+            },
+          }}
+          onCancel={() => {
+            setOpenEditDrawer(false);
+            setContent("");
+          }}
+        >
+          <div className="mt-4 p-2">
+            <TextArea
+              rows={5}
+              value={content}
+              onChange={(event) => setContent(event.target.value)}
+              onSubmit={() => setOpenModalConfirm("edit")}
+            />
+            <div
+              className="bg-blue-500 mt-4 text-white border-[1px] w-fit p-2 rounded-lg text-xs border-gray-200 cursor-pointer transition duration-300 ease-in-out hover:opacity-70"
+              onClick={() => setOpenModalConfirm("edit")}
+            >
+              Send New Review
+            </div>
+          </div>
+        </Modal>
+        <div>
           <div className="flex items-center gap-2">
             <div
               className={`${isAddReview ? "bg-blue-500 text-white" : "bg-white text-gray-700"} border-[1px] w-fit p-2 rounded-lg text-xs border-gray-200 cursor-pointer`}
@@ -163,82 +227,19 @@ export const ModalReview = ({
             />
           )}
         </div>
-      </Modal>
-      <Drawer
-        closable={false}
-        height={90}
-        open={!!reviewId}
-        placement="bottom"
-        styles={{
-          body: {
-            padding: 0,
-          },
-        }}
-        onClose={() => setReviewId("")}
-      >
-        <div className="flex flex-col my-2">
-          <div
-            className="cursor-pointer mx-2 p-2 flex items-center gap-2 transition duration-300 ease-in-out hover:opacity-70 hover:bg-gray-300"
-            onClick={() => {
-              setOpenEditDrawer(true);
-              setContent(
-                reviewList.find((item) => item.id === reviewId)?.content || "",
-              );
-            }}
-          >
-            <div>
-              <EditOutlined />
-            </div>
-            <p>Edit</p>
-          </div>
-          <div
-            className="cursor-pointer mx-2 p-2 flex items-center gap-2 transition duration-300 ease-in-out hover:opacity-70 hover:bg-gray-300"
-            onClick={() => setOpenModalConfirm("delete")}
-          >
-            <div>
-              <DeleteOutlined />
-            </div>
-            <p>Delete</p>
-          </div>
-        </div>
+        <ModalConfirm
+          openModal={
+            openModalConfirm === "edit" || openModalConfirm === "delete"
+          }
+          setOpenModal={() => setOpenModalConfirm("")}
+          onConfirm={() =>
+            handleReview(
+              openModalConfirm as "add" | "edit" | "delete",
+              reviewId,
+            )
+          }
+        />
       </Drawer>
-      <Drawer
-        closable={false}
-        height={200}
-        open={openEditDrawer}
-        placement="bottom"
-        styles={{
-          body: {
-            padding: 0,
-          },
-        }}
-        onClose={() => {
-          setOpenEditDrawer(false);
-          setContent("");
-        }}
-      >
-        <div className="mt-4 p-2">
-          <TextArea
-            rows={5}
-            value={content}
-            onChange={(event) => setContent(event.target.value)}
-            onSubmit={() => setOpenModalConfirm("edit")}
-          />
-          <div
-            className="bg-blue-500 mt-4 text-white border-[1px] w-fit p-2 rounded-lg text-xs border-gray-200 cursor-pointer transition duration-300 ease-in-out hover:opacity-70"
-            onClick={() => setOpenModalConfirm("edit")}
-          >
-            Send New Review
-          </div>
-        </div>
-      </Drawer>
-      <ModalConfirm
-        openModal={openModalConfirm === "edit" || openModalConfirm === "delete"}
-        setOpenModal={() => setOpenModalConfirm("")}
-        onConfirm={() =>
-          handleReview(openModalConfirm as "add" | "edit" | "delete", reviewId)
-        }
-      />
     </>
   );
 };

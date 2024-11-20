@@ -20,6 +20,10 @@ export const menuDesktop = [
     name: "Favorites",
   },
   {
+    path: "/history",
+    name: "Histories",
+  },
+  {
     path: "/watchlist",
     name: "Watchlist",
   },
