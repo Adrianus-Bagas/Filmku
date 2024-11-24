@@ -4,7 +4,9 @@ import { UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
+import { DrawerPeople } from ".";
 
 import { CardData } from "@/interfaces";
 import { FilmIcon } from "@/assets/icons";
@@ -21,6 +23,8 @@ export const RenderPosterListComponent = ({
   const router = useRouter();
   const searchName = useSearchParams();
 
+  const [peopleId, setPeopleId] = useState<string>("");
+
   useEffect(() => {
     if (setLoading && title.includes("People")) {
       setLoading(false);
@@ -29,12 +33,14 @@ export const RenderPosterListComponent = ({
 
   return (
     <>
+      <DrawerPeople people_id={peopleId} setPeopleId={setPeopleId} />
       {title.includes("People") || title.includes("Casts") ? (
         searchName.get("searchfor") ? (
           <>
             <div
               key={data.id}
               className="flex flex-col place-content-center items-center text-center shrink-0 gap-3 p-2 cursor-pointer w-[100px] h-[150px] md:w-[130px] md:h-[200px] bg-slate-500 rounded-lg"
+              onClick={() => setPeopleId(data.id.toString())}
             >
               <Avatar
                 icon={!data.poster_path ? <UserOutlined /> : undefined}
@@ -58,6 +64,7 @@ export const RenderPosterListComponent = ({
             <div
               key={data.id}
               className="lg:hidden flex items-center text-center shrink-0 gap-3 p-2 cursor-pointer w-[200px] h-[100px] bg-slate-800 rounded-lg"
+              onClick={() => setPeopleId(data.id.toString())}
             >
               <Avatar
                 icon={!data.poster_path ? <UserOutlined /> : undefined}
@@ -78,6 +85,7 @@ export const RenderPosterListComponent = ({
             <div
               key={data.id}
               className="hidden lg:flex lg:flex-col place-content-center items-center text-center shrink-0 gap-3 p-2 cursor-pointer w-[100px] h-[150px] md:w-[130px] md:h-[200px] bg-slate-500 rounded-lg"
+              onClick={() => setPeopleId(data.id.toString())}
             >
               <Avatar
                 icon={!data.poster_path ? <UserOutlined /> : undefined}

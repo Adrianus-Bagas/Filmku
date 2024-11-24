@@ -7,3 +7,4 @@ export * from "@/services/favorite/hooks";
 export * from "@/services/review/hooks";
 export * from "@/services/casts/hooks";
 export * from "@/services/history/hooks";
+export * from "@/services/people/hooks";

@@ -4,6 +4,8 @@ import { UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { useState } from "react";
 
+import { DrawerPeople } from ".";
+
 import {
   MovieCastInterface,
   MovieCrewInterface,
@@ -25,9 +27,11 @@ export const CreditsListComponent = ({
   isGuestStar?: boolean;
 }) => {
   const [view, setView] = useState<"cast" | "crew">("cast");
+  const [peopleId, setPeopleId] = useState<string>("");
 
   return (
     <>
+      <DrawerPeople people_id={peopleId} setPeopleId={setPeopleId} />
       <div className="flex justify-center items-center gap-4 my-4">
         <div
           className={`${view === "cast" ? "bg-blue-500 text-white" : "bg-white text-gray-700"} border-[1px] w-fit p-2 rounded-lg text-xs border-gray-200 cursor-pointer`}
@@ -52,7 +56,8 @@ export const CreditsListComponent = ({
             dataCast.map((data) => (
               <div
                 key={data.id}
-                className="flex flex-col items-center text-center"
+                className="flex flex-col items-center text-center cursor-pointer"
+                onClick={() => setPeopleId(data.id.toString())}
               >
                 <Avatar
                   icon={!data.profile_path ? <UserOutlined /> : undefined}
@@ -81,6 +86,7 @@ export const CreditsListComponent = ({
               <div
                 key={data.id}
                 className="flex flex-col items-center text-center"
+                onClick={() => setPeopleId(data.id.toString())}
               >
                 <Avatar
                   icon={!data.profile_path ? <UserOutlined /> : undefined}

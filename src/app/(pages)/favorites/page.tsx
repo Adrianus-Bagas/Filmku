@@ -189,13 +189,22 @@ export default function Favorites() {
                             className={`border-[1px] border-white w-3 h-3 ${favoriteId.includes(item.id) && "bg-white"}`}
                           />
                         )}
-                        <Image
-                          alt={item.title}
-                          className="w-[150px] md:w-[200px] ml-3"
-                          height={200}
-                          src={`https://image.tmdb.org/t/p/original${item.backdropPath}`}
-                          width={200}
-                        />
+                        {item.backdropPath ? (
+                          <Image
+                            alt={item.title}
+                            className="w-[150px] md:w-[200px]"
+                            height={200}
+                            src={`https://image.tmdb.org/t/p/original${item.backdropPath}`}
+                            width={200}
+                          />
+                        ) : (
+                          <div
+                            key={item.id}
+                            className="flex flex-col place-content-center items-center text-center shrink-0 gap-3 p-2 cursor-pointer w-[150px] md:w-[200px] h-[84.38px] bg-slate-500 rounded-lg"
+                          >
+                            <FilmIcon className="w-6 h-6" />
+                          </div>
+                        )}
                         <div>
                           <p className="text-white">{item.title}</p>
                         </div>

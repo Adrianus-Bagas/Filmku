@@ -19,3 +19,6 @@ export * from "@/components/DrawerSeries";
 export * from "@/components/CollapseComponent";
 export * from "@/components/EpisodeDrawer";
 export * from "@/components/DrawerProfile";
+export * from "@/components/DrawerPeople";
+export * from "@/components/PeopleCreditCastComponent";
+export * from "@/components/PeopleCreditCrewComponent";

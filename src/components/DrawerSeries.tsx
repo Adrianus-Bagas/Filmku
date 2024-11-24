@@ -12,6 +12,7 @@ import { CollapseComponent, CreditsListComponent, EpisodeDrawer } from ".";
 
 import { isMobileScreenAtom } from "@/store";
 import { useGetSeriesSeasonPage } from "@/services/hooks";
+import { FilmIcon } from "@/assets/icons";
 
 export const DrawerSeries = ({
   seasonNumber,
@@ -98,13 +99,19 @@ export const DrawerSeries = ({
         {data && (
           <>
             <div className="flex items-center gap-3">
-              <Image
-                alt={data.seasonDetail.name}
-                className="w-[150px] h-[250px] md:w-[250px] md:h-[350px] rounded-lg cursor-pointer flex justify-center"
-                height={450}
-                src={`https://image.tmdb.org/t/p/original${data.seasonDetail.poster_path}`}
-                width={300}
-              />
+              {data.seasonDetail.poster_path ? (
+                <Image
+                  alt={data.seasonDetail.name}
+                  className="w-[150px] h-[250px] md:w-[250px] md:h-[350px] rounded-lg cursor-pointer flex justify-center"
+                  height={450}
+                  src={`https://image.tmdb.org/t/p/original${data.seasonDetail.poster_path}`}
+                  width={300}
+                />
+              ) : (
+                <div className="flex flex-col place-content-center items-center text-center shrink-0 gap-3 p-2 cursor-pointer w-[150px] h-[250px] md:w-[250px] md:h-[350px] bg-slate-500 rounded-lg">
+                  <FilmIcon className="w-6 h-6" />
+                </div>
+              )}
               <p>{data.seasonDetail.overview}</p>
             </div>
             <div className="my-4">

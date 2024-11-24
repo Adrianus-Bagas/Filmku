@@ -8,3 +8,4 @@ export * from "@/services/favorite/fetcher";
 export * from "@/services/review/fetcher";
 export * from "@/services/casts/fetcher";
 export * from "@/services/history/fetcher";
+export * from "@/services/people/fetcher";

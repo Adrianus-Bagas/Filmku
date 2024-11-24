@@ -7,6 +7,7 @@ import Image from "next/image";
 import dayjs from "dayjs";
 
 import { SeriesEpisodesInterface } from "@/interfaces";
+import { FilmIcon } from "@/assets/icons";
 
 export const CollapseComponent = ({
   episodes,
@@ -27,13 +28,22 @@ export const CollapseComponent = ({
         children: (
           <>
             <div className="flex flex-col gap-3">
-              <Image
-                alt={item.name}
-                className="object-cover object-center h-[150px] lg:h-[300px] w-full"
-                height={500}
-                src={`https://image.tmdb.org/t/p/original${item.still_path}`}
-                width={1000}
-              />
+              {item.still_path ? (
+                <Image
+                  alt={item.name}
+                  className="object-cover object-center h-[150px] lg:h-[300px] w-full"
+                  height={500}
+                  src={`https://image.tmdb.org/t/p/original${item.still_path}`}
+                  width={1000}
+                />
+              ) : (
+                <div
+                  key={item.id}
+                  className="flex flex-col place-content-center items-center text-center shrink-0 gap-3 p-2 cursor-pointer w-[295.33px] lg:w-[560px] h-[150px] lg:h-[300px] bg-slate-500 rounded-lg"
+                >
+                  <FilmIcon className="w-6 h-6" />
+                </div>
+              )}
               <div>
                 <p>Air Date : {dayjs(item.air_date).format("DD MMMM YYYY")}</p>
                 <p>Runtime : {item.runtime} minutes</p>
