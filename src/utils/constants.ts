@@ -7,10 +7,10 @@ export const menuDesktop = [
     path: "/series",
     name: "Series",
   },
-  {
-    path: "/genres",
-    name: "Genres",
-  },
+  // {
+  //   path: "/genres",
+  //   name: "Genres",
+  // },
   {
     path: "/schedules",
     name: "Schedules",
@@ -38,10 +38,10 @@ export const menuMobile = [
     path: "/series",
     name: "Series",
   },
-  {
-    path: "/genres",
-    name: "Genres",
-  },
+  // {
+  //   path: "/genres",
+  //   name: "Genres",
+  // },
   {
     path: "/schedules",
     name: "Schedules",

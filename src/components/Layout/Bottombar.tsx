@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { DrawerProfile } from "./DrawerProfile";
+import { DrawerProfile } from "../Drawer";
 
 import {
   FilmIcon,

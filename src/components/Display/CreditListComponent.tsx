@@ -4,7 +4,7 @@ import { UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { useState } from "react";
 
-import { DrawerPeople } from ".";
+import { DrawerPeople } from "../Drawer";
 
 import {
   MovieCastInterface,

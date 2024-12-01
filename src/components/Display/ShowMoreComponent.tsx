@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Spin } from "antd";
 
-import { SimilarListComponent } from ".";
+import { SimilarListComponent } from "../Display";
 
 import { homeAtom } from "@/store";
 

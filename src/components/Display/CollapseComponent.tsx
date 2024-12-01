@@ -45,9 +45,16 @@ export const CollapseComponent = ({
                 </div>
               )}
               <div>
-                <p>Air Date : {dayjs(item.air_date).format("DD MMMM YYYY")}</p>
-                <p>Runtime : {item.runtime} minutes</p>
-                <p>Overview : {item.overview}</p>
+                <p>
+                  Air Date :{" "}
+                  {item.air_date
+                    ? dayjs(item.air_date).format("DD MMMM YYYY")
+                    : "-"}
+                </p>
+                <p>
+                  Runtime : {item.runtime ? `${item.runtime} minutes` : "-"}
+                </p>
+                <p>Overview : {item.overview ? item.overview : "-"}</p>
               </div>
               <div
                 className="bg-blue-500 mt-2 text-white border-[1px] w-fit p-2 rounded-lg text-xs border-gray-200 cursor-pointer transition duration-300 ease-in-out hover:opacity-70"

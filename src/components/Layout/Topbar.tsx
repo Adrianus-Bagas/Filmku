@@ -15,12 +15,12 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import Marquee from "react-fast-marquee";
 
-import { ModalLogin } from ".";
+import { ModalAboutApp, ModalLogin } from "..";
 
 import { menuDesktop } from "@/utils";
 import Logo from "@/assets/images/TheMovie (1).png";
 import { homeAtom, initialUserAtomValue, searchAtom, userAtom } from "@/store";
-import { LogoutIcon } from "@/assets/icons";
+import { InfoIcon, LogoutIcon } from "@/assets/icons";
 import { useGetUser } from "@/services/hooks";
 import {
   authGoogleUrl,
@@ -46,6 +46,7 @@ export const Topbar = () => {
   const [greeting, setGreeting] = useState<string>("");
   const [mounted, setMounted] = useState<boolean>(false);
   const [openModalLogin, setOpenModalLogin] = useState<boolean>(false);
+  const [openModalAboutApp, setOpenModalAboutApp] = useState<boolean>(false);
   const [openSearch, setOpenSearch] = useState<boolean>(false);
 
   useEffect(() => {
@@ -114,25 +115,43 @@ export const Topbar = () => {
         className="cursor-pointer"
         content={
           getCookie("access_token") ? (
-            <div
-              className="cursor-pointer flex items-center hover:opacity-50"
-              onClick={handleSignOut}
-            >
-              <LogoutIcon className="w-3 h-3" />
-              <p className="pl-3">Logout</p>
+            <div className="flex flex-col gap-3">
+              <div
+                className="cursor-pointer flex items-center hover:opacity-50"
+                onClick={() => setOpenModalAboutApp(true)}
+              >
+                <InfoIcon className="w-3 h-3" fill="black" />
+                <p className="pl-3">About App</p>
+              </div>
+              <div
+                className="cursor-pointer flex items-center hover:opacity-50"
+                onClick={handleSignOut}
+              >
+                <LogoutIcon className="w-3 h-3" />
+                <p className="pl-3">Logout</p>
+              </div>
             </div>
           ) : (
-            <div
-              className="cursor-pointer flex items-center hover:opacity-50"
-              onClick={() => {
-                localStorage.setItem("from", pathname);
-                router.push(
-                  `${authGoogleUrl}?client_id=${clientId}&scope=${scope}&response_type=${responseType}&redirect_uri=${redirectUri}&state=${state}`,
-                );
-              }}
-            >
-              <LogoutIcon className="w-6 h-6" />
-              <p className="pl-3">Login With Google</p>
+            <div className="flex flex-col gap-3">
+              <div
+                className="cursor-pointer flex items-center hover:opacity-50"
+                onClick={() => setOpenModalAboutApp(true)}
+              >
+                <InfoIcon className="w-6 h-6" fill="black" />
+                <p className="pl-3">About App</p>
+              </div>
+              <div
+                className="cursor-pointer flex items-center hover:opacity-50"
+                onClick={() => {
+                  localStorage.setItem("from", pathname);
+                  router.push(
+                    `${authGoogleUrl}?client_id=${clientId}&scope=${scope}&response_type=${responseType}&redirect_uri=${redirectUri}&state=${state}`,
+                  );
+                }}
+              >
+                <LogoutIcon className="w-6 h-6" />
+                <p className="pl-3">Login With Google</p>
+              </div>
             </div>
           )
         }
@@ -171,6 +190,10 @@ export const Topbar = () => {
           <ModalLogin
             openModalLogin={openModalLogin}
             setOpenModalLogin={setOpenModalLogin}
+          />
+          <ModalAboutApp
+            isModalOpen={openModalAboutApp}
+            setIsModalOpen={setOpenModalAboutApp}
           />
           {pathname.includes("search") && !searchParams.get("searchfor") ? (
             <div className="py-3 w-full bg-black top-0 fixed z-10 lg:hidden flex items-center justify-between px-3">
@@ -234,7 +257,7 @@ export const Topbar = () => {
           <div className="w-full py-2 bg-black top-0 fixed z-10 hidden lg:flex lg:justify-between lg:items-center lg:px-3">
             <div className="flex items-center">
               <LogoImage className="w-[200px] px-3 cursor-pointer" />
-              {menuDesktop.slice(0, 4).map((i, index) => (
+              {menuDesktop.slice(0, 3).map((i, index) => (
                 <div
                   key={index}
                   className={`${i.path === pathname && pathname !== "/" ? "opacity-100" : "opacity-50"} bg-black p-3`}
@@ -263,7 +286,7 @@ export const Topbar = () => {
                   className="cursor-pointer bg-black"
                   content={
                     <div className="bg-black flex flex-col">
-                      {menuDesktop.slice(4).map((item, index) => (
+                      {menuDesktop.slice(3).map((item, index) => (
                         <p
                           key={index}
                           className="text-white opacity-50 text-lg p-4 cursor-pointer"

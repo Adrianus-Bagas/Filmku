@@ -6,7 +6,10 @@ import { useAtomValue } from "jotai";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-import { PeopleCreditCastComponent, PeopleCreditCrewComponent } from ".";
+import {
+  PeopleCreditCastComponent,
+  PeopleCreditCrewComponent,
+} from "../Display";
 
 import { isMobileScreenAtom } from "@/store";
 import { useGetPeopleDetailPage } from "@/services/hooks";

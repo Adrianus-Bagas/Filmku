@@ -8,7 +8,8 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
 
-import { CollapseComponent, CreditsListComponent, EpisodeDrawer } from ".";
+import { CollapseComponent, CreditsListComponent } from "../Display";
+import { EpisodeDrawer } from "../Drawer";
 
 import { isMobileScreenAtom } from "@/store";
 import { useGetSeriesSeasonPage } from "@/services/hooks";

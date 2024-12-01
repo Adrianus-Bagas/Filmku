@@ -12,6 +12,8 @@ import { useAtom } from "jotai";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
+import { ModalAboutApp } from "../Modal";
+
 import { initialUserAtomValue, userAtom } from "@/store";
 import { signOut } from "@/services/fetcher";
 import {
@@ -43,6 +45,7 @@ export const DrawerProfile = ({
   const [user, setUser] = useAtom(userAtom);
 
   const [greeting, setGreeting] = useState<string>("");
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const handleSignOut = () => {
     if (getCookie("google_token")) {
@@ -130,6 +133,7 @@ export const DrawerProfile = ({
           setOpenProfile(false);
         }}
       >
+        <ModalAboutApp isModalOpen={openModal} setIsModalOpen={setOpenModal} />
         <div className="p-2">
           <div className="flex items-center gap-3 shrink-0">
             <div>
@@ -195,8 +199,12 @@ export const DrawerProfile = ({
                   key={index}
                   className={`border-t-2 ${menu.name.includes("About") && "border-b-2"} border-y-white flex items-center gap-3 p-3`}
                   onClick={() => {
-                    router.push(menu.path);
-                    setOpenProfile(false);
+                    if (menu.name.includes("About")) {
+                      setOpenModal(true);
+                    } else {
+                      router.push(menu.path);
+                      setOpenProfile(false);
+                    }
                   }}
                 >
                   {menu.icon}

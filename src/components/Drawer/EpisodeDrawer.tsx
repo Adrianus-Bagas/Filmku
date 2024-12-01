@@ -13,7 +13,7 @@ import {
   CreditsListComponent,
   SimilarListComponent,
   VideoListComponent,
-} from ".";
+} from "../Display";
 
 import { isMobileScreenAtom } from "@/store";
 import {

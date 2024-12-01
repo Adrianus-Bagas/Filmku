@@ -114,7 +114,7 @@ export default function Schedules() {
                 return (
                   <>
                     <div className="flex justify-center gap-2 p-2 lg: text-lg">
-                      {value.month() > dayjs().month() && (
+                      {value.isAfter(dayjs()) && (
                         <ArrowLeftOutlined
                           className="cursor-pointer"
                           onClick={() => onChange(value.subtract(1, "month"))}
@@ -123,7 +123,7 @@ export default function Schedules() {
                       <p>
                         {value.localeData().months(value)} {value.year()}
                       </p>
-                      {value.month() <= dayjs().month() && (
+                      {value.isBefore(dayjs()) && (
                         <ArrowRightOutlined
                           className="cursor-pointer"
                           onClick={() => onChange(value.add(1, "month"))}

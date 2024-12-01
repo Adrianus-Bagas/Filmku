@@ -13,7 +13,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 
-import { ModalConfirm } from "./ModalConfirm";
+import { ModalConfirm } from "../Modal";
 
 import { isMobileScreenAtom, userAtom } from "@/store";
 import { ReviewListInterface } from "@/interfaces";

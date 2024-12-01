@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import { DrawerPeople } from ".";
+import { DrawerPeople } from "../Drawer";
 
 import { CardData } from "@/interfaces";
 import { FilmIcon } from "@/assets/icons";

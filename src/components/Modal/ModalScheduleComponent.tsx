@@ -6,6 +6,7 @@ import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 
 import { MovieListInterface, SeriesListInterface } from "@/interfaces";
+import { findGenres, movieGenre, seriesGenre } from "@/utils";
 
 const ModalScheduleComponent = ({
   movieList,
@@ -48,6 +49,9 @@ const ModalScheduleComponent = ({
               />
               <div>
                 <p>{i.title}</p>
+                <p>
+                  Movie | {findGenres(movieGenre, i?.genre_ids as number[])}
+                </p>
                 <Rate allowHalf disabled value={i.vote_average / 2} />
               </div>
             </div>
@@ -67,6 +71,9 @@ const ModalScheduleComponent = ({
               />
               <div>
                 <p>{i.name}</p>
+                <p>
+                  Series | {findGenres(seriesGenre, i?.genre_ids as number[])}
+                </p>
                 <Rate allowHalf disabled value={i.vote_average / 2} />
               </div>
             </div>

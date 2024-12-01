@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { RenderPosterListComponent } from ".";
+import { RenderPosterListComponent } from "../Display";
 
 import { CardData } from "@/interfaces";
 

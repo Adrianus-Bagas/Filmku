@@ -6,7 +6,7 @@ import Link from "next/link";
 import React from "react";
 import { Url } from "next/dist/shared/lib/router/router";
 
-import { RenderPosterListComponent } from ".";
+import { RenderPosterListComponent } from "../Display";
 
 import { isOnRecommendationPageAtom, homeAtom } from "@/store";
 import { CardData } from "@/interfaces";
