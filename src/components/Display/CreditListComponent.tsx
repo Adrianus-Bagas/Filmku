@@ -51,6 +51,11 @@ export const CreditsListComponent = ({
         </div>
       </div>
       <div className="px-2 flex justify-center items-center text-[#fff]">
+        {(dataCast.length === 0 || dataCrew.length === 0) && (
+          <div className="flex flex-col items-center opacity-50 text-white">
+            <p>No Data Found</p>
+          </div>
+        )}
         <div className="grid grid-cols-3 gap-2 md:grid-cols-6">
           {view === "cast" &&
             dataCast.map((data) => (

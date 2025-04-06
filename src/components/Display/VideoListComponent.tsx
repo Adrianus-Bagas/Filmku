@@ -24,30 +24,36 @@ export const VideoListComponent = ({
   return (
     <>
       <div>
-        {videos.map((item) => (
-          <div
-            key={item.id}
-            className={`${(videoId === item.id || videoId === item.key) && "bg-gray-900"} flex justify-start gap-3 items-center cursor-pointer hover:bg-gray-900 transition duration-300 ease-in-out my-3 py-3 focus:bg-gray-900`}
-            onClick={
-              setVideoId
-                ? () => setVideoId(item.key)
-                : () => router.push(`/${type}/${id}/video/${item.id}`)
-            }
-          >
-            <Image
-              alt={item.name}
-              className="w-[150px] md:w-[200px] ml-3"
-              height={200}
-              src={`https://img.youtube.com/vi/${item.key}/mqdefault.jpg`}
-              width={200}
-            />
-            <div>
-              <p className="text-white">{item.type}</p>
-              <p className="text-white">{item.name}</p>
-              <p className="text-white">Source: {item.site}</p>
+        {videos.length > 0 ? (
+          videos.map((item) => (
+            <div
+              key={item.id}
+              className={`${(videoId === item.id || videoId === item.key) && "bg-gray-900"} flex justify-start gap-3 items-center cursor-pointer hover:bg-gray-900 transition duration-300 ease-in-out my-3 py-3 focus:bg-gray-900`}
+              onClick={
+                setVideoId
+                  ? () => setVideoId(item.key)
+                  : () => router.push(`/${type}/${id}/video/${item.id}`)
+              }
+            >
+              <Image
+                alt={item.name}
+                className="w-[150px] md:w-[200px] ml-3"
+                height={200}
+                src={`https://img.youtube.com/vi/${item.key}/mqdefault.jpg`}
+                width={200}
+              />
+              <div>
+                <p className="text-white">{item.type}</p>
+                <p className="text-white">{item.name}</p>
+                <p className="text-white">Source: {item.site}</p>
+              </div>
             </div>
+          ))
+        ) : (
+          <div className="flex flex-col items-center opacity-50 text-white">
+            <p>No Data Found</p>
           </div>
-        ))}
+        )}
       </div>
     </>
   );

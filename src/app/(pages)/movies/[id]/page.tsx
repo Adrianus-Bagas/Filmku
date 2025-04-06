@@ -49,6 +49,7 @@ export default function DetailMovies({
   const handleWatchlistButton = () => {
     if (!getCookie("access_token")) {
       localStorage.setItem("from", `/movies/${id}`);
+      setOpenModalWatchlist(false);
       setOpenModalLogin(true);
     } else {
       if (data) {
@@ -105,6 +106,7 @@ export default function DetailMovies({
   const handleFavoriteButton = () => {
     if (!getCookie("access_token")) {
       localStorage.setItem("from", `/movies/${id}`);
+      setOpenModalFavorite(false);
       setOpenModalLogin(true);
     } else {
       if (data) {

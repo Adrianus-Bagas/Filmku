@@ -50,6 +50,7 @@ export default function DetailSeries({
   const handleWatchlistButton = () => {
     if (!getCookie("access_token")) {
       localStorage.setItem("from", `/series/${series_id}`);
+      setOpenModalWatchlist(false);
       setOpenModalLogin(true);
     } else {
       if (data) {
@@ -106,6 +107,7 @@ export default function DetailSeries({
   const handleFavoriteButton = () => {
     if (!getCookie("access_token")) {
       localStorage.setItem("from", `/series/${series_id}`);
+      setOpenModalFavorite(false);
       setOpenModalLogin(true);
     } else {
       if (data) {

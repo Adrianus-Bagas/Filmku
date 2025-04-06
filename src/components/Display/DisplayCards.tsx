@@ -32,7 +32,7 @@ export const DisplayCards = ({
           <p>{title}</p>
         </div>
         <div className="flex gap-2 lg:gap-4 overflow-x-auto items-center">
-          {cardsData.slice(0, 8).map((data) => (
+          {cardsData.slice(0, 10).map((data) => (
             <React.Fragment key={data.id}>
               <RenderPosterListComponent
                 data={data}
@@ -41,7 +41,7 @@ export const DisplayCards = ({
               />
             </React.Fragment>
           ))}
-          {cardsData.length > 8 && (
+          {cardsData.length > 10 && (
             <Link
               className="bg-white rounded-full h-5 lg:h-8 w-5 lg:w-8 cursor-pointer flex justify-center items-center p-2"
               href={redirect}

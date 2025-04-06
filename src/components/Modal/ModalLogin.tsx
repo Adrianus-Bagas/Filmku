@@ -31,6 +31,7 @@ export const ModalLogin = ({
         footer={null}
         open={openModalLogin}
         width={300}
+        zIndex={99999}
         onCancel={() => {
           localStorage.removeItem("from");
           setOpenModalLogin(false);

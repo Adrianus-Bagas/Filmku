@@ -51,7 +51,10 @@ export const ModalReview = ({
         footer={null}
         open={isModalOpen}
         width={isMobileScreen ? "100%" : "50%"}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => {
+          setContent("");
+          setIsModalOpen(false);
+        }}
       >
         <Modal
           centered
