@@ -1,36 +1,23 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Aplikasi Filmku
 
-## Getting Started Halo
+Halo, nama saya Bagas. Repository ini adalah repository untuk frontend dari projek aplikasi Filmku. Repository backend dengan terpaksa saya private karena saya sempat push credentials secara public dan akan terdeteksi oleh github. Techstack yang saya gunakan dalam pembuatan aplikasi Filmku adalah Next.js untuk frontend, Nest.js untuk backend, Supabase untuk database, Ant Design untuk components, dan Vercel untuk deployment.
 
-First, run the development server:
+Aplikasi ini menggunakan OAuth Google untuk autentikasi, lalu dari sisi client akan menembak API dengan mengirimkan token yang terbentuk dari Google dan balikan dari APInya adalah access token yang akan digunakan untuk autorisasi. Berikut adalah alur dari autentikasi untuk aplikasi Filmku
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<img width="460" height="688" alt="diagram-export-7-12-2025-7_44_32-PM" src="https://github.com/user-attachments/assets/b4438250-cee0-4fbe-8552-3e1fb98bf376" />
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Pada alur dimana client menembak API ke server untuk mendapatkan access token, terdapat pengecekan apakah user sudah terdaftar dalam aplikasi atau belum. Apabila sudah, maka server akan mengembalikan access token. Apabila belum, server akan menembak API user info Google untuk validasi apakah email valid atau tidak. API user info Google akan mengembalikan response seperti nama, email, dan foto profil. Selanjutkan server akan mengembalikan access token sebagai response ke client.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Apabila user sudah login, maka user dapat menggunakan beberapa fitur yang tersedia seperti menambahkan film/series favorit dan yang akan ditonton nanti. User juga dapat memberikan review terhadap film/series. Film/series yang sudah dilihat sebelumnya juga akan ditampilkan dalam riwayat. Maka dari itu, database yang dibuat memiliki table user, favorite, watchlist, history, dan review. Berikut adalah desain database untuk aplikasi Filmku.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+<img width="344" height="1351" alt="postgres - public" src="https://github.com/user-attachments/assets/9c0a0849-061d-40ab-928d-e32715bcc868" />
 
-## Learn More
+Selain fitur-fitur yang disebutkan, terdapat juga fitur untuk melihat detail dari film/series seperti aktor dan aktris yang terlibat hingga menonton trailer. Terdapat juga fitur kalender dimana user dapat melihat jadwal tayang film yang akan datang.
 
-To learn more about Next.js, take a look at the following resources:
+Untuk melihat aplikasinya secara langsung dapat diakses melalui link berikut [Filmku](http://filmku-jade.vercel.app/);
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Semoga aplikasi yang saya buat dapat memberikan manfaat kepada masyarakat khususnya untuk mencari tahu lebih dalam mengenai film atau series favorit. Terimakasih,
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Salam Hangat,
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+_Adrianus Bagas Tantyo Dananjaya_
